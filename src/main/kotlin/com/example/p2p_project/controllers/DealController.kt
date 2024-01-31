@@ -2,22 +2,26 @@ package com.example.p2p_project.controllers
 
 import com.example.p2p_project.models.Deal
 import com.example.p2p_project.services.DealService
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
+
 @RestController
-@RequestMapping("/api/v1/deal")
+@RequestMapping("\${application.info.api}/deal")
+
 class DealController(val dealService: DealService) {
+
     @PostMapping("/add")
     fun add(@RequestBody deal: Deal):ResponseEntity<Deal>{
-        var newDeal = dealService.add(deal)
+        val newDeal = dealService.add(deal)
         return ResponseEntity<Deal>(newDeal, HttpStatus.CREATED)
     }
 
     @PutMapping("/update")
-    fun update(@RequestBody deal:Deal, @RequestParam(required = false) id:Long):ResponseEntity<Deal>{
-        var updateDeal = dealService.update(deal, id)
+    fun update(@RequestBody deal:Deal, @RequestParam id:Long):ResponseEntity<Deal>{
+        val updateDeal = dealService.update(deal, id)
         return ResponseEntity(updateDeal, HttpStatus.OK)
     }
 

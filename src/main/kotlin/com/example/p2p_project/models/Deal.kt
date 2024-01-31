@@ -1,7 +1,6 @@
 package com.example.p2p_project.models
 
 import jakarta.persistence.*
-import java.math.BigDecimal
 import java.time.LocalDateTime
 
 @Entity
@@ -12,7 +11,7 @@ data class Deal(
 
 //    @ManyToOne
 //    @JoinColumn(name = "status_id")
-    val status: Int, //
+    val status: Int, //DealStatus
 
     @Column(name = "date_time")
     val dateTime: LocalDateTime,
