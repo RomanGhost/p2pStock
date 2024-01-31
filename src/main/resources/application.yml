@@ -8,3 +8,7 @@ spring:
     generate-ddl: true
     hibernate:
       ddl-auto: create
+
+application:
+  info:
+    api: "/api/v1"

@@ -2,7 +2,7 @@
 
 Основа(CRUD)
 	1.	User (Table: "Пользователи")
-	2.	Deal (Table: "Сделки")
+	2.	Deal (Table: "Сделки")  +
 	3.	Request (Table: "Заявки")
 	4.	Card (Table: "Карты")
 	5.	Wallet (Table: "Кошелек")
