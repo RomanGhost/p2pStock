@@ -3,14 +3,19 @@ package com.example.p2p_project.models
 import jakarta.persistence.*
 
 @Entity
+@Table(name = "app_user")
 data class User(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long?,
 
+    @Column(unique = true)
     val login: String,
+    @Column(unique = true)
     val phone: String,
+    @Column(unique = true)
     val email: String,
+
     val password: String,
     @Column(name = "last_name")
     val lastName: String,
