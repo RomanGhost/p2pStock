@@ -38,7 +38,7 @@ class DealController(val dealService: DealService) {
     }
 
     @GetMapping("/{dealID}")
-    fun getByID(@PathVariable dealID:Long):ResponseEntity<Deal>{
+    fun getById(@PathVariable dealID:Long):ResponseEntity<Deal>{
         val deal:Deal = dealService.getById(dealID)
         return ResponseEntity(deal, HttpStatus.FOUND)
     }

@@ -12,6 +12,7 @@ data class Deal(
 //    @ManyToOne
 //    @JoinColumn(name = "status_id")
     val status: Int, //DealStatus
+    val isBuyCreated: Boolean,
 
     @Column(name = "date_time")
     val dateTime: LocalDateTime,

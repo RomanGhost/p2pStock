@@ -39,7 +39,7 @@ class UserController(val userService: UserService) {
     }
 
     @DeleteMapping("/delete/{userId}")
-    fun delete(@PathVariable userId:Long, @PathVariable userID:Long): ResponseEntity<User> {
+    fun delete(@PathVariable userId:Long): ResponseEntity<User> {
         userService.delete(userId)
         return ResponseEntity(HttpStatus.OK)
     }
@@ -50,9 +50,9 @@ class UserController(val userService: UserService) {
         return ResponseEntity(userList, HttpStatus.OK)
     }
 
-    @GetMapping("/{userID}")
-    fun getByID(@PathVariable userID:Long): ResponseEntity<User> {
-        val user = userService.getById(userID)
+    @GetMapping("/{userId}")
+    fun getById(@PathVariable userId:Long): ResponseEntity<User> {
+        val user = userService.getById(userId)
         return ResponseEntity(user, HttpStatus.OK)
     }
 

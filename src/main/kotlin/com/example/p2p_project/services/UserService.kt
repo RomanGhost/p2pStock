@@ -22,14 +22,29 @@ class UserService(val userRepository: UserRepository) {
     }
 
     fun getByLogin(login:String):User{
-        return userRepository.findByLogin(login)
+        val user = try{
+            userRepository.findByLogin(login)
+        }catch (ex: JpaObjectRetrievalFailureException){
+            throw EntityNotFoundException("User with login: $login not found")
+        }
+        return user
     }
 
     fun getByMail(email:String):User{
-        return userRepository.findByEmail(email)
+        val user = try{
+            userRepository.findByEmail(email)
+        }catch (ex: JpaObjectRetrievalFailureException){
+            throw EntityNotFoundException("User with email: $email not found")
+        }
+        return user
     }
     fun getByPhone(phone:String):User{
-        return userRepository.findByPhone(phone)
+        val user = try{
+            userRepository.findByPhone(phone)
+        }catch (ex: JpaObjectRetrievalFailureException){
+            throw EntityNotFoundException("User with phone: $phone not found")
+        }
+        return user
     }
 
     fun update(user:User,id:Long):User{

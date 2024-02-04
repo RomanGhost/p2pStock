@@ -1,5 +1,6 @@
 package com.example.p2p_project.models.adjacent
 
+import com.example.p2p_project.models.Request
 import com.example.p2p_project.models.dataTables.OperationType
 import com.example.p2p_project.models.Wallet
 import jakarta.persistence.*
@@ -14,6 +15,16 @@ data class WalletOperation(
     @ManyToOne
     @JoinColumn(name = "wallet_id")
     val wallet: Wallet,
+
+    @ManyToOne
+    @JoinColumn(name = "request_id", nullable = true)
+    val request:Request,
+
+    @ManyToOne
+    @JoinColumn(name = "counterparty_id")
+    val counterparty: Wallet,
+
+    val count: Double,
 
     @Column(name = "date_time")
     val dateTime: LocalDateTime,
