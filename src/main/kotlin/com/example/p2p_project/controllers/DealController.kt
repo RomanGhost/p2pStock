@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("\${application.info.api}/deal")
-
 class DealController(val dealService: DealService) {
 
     @PostMapping("/add")
