@@ -1,5 +1,7 @@
 package com.example.p2p_project.models
 
+import com.example.p2p_project.models.dataTables.RequestStatus
+import com.example.p2p_project.models.dataTables.RequestType
 import jakarta.persistence.*
 import java.math.BigDecimal
 import java.time.LocalDateTime
@@ -22,7 +24,14 @@ data class Request(
     @JoinColumn(name = "card_id")
     val card: Card,
 
-    val type: Int,
+    @ManyToOne
+    @JoinColumn(name = "request_type_id")
+    val requestType: RequestType,
+
+    @ManyToOne
+    @JoinColumn(name = "request_status_id")
+    val requestStatus: RequestStatus,
+
     @Column(name = "price_per_unit")
     val pricePerUnit: BigDecimal,
     val quantity: Float,

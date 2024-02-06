@@ -2,7 +2,6 @@ package com.example.p2p_project.models.adjacent
 
 import com.example.p2p_project.models.dataTables.Action
 import com.example.p2p_project.models.Deal
-import com.example.p2p_project.models.dataTables.ErrorModel
 import com.example.p2p_project.models.dataTables.Priority
 import jakarta.persistence.*
 
@@ -23,10 +22,8 @@ data class DealAction(
     val confirmation: Boolean,
     @Column(name = "action_description")
     val actionDescription: String,
-
-    @ManyToOne
-    @JoinColumn(name = "error_id")
-    val errorModel: ErrorModel,
+    @Column(name = "error_description")
+    val errorModel: String,
 
     @ManyToOne
     @JoinColumn(name="priority_id")

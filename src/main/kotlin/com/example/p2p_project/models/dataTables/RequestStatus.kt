@@ -1,10 +1,12 @@
 package com.example.p2p_project.models.dataTables
 
-import jakarta.persistence.*
+import jakarta.persistence.Entity
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.GenerationType
+import jakarta.persistence.Id
 
 @Entity
-@Table(name="error")
-data class ErrorModel(
+data class RequestStatus(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long?,
