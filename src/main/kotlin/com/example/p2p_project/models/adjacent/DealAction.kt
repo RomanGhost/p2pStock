@@ -2,6 +2,7 @@ package com.example.p2p_project.models.adjacent
 
 import com.example.p2p_project.models.dataTables.Action
 import com.example.p2p_project.models.Deal
+import com.example.p2p_project.models.User
 import com.example.p2p_project.models.dataTables.Priority
 import jakarta.persistence.*
 
@@ -16,8 +17,8 @@ data class DealAction(
     val deal: Deal,
 
     @ManyToOne
-    @JoinColumn(name = "action_id")
-    val action: Action,
+    @JoinColumn(name = "user_id")
+    val user: User,
 
     val confirmation: Boolean,
     @Column(name = "action_description")
