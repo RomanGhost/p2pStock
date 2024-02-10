@@ -1,18 +1,21 @@
 package com.example.p2p_project.controllers
 
 import com.example.p2p_project.models.User
+import com.example.p2p_project.models.dataTables.Role
 import com.example.p2p_project.services.UserService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 
-@RestController
+
+@Controller
 @RequestMapping("\${application.info.api}/user")
 class UserController(val userService: UserService) {
     @PostMapping("/add")
     fun add(@RequestBody user: User): ResponseEntity<User> {
         val newUser = userService.add(user)
+        newUser.password = "***"
         return ResponseEntity<User>(newUser, HttpStatus.CREATED)
     }
 
@@ -71,6 +74,12 @@ class UserController(val userService: UserService) {
             }?: return ResponseEntity("No parameters", HttpStatus.BAD_REQUEST)
 
             return ResponseEntity(user, HttpStatus.OK)
+    }
+
+    @GetMapping("/get_roles/{userId}")
+    fun getRoles(@PathVariable userId:Long):ResponseEntity<List<Role>>{
+        val roles = userService.getRoles(userId)
+        return ResponseEntity(roles, HttpStatus.OK)
     }
 
 }

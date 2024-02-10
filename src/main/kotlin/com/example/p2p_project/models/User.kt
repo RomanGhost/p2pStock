@@ -12,16 +12,16 @@ data class User(
     @Column(unique = true)
     val login: String,
     @Column(unique = true)
-    val phone: String,
+    val phone: String?,
     @Column(unique = true)
-    val email: String,
+    val email: String?,
 
-    val password: String,
+    var password: String,
     @Column(name = "last_name")
-    val lastName: String,
+    val lastName: String?,
     @Column(name = "first_name")
-    val firstName: String,
-    val patronymic: String,
+    val firstName: String?,
+    val patronymic: String?,
     @Column(name = "is_active")
-    val isActive: Boolean
+    val isActive: Boolean?
 )

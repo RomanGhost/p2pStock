@@ -1,13 +1,19 @@
 package com.example.p2p_project.services
 
 import com.example.p2p_project.models.User
+import com.example.p2p_project.models.dataTables.Role
 import com.example.p2p_project.repositories.UserRepository
+import com.example.p2p_project.repositories.adjacent.UserRoleRepository
 import jakarta.persistence.EntityNotFoundException
 import org.springframework.orm.jpa.JpaObjectRetrievalFailureException
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 
 @Service
-class UserService(val userRepository: UserRepository) {
+class UserService(val userRepository: UserRepository,
+                  val userRoleRepository:UserRoleRepository,
+    val passwordEncoder: PasswordEncoder
+) {
     fun getAll():List<User>{
         return userRepository.findAll()
     }
@@ -61,6 +67,11 @@ class UserService(val userRepository: UserRepository) {
     }
 
     fun add(user:User):User{
+        user.password = passwordEncoder.encode(user.password)
         return userRepository.save(user)
+    }
+
+    fun getRoles(id: Long): List<Role> {
+        return userRoleRepository.findRoleByUserId(id)
     }
 }
