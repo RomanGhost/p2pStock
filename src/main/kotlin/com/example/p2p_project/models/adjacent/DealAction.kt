@@ -12,11 +12,11 @@ data class DealAction(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long?,
 
-    @ManyToOne
+    @ManyToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "deal_id")
     val deal: Deal,
 
-    @ManyToOne
+    @ManyToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "user_id")
     val user: User,
 
@@ -26,7 +26,7 @@ data class DealAction(
     @Column(name = "error_description")
     val errorModel: String,
 
-    @ManyToOne
+    @ManyToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name="priority_id")
     val priority: Priority
 )

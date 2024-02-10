@@ -10,11 +10,11 @@ data class Permission(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long?,
 
-    @ManyToOne
+    @ManyToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "action_id")
     val action: Action,
 
-    @ManyToOne
+    @ManyToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "role_id")
     val role: Role
 )

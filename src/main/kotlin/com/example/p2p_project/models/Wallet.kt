@@ -9,11 +9,11 @@ data class Wallet(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long?,
 
-    @ManyToOne
+    @ManyToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "cryptocurrency_id")
     val cryptocurrency: Cryptocurrency,
 
-    @ManyToOne
+    @ManyToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "user_id")
     val user: User,
 

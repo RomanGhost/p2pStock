@@ -9,14 +9,14 @@ data class Card(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long?,
 
-    @ManyToOne
+    @ManyToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "user_id")
     val user: User,
 
     @Column(name = "card_number")
     val cardNumber: String,
 
-    @ManyToOne
+    @ManyToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "bank_id")
     val bank: Bank
 )

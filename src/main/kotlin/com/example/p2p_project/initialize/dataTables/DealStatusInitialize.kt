@@ -4,9 +4,12 @@ import com.example.p2p_project.models.dataTables.DealStatus
 import com.example.p2p_project.repositories.dataTables.DealStatusRepository
 import org.springframework.boot.CommandLineRunner
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 
 @Component
+
 class DealStatusInitialize(val dealStatusRepository: DealStatusRepository): CommandLineRunner {
+    @Transactional
     override fun run(vararg args: String?) {
         if (dealStatusRepository.count() != 0L) return;
         val dealStatuses: MutableList<DealStatus> = mutableListOf()

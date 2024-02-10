@@ -10,7 +10,7 @@ data class Deal(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long?,
 
-    @ManyToOne
+    @ManyToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "status_id")
     val status: DealStatus,
 
@@ -18,11 +18,11 @@ data class Deal(
     val dateTime: LocalDateTime,
     val isBuyCreated: Boolean,
 
-    @ManyToOne
+    @ManyToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "sell_request_id")
     val sellRequest: Request,
 
-    @ManyToOne
+    @ManyToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "buy_request_id")
     val buyRequest:Request
 )

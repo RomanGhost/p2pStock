@@ -7,13 +7,17 @@ import com.example.p2p_project.repositories.adjacent.PermissionRepository
 import com.example.p2p_project.repositories.dataTables.ActionRepository
 import com.example.p2p_project.repositories.dataTables.RoleRepository
 import org.springframework.boot.CommandLineRunner
+import org.springframework.context.annotation.DependsOn
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 
 @Component
+@DependsOn("actionInitialize", "roleInitialize")
 class PermissionInitialize(
     val permissionRepository:PermissionRepository,
     val actionRepository:ActionRepository,
     val roleRepository: RoleRepository): CommandLineRunner {
+    @Transactional
     override fun run(vararg args: String?) {
         if (permissionRepository.count() != 0L) return
 
@@ -33,11 +37,7 @@ class PermissionInitialize(
         role = roleRepository.getReferenceById(2)
         for(i in 1..3L) {
             action = actionRepository.getReferenceById(i)
-            permissionRepository.save(Permission(null, action.copy(), role.copy()))
+            
         }
-
-
-
-
     }
 }

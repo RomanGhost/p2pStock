@@ -1,8 +1,8 @@
 package com.example.p2p_project.models.adjacent
 
 import com.example.p2p_project.models.Request
-import com.example.p2p_project.models.dataTables.OperationType
 import com.example.p2p_project.models.Wallet
+import com.example.p2p_project.models.dataTables.OperationType
 import jakarta.persistence.*
 import java.time.LocalDateTime
 
@@ -12,15 +12,15 @@ data class WalletOperation(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long?,
 
-    @ManyToOne
+    @ManyToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "wallet_id")
     val wallet: Wallet,
 
-    @ManyToOne
+    @ManyToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "request_id", nullable = true)
     val request:Request,
 
-    @ManyToOne
+    @ManyToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "counterparty_id")
     val counterparty: Wallet,
 
@@ -29,7 +29,7 @@ data class WalletOperation(
     @Column(name = "date_time")
     val dateTime: LocalDateTime,
 
-    @ManyToOne
+    @ManyToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "operation_id")
     val operation: OperationType
 )
