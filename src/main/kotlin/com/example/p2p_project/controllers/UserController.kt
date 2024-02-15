@@ -5,17 +5,15 @@ import com.example.p2p_project.models.dataTables.Role
 import com.example.p2p_project.services.UserService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 
 
-@Controller
+@RestController
 @RequestMapping("\${application.info.api}/user")
 class UserController(val userService: UserService) {
     @PostMapping("/add")
     fun add(@RequestBody user: User): ResponseEntity<User> {
         val newUser = userService.add(user)
-        newUser.password = "***"
         return ResponseEntity<User>(newUser, HttpStatus.CREATED)
     }
 
@@ -31,9 +29,9 @@ class UserController(val userService: UserService) {
         val userId: Long =
             when {
                 id != null -> id
-                login != null -> userService.getByLogin(login).id
-                mail != null -> userService.getByMail(mail).id
-                phone != null -> userService.getByPhone(phone).id
+                login != null -> userService.getByLogin(login)?.id
+                mail != null -> userService.getByMail(mail)?.id
+                phone != null -> userService.getByPhone(phone)?.id
                 else -> null
             } ?: return ResponseEntity("No parameters", HttpStatus.BAD_REQUEST)
 

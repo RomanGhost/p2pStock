@@ -5,6 +5,7 @@ import com.example.p2p_project.models.dataTables.Role
 import com.example.p2p_project.repositories.UserRepository
 import com.example.p2p_project.repositories.adjacent.UserRoleRepository
 import jakarta.persistence.EntityNotFoundException
+import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.orm.jpa.JpaObjectRetrievalFailureException
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
@@ -18,7 +19,7 @@ class UserService(val userRepository: UserRepository,
         return userRepository.findAll()
     }
 
-    fun getById(id:Long):User{
+    fun getById(id:Long):User?{
         val user = try{
             userRepository.getReferenceById(id)
         }catch (ex: JpaObjectRetrievalFailureException){
@@ -27,28 +28,35 @@ class UserService(val userRepository: UserRepository,
         return user
     }
 
-    fun getByLogin(login:String):User{
+    fun getByLogin(login:String):User?{
         val user = try{
             userRepository.findByLogin(login)
         }catch (ex: JpaObjectRetrievalFailureException){
             throw EntityNotFoundException("User with login: $login not found")
+        }catch (ex: EmptyResultDataAccessException){
+            return null
         }
+
         return user
     }
 
-    fun getByMail(email:String):User{
+    fun getByMail(email:String):User?{
         val user = try{
             userRepository.findByEmail(email)
         }catch (ex: JpaObjectRetrievalFailureException){
             throw EntityNotFoundException("User with email: $email not found")
+        }catch (ex: EmptyResultDataAccessException){
+            return null
         }
         return user
     }
-    fun getByPhone(phone:String):User{
+    fun getByPhone(phone:String):User?{
         val user = try{
             userRepository.findByPhone(phone)
         }catch (ex: JpaObjectRetrievalFailureException){
             throw EntityNotFoundException("User with phone: $phone not found")
+        }catch (ex: EmptyResultDataAccessException){
+            return null
         }
         return user
     }
@@ -68,7 +76,13 @@ class UserService(val userRepository: UserRepository,
 
     fun add(user:User):User{
         user.password = passwordEncoder.encode(user.password)
-        return userRepository.save(user)
+        val userReturn = userRepository.save(user)
+        userReturn.password = "***"
+        return userReturn
+    }
+
+    fun isValidPassword(dbUser:User, checkUser:User):Boolean{
+        return passwordEncoder.matches(checkUser.password, dbUser.password)
     }
 
     fun getRoles(id: Long): List<Role> {

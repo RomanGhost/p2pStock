@@ -33,6 +33,6 @@ class MyUserDetails(val user:User, private val roles:List<Role>):UserDetails {
     }
 
     override fun isEnabled(): Boolean {
-        return user.isActive!!
+        return true
     }
 }

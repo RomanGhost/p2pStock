@@ -4,12 +4,11 @@ import com.example.p2p_project.models.Card
 import com.example.p2p_project.services.CardService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("\${application.info.api}/card")
-class CardController(val cardService: CardService) {
+class CartController(val cardService: CardService) {
     @PostMapping("/add")
     fun add(@RequestBody card: Card): ResponseEntity<Card> {
         val newCard = cardService.add(card)
