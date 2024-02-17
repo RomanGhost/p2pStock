@@ -1,5 +1,6 @@
 package com.example.p2p_project.config
 
+import com.example.p2p_project.handlers.AuthErrorHandler
 import com.example.p2p_project.services.MyUserDetailsService
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
@@ -16,27 +17,34 @@ import org.springframework.security.web.SecurityFilterChain
 @Configuration
 @EnableWebSecurity
 class SecurityConfig {
+    @Value("\${application.info.api}")
+    private lateinit var apiLink: String
     @Bean
     fun userDetailsService(): UserDetailsService {
         return MyUserDetailsService()
     }
 
-    @Value("\${application.info.api}")
-    private val url = ""
+
     @Bean
     fun securityFilterChain(httpSecurity: HttpSecurity): SecurityFilterChain {
-
         return httpSecurity.csrf{it.disable()}
             .authorizeHttpRequests {
+                it.requestMatchers("${apiLink}/sign-in/**", "${apiLink}/sign-up/**").permitAll()
+                it.requestMatchers("${apiLink}/welcome").authenticated()
                 it.anyRequest().permitAll()
+                //it..permitAll()
             }
-            .formLogin{it.permitAll()}
+            .formLogin{
+                it.loginPage("${apiLink}/sign-in")
+                it.failureHandler(AuthErrorHandler(apiLink))
+                it.defaultSuccessUrl("${apiLink}/welcome")
+            }
             .build()
     }
 
     @Bean
     fun authenticationProvider():AuthenticationProvider{
-        val provider:DaoAuthenticationProvider = DaoAuthenticationProvider()
+        val provider = DaoAuthenticationProvider()
         provider.setUserDetailsService(userDetailsService())
         provider.setPasswordEncoder(passwordEncoder())
         return provider

@@ -5,16 +5,20 @@
     <title>Sign In form</title>
 </head>
 <body>
-<h2>User Login Form</h2>
-<form action="#" th:action="${link} + @{/sign-in/check}" th:object="${user}" method="post">
+<h1>Please Log In</h1>
+<div th:if="${param.error}">
+    Invalid username and password.</div>
+<div th:if="${param.logout}">
+    You have been logged out.</div>
+<form action="#" th:action="${link} + @{/sign-in}" method="post">
     <label>Login*:</label><br>
-    <input type="text" th:field="*{login}" required><br>
+    <input type="text" name="username" placeholder="Username"/><br>
 
     <label>Password*:</label><br>
-    <input type="password" th:field="*{password}" required>
-    <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p><br>
+    <input type="password" name="password" placeholder="Password"/>
 
     <input type="submit" value="Enter">
 </form>
+<a th:href="${link} + @{/sign-up}">Register</a>
 </body>
 </html>
