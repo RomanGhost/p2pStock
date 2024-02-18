@@ -30,14 +30,13 @@ class SecurityConfig {
         return httpSecurity.csrf{it.disable()}
             .authorizeHttpRequests {
                 it.requestMatchers("${apiLink}/sign-in/**", "${apiLink}/sign-up/**").permitAll()
-                it.requestMatchers("${apiLink}/welcome").authenticated()
+                it.requestMatchers("${apiLink}/account/**").authenticated()
                 it.anyRequest().permitAll()
-                //it..permitAll()
             }
             .formLogin{
                 it.loginPage("${apiLink}/sign-in")
                 it.failureHandler(AuthErrorHandler(apiLink))
-                it.defaultSuccessUrl("${apiLink}/welcome")
+                it.defaultSuccessUrl("${apiLink}/account/welcome")
             }
             .build()
     }

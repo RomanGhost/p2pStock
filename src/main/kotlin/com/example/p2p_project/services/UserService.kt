@@ -1,9 +1,11 @@
 package com.example.p2p_project.services
 
 import com.example.p2p_project.models.User
+import com.example.p2p_project.models.adjacent.UserRole
 import com.example.p2p_project.models.dataTables.Role
 import com.example.p2p_project.repositories.UserRepository
 import com.example.p2p_project.repositories.adjacent.UserRoleRepository
+import com.example.p2p_project.repositories.dataTables.RoleRepository
 import jakarta.persistence.EntityNotFoundException
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.orm.jpa.JpaObjectRetrievalFailureException
@@ -11,8 +13,10 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 
 @Service
-class UserService(val userRepository: UserRepository,
-                  val userRoleRepository:UserRoleRepository,
+class UserService(
+    val userRepository: UserRepository,
+    val userRoleRepository:UserRoleRepository,
+    val roleRepository:RoleRepository,
     val passwordEncoder: PasswordEncoder
 ) {
     fun getAll():List<User>{
@@ -76,8 +80,14 @@ class UserService(val userRepository: UserRepository,
 
     fun add(user:User):User{
         user.password = passwordEncoder.encode(user.password)
+
         val userReturn = userRepository.save(user)
+        val role = roleRepository.findByType("Пользователь")
+        val userRole = UserRole(null, user=userReturn, role=role)
+
+        userRoleRepository.save(userRole)
         userReturn.password = "***"
+
         return userReturn
     }
 

@@ -1,11 +1,9 @@
 package com.example.p2p_project.controllers
 
-import com.example.p2p_project.config.MyUserDetails
 import com.example.p2p_project.models.User
 import com.example.p2p_project.services.UserService
 import jakarta.servlet.http.HttpSession
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
@@ -32,17 +30,25 @@ class AuthorizationController(val userService: UserService) {
     fun signUp(@ModelAttribute("user")newUser:User,
                      result:BindingResult,
                      session:HttpSession):String{
-        var user = userService.getByLogin(newUser.login)
+        val user = userService.getByLogin(newUser.login)
+
 
         // В случае, если пользователь найден, переотправить на sign-in
         if (user != null){
             return "redirect:${apiLink}/sign-in"
         }
 
-        user = userService.add(newUser)
-        session.setAttribute("user", user)
+        if (newUser.password.length < 8) {
+            result.rejectValue("password", "error.user", "Password must be at least 8 characters long")
+        }
+        if (newUser.login.length < 2) {
+            result.rejectValue("login", "error.user", "Login must be at least 2 characters long")
+        }
 
-        return "redirect:${apiLink}/welcome"
+        userService.add(newUser)
+
+
+        return "redirect:${apiLink}/account/welcome"
     }
 
 
@@ -50,15 +56,6 @@ class AuthorizationController(val userService: UserService) {
     fun showSignIn(model:Model):String{
         model.addAttribute("link", apiLink)
         return "signIn"
-    }
-
-    //TODO("Убрать данный контроллер в другой контроллер")
-    @GetMapping("/welcome")
-    fun welcomePage(model:Model, authentication:Authentication):String{
-        val userDetails = authentication.principal as MyUserDetails
-        val login = userDetails.username?:"lol"
-        model.addAttribute("login", login)
-        return "welcome"
     }
 
 }
