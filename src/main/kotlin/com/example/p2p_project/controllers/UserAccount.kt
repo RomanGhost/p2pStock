@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
 @RequestMapping("\${application.info.api}/account")
+
 class UserAccount(private val userService: UserService) {
     @Value("\${application.info.api}")
     private lateinit var apiLink: String

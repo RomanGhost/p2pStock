@@ -8,7 +8,7 @@ import jakarta.persistence.*
 data class UserRole(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long?,
+    var id: Long?=0,
 
     @ManyToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "user_id")
