@@ -14,8 +14,12 @@ data class Deal(
     @JoinColumn(name = "status_id")
     val status: DealStatus,
 
-    @Column(name = "date_time")
-    val dateTime: LocalDateTime,
+    @Column(name = "open_date_time")
+    val openDateTime: LocalDateTime,
+
+    @Column(name = "close_date_time")
+    val closeDateTime: LocalDateTime,
+
     val isBuyCreated: Boolean,
 
     @ManyToOne(cascade = [CascadeType.ALL])

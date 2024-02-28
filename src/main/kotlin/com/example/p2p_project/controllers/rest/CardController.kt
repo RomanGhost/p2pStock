@@ -1,4 +1,4 @@
-package com.example.p2p_project.controllers
+package com.example.p2p_project.controllers.rest
 
 import com.example.p2p_project.models.Card
 import com.example.p2p_project.services.CardService

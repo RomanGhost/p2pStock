@@ -36,6 +36,8 @@ data class Request(
     val pricePerUnit: BigDecimal,
     val quantity: Float,
     val description: String,
-    @Column(name = "date_time")
-    val dateTime: LocalDateTime
+    @Column(name = "create_date_time")
+    val createDateTime: LocalDateTime,
+    @Column(name = "deadline_date_time")
+    val deadlineDateTime:LocalDateTime
 )

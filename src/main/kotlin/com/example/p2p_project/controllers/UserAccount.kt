@@ -19,7 +19,7 @@ class UserAccount(private val userService: UserService) {
     @GetMapping("/welcome")
     fun welcomePage(model: Model, authentication: Authentication):String{
         val userDetails = authentication.principal as MyUserDetails
-        val login = userDetails.username?:"lol"
+        val login = userDetails.username
         model.addAttribute("login", login)
         return "welcome"
     }
