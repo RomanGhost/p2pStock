@@ -7,7 +7,7 @@ import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.web.authentication.AuthenticationFailureHandler
 
-class AuthErrorHandler(private val apiLink:String): AuthenticationFailureHandler {
+class AuthErrorHandler(private val appLink:String): AuthenticationFailureHandler {
     override fun onAuthenticationFailure(
         request: HttpServletRequest?,
         response: HttpServletResponse,
@@ -15,8 +15,8 @@ class AuthErrorHandler(private val apiLink:String): AuthenticationFailureHandler
     ) {
         println("Login Exception $exception")
         when(exception){
-            is BadCredentialsException -> response.sendRedirect("${apiLink}/sign-in?error")
-            is LoginNotFoundException -> response.sendRedirect("${apiLink}/sign-up")
+            is BadCredentialsException -> response.sendRedirect("${appLink}/sign-in?error")
+            is LoginNotFoundException -> response.sendRedirect("${appLink}/sign-up")
             else -> println("WTF?")
         }
     }

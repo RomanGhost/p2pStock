@@ -7,8 +7,8 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("\${application.info.api}/card")
-class CardController(val cardService: CardService) {
+@RequestMapping("\${application.info.appLink}/card")
+class RestCardController(val cardService: CardService) {
     @PostMapping("/add")
     fun add(@RequestBody card: Card): ResponseEntity<Card> {
         val newCard = cardService.add(card)

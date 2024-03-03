@@ -7,19 +7,19 @@ import jakarta.persistence.*
 data class Wallet(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long?,
+    var id: Long? = 0,
 
     @ManyToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "cryptocurrency_id")
-    val cryptocurrency: Cryptocurrency,
+    val cryptocurrency: Cryptocurrency = Cryptocurrency(),
 
     @ManyToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "user_id")
-    val user: User,
+    val user: User = User(),
 
-    val name: String,
+    val name: String = "",
     @Column(name = "public_key")
-    val publicKey: String,
+    val publicKey: String = "",
     @Column(name = "private_key")
-    val privateKey: String
+    val privateKey: String = ""
 )

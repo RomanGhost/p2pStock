@@ -9,8 +9,8 @@ import jakarta.persistence.Id
 data class RequestStatus(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long?,
+    var id: Long? = 0L,
 
-    val name: String,
-    val priority: Int
+    val name: String="",
+    val priority: Int = -1
 )

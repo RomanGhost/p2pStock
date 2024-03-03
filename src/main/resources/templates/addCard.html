@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Card</title>
+</head>
+<body>
+<h1>Add Card</h1>
+<form th:action="${link} + @{/card/submit}" method="post" th:object="${card}">
+    <label for="cardNumber">Card Number:</label>
+    <input type="text" id="cardNumber" name="cardNumber" th:field="*{cardNumber}" required><br>
+    <span th:if="${errorMessage}" class="error" th:text="${errorMessage}"></span><br>
+
+    <label for="bank">Bank:</label>
+    <select id="bank" name="bank" th:field="*{bank}" required>
+        <option th:each="bank : ${banks}" th:value="${bank.id}" th:text="${bank.name}"></option>
+    </select><br><br>
+
+    <input type="submit" value="Add Card">
+</form>
+</body>
+</html>

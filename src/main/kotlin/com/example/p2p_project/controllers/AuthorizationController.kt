@@ -4,8 +4,6 @@ import com.example.p2p_project.models.User
 import com.example.p2p_project.services.AuthenticationService
 import com.example.p2p_project.services.UserRoleService
 import com.example.p2p_project.services.UserService
-import jakarta.servlet.http.HttpServletRequest
-import jakarta.servlet.http.HttpSession
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -14,44 +12,47 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 
 @Controller
-@RequestMapping("\${application.info.api}")
+@RequestMapping("\${application.info.appLink}")
 class AuthorizationController(
     val userService: UserService,
     val userRoleService: UserRoleService,
     val authenticationService:AuthenticationService
 ) {
-    @Value("\${application.info.api}")
-    private lateinit var apiLink: String
+   @Value("\${application.info.appLink}")
+    private lateinit var appLink: String
 
     @GetMapping("/sign-up")
-    fun showSignUp(model:Model):String{
+    fun showSignUp(model:Model, redirectAttributes: RedirectAttributes):String{
         val user:User = User()
-        model.addAttribute("link", apiLink)
+        model.addAttribute("link", appLink)
         model.addAttribute("user", user)
         return "signUp"
     }
 
     @PostMapping("/sign-up/save")
     fun signUp(@ModelAttribute("user")newUser:User,
-               result:BindingResult,
-               session:HttpSession,
-               request: HttpServletRequest
+               result:BindingResult, model: Model,
+               redirectAttributes:RedirectAttributes
     ):String{
         val user = userService.getByLogin(newUser.login)
 
         // В случае, если пользователь найден, переотправить на sign-in
         if (user != null){
-            return "redirect:${apiLink}/sign-in"
+            return "redirect:${appLink}/sign-in"
         }
 
+        model.addAttribute("link", appLink)
         if (newUser.password.length < 8) {
-            result.rejectValue("password", "error.user", "Password must be at least 8 characters long")
+            redirectAttributes.addFlashAttribute("errorMessage", "Card number is too short")
+            return "redirect:${appLink}/sign-in"
         }
         if (newUser.login.length < 2) {
-            result.rejectValue("login", "error.user", "Login must be at least 2 characters long")
+            redirectAttributes.addFlashAttribute("errorMessage", "Card number is too short")
+            return "redirect:${appLink}/sign-in"
         }
 
         val registerUser  = userService.add(newUser)
@@ -60,12 +61,12 @@ class AuthorizationController(
         //TODO("Реализовать вход пользователя в личный кабинет без формы входа")
         authenticationService.authenticateUser(registerUser.login, registerUser.password);
 
-        return "redirect:${apiLink}/account/welcome"
+        return "redirect:${appLink}/account/welcome"
     }
 
     @GetMapping("/sign-in")
     fun showSignIn(model:Model):String{
-        model.addAttribute("link", apiLink)
+        model.addAttribute("link", appLink)
         return "signIn"
     }
 

@@ -85,7 +85,6 @@
         <label>Login*:</label><br>
         <input type="text" id="login" name="login" th:field="*{login}" required><br>
         <span id="loginError" class="error"><br></span>
-        <span th:if="${#fields.hasErrors('login')}" th:errors="*{login}" class="error"><br></span>
         <label>Phone:</label><br>
         <input type="text" th:field="*{phone}"><br>
 
@@ -104,7 +103,8 @@
         <label>Password*:</label><br>
         <input type="password" id="password" name="password" th:field="*{password}" required><br>
         <span id="passwordError" class="error"></span><br>
-        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error"></span><br>
+        <span th:if="${errorMessage}" class="error" th:text="${errorMessage}"></span><br>
+
 
         <input type="submit" value="Register">
     </form>

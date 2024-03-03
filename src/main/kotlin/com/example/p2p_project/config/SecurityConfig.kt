@@ -17,8 +17,8 @@ import org.springframework.security.web.SecurityFilterChain
 @Configuration
 @EnableWebSecurity
 class SecurityConfig {
-    @Value("\${application.info.api}")
-    private lateinit var apiLink: String
+   @Value("\${application.info.appLink}")
+    private lateinit var appLink: String
     @Bean
     fun userDetailsService(): UserDetailsService {
         return MyUserDetailsService()
@@ -29,14 +29,14 @@ class SecurityConfig {
     fun securityFilterChain(httpSecurity: HttpSecurity): SecurityFilterChain {
         return httpSecurity.csrf{it.disable()}
             .authorizeHttpRequests {
-                it.requestMatchers("${apiLink}/sign-in/**", "${apiLink}/sign-up/**").permitAll()
-                it.requestMatchers("${apiLink}/account/**").authenticated()
+                it.requestMatchers("${appLink}/sign-in/**", "${appLink}/sign-up/**").permitAll()
+                it.requestMatchers("${appLink}/**").authenticated()
                 it.anyRequest().permitAll()
             }
             .formLogin{
-                it.loginPage("${apiLink}/sign-in")
-                it.failureHandler(AuthErrorHandler(apiLink))
-                it.defaultSuccessUrl("${apiLink}/account/welcome")
+                it.loginPage("${appLink}/sign-in")
+                it.failureHandler(AuthErrorHandler(appLink))
+                it.defaultSuccessUrl("${appLink}/account/welcome")
             }
             .build()
     }

@@ -9,7 +9,7 @@ import jakarta.persistence.Id
 data class RequestType(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long?,
+    var id: Long? = 0L,
 
-    val name: String
+    val name: String? = ""
 )

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Request</title>
+</head>
+<body>
+<h1>Create Request</h1>
+<form action="#" th:action="${link} + @{/submit_request}" th:object="${request}" method="post">
+\
+    <label for="user">User:</label>
+    <input type="text" id="user" name="user" th:field="*{user}" required><br><br>
+
+    <label for="wallet">Wallet:</label>
+    <select id="wallet" name="wallet" th:field="*{wallet}">
+        <option th:each="wallet : ${wallets}" th:text="${wallet.name} ${wallet.publicKey}"></option>
+    </select><br><br>
+
+    <label for="card">Wallet:</label>
+    <select id="card" name="card" th:field="*{card}">
+        <option th:each="card : ${cards}" th:text="${card.cardNumber}"></option>
+    </select><br><br>
+
+    <label for="requestType">Request Type:</label>
+    <input type="text" id="requestType" name="requestType" th:field="*{requestType}" required><br><br>
+
+    <label for="requestStatus">Request Status:</label>
+    <input type="text" id="requestStatus" name="requestStatus" th:field="*{requestStatus}" required><br><br>
+
+    <label for="pricePerUnit">Price Per Unit:</label>
+    <input type="number" id="pricePerUnit" name="pricePerUnit" step="0.01" th:field="*{pricePerUnit}" required><br><br>
+
+    <label for="quantity">Quantity:</label>
+    <input type="number" id="quantity" name="quantity" step="0.01" th:field="*{quantity}" required><br><br>
+
+    <label for="description">Description:</label><br>
+    <textarea id="description" name="description" rows="4" cols="50" th:field="*{description}" required></textarea><br><br>
+
+    <label for="createDateTime">Create Date Time:</label>
+    <input type="datetime-local" id="createDateTime" name="createDateTime" th:field="*{createDateTime}" required><br><br>
+
+    <label for="deadlineDateTime">Deadline Date Time:</label>
+    <input type="datetime-local" id="deadlineDateTime" name="deadlineDateTime" th:field="*{deadlineDateTime}" required><br><br>
+
+    <input type="submit" value="Submit">
+</form>
+</body>
+</html>

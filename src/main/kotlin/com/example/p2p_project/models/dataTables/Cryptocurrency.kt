@@ -9,8 +9,8 @@ import jakarta.persistence.Id
 data class Cryptocurrency(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long?,
+    var id: Long? = 0,
 
-    val name: String,
-    val code: String
+    val name: String = "",
+    val code: String = ""
 )

@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
-@RequestMapping("\${application.info.api}/account")
+@RequestMapping("\${application.info.appLink}/account")
 
-class UserAccount(private val userService: UserService) {
-    @Value("\${application.info.api}")
-    private lateinit var apiLink: String
+class UserAccountController(private val userService: UserService) {
+   @Value("\${application.info.appLink}")
+    private lateinit var appLink: String
 
     @GetMapping("/welcome")
     fun welcomePage(model: Model, authentication: Authentication):String{
