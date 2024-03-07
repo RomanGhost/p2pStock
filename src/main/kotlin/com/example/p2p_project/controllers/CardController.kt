@@ -32,7 +32,7 @@ class CardController(
         return "addCard"
     }
 
-    @PostMapping("/submit")
+    @PostMapping("/save")
     fun submitNewCard(
         @ModelAttribute("card") card: Card,
         authentication: Authentication,

@@ -14,9 +14,14 @@ class RequestStatusInitialize(val requestStatusRepository: RequestStatusReposito
         if (requestStatusRepository.count() != 0L) return;
         val requestStatuses: MutableList<RequestStatus> = mutableListOf()
 
-        requestStatuses.add(RequestStatus(null, "В ожидании", 3))
-        requestStatuses.add(RequestStatus(null, "Закрыто: успешно", 2))
-        requestStatuses.add(RequestStatus(null, "Закрыто: неактуально", 1))
+        requestStatuses.add(RequestStatus(name="Создание", id=7))
+        requestStatuses.add(RequestStatus(name="Модерация", id=1))
+        requestStatuses.add(RequestStatus(name="Отправлено на доработку", id=2))
+        requestStatuses.add(RequestStatus(name="Ожидание на платформе", id=6))
+        requestStatuses.add(RequestStatus(name="Используется в сделке", id=5))
+        requestStatuses.add(RequestStatus(name="Закрыто: успешно", id=8))
+        requestStatuses.add(RequestStatus(name="Закрыто: неактуально", id=4))
+        requestStatuses.add(RequestStatus(name="Закрыто: проблема", id=3))
 
         for (requestStatus in requestStatuses) {
             requestStatusRepository.save(requestStatus)

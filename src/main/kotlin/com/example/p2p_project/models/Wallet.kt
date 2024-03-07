@@ -9,14 +9,15 @@ data class Wallet(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = 0,
 
-    @ManyToOne(cascade = [CascadeType.ALL])
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cryptocurrency_id")
     val cryptocurrency: Cryptocurrency = Cryptocurrency(),
 
-    @ManyToOne(cascade = [CascadeType.ALL])
+    @ManyToOne(fetch=FetchType.LAZY, cascade = [CascadeType.ALL])
     @JoinColumn(name = "user_id")
-    val user: User = User(),
+    var user: User = User(),
 
+    @Column(name = "name")
     val name: String = "",
     @Column(name = "public_key")
     val publicKey: String = "",

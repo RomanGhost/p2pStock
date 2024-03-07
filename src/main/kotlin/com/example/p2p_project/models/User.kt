@@ -11,16 +11,7 @@ data class User(
 
     @Column(unique = true, nullable = true)
     val login: String="",
-    @Column(unique = false, nullable = true)
-    val phone: String?="",
-    @Column(unique = false, nullable = true)
-    val email: String?="",
 
+    @Column
     var password: String="",
-    @Column(name = "last_name", nullable = true)
-    val lastName: String?="",
-    @Column(name = "first_name", nullable = true)
-    val firstName: String?="",
-    @Column(nullable = true)
-    val patronymic: String?="",
 )

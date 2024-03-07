@@ -1,16 +1,16 @@
 package com.example.p2p_project.models.dataTables
 
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
+import jakarta.persistence.*
 
 @Entity
 data class DealStatus(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long?,
+    var id: Long? = 0,
 
-    val name: String,
-    val priority: Int
+    @Column
+    val name: String = "",
+
+    @Column
+    val priority: Int = -1
 )

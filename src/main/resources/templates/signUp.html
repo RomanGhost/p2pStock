@@ -85,26 +85,11 @@
         <label>Login*:</label><br>
         <input type="text" id="login" name="login" th:field="*{login}" required><br>
         <span id="loginError" class="error"><br></span>
-        <label>Phone:</label><br>
-        <input type="text" th:field="*{phone}"><br>
-
-        <label>Email:</label><br>
-        <input type="email" th:field="*{email}"><br>
-
-        <label>Last Name:</label><br>
-        <input type="text" th:field="*{lastName}"><br>
-
-        <label>First Name:</label><br>
-        <input type="text" th:field="*{firstName}"><br>
-
-        <label>Patronymic:</label><br>
-        <input type="text" th:field="*{patronymic}"><br>
 
         <label>Password*:</label><br>
         <input type="password" id="password" name="password" th:field="*{password}" required><br>
         <span id="passwordError" class="error"></span><br>
         <span th:if="${errorMessage}" class="error" th:text="${errorMessage}"></span><br>
-
 
         <input type="submit" value="Register">
     </form>

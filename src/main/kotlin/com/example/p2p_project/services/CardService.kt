@@ -21,10 +21,10 @@ class CardService(val cardRepository: CardRepository) {
         return card
     }
 
-    fun update(user: Card, id:Long): Card {
-        user.id = id
+    fun update(card: Card, id:Long): Card {
+        card.id = id
         if (cardRepository.existsById(id))
-            return cardRepository.save(user)
+            return cardRepository.save(card)
         else
             throw EntityNotFoundException("Card with id: $id not found")
     }

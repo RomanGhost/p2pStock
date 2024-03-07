@@ -41,27 +41,6 @@ class UserService(
         return user
     }
 
-    fun getByMail(email:String):User?{
-        val user = try{
-            userRepository.findByEmail(email)
-        }catch (ex: JpaObjectRetrievalFailureException){
-            throw EntityNotFoundException("User with email: $email not found")
-        }catch (ex: EmptyResultDataAccessException){
-            return null
-        }
-        return user
-    }
-    fun getByPhone(phone:String):User?{
-        val user = try{
-            userRepository.findByPhone(phone)
-        }catch (ex: JpaObjectRetrievalFailureException){
-            throw EntityNotFoundException("User with phone: $phone not found")
-        }catch (ex: EmptyResultDataAccessException){
-            return null
-        }
-        return user
-    }
-
     fun update(user:User,id:Long):User{
         user.id = id
         if (userRepository.existsById(id))

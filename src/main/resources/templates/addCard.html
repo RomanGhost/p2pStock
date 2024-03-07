@@ -7,7 +7,7 @@
 </head>
 <body>
 <h1>Add Card</h1>
-<form th:action="${link} + @{/card/submit}" method="post" th:object="${card}">
+<form th:action="${link} + @{/card/save}" method="post" th:object="${card}">
     <label for="cardNumber">Card Number:</label>
     <input type="text" id="cardNumber" name="cardNumber" th:field="*{cardNumber}" required><br>
     <span th:if="${errorMessage}" class="error" th:text="${errorMessage}"></span><br>

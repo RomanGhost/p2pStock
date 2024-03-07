@@ -5,8 +5,15 @@
     <title>Welcome</title>
 </head>
 <body>
-<h2>Welcome</h2>
-<p>Добро пожаловать, <span th:text="${login}"></span>!</p>
+<div>
+    <h2>Welcome</h2>
+    <p>Добро пожаловать, <span th:text="${login}"></span>!</p>
+
+    <ul>
+        <li><a href="/wallet/add">Добавить кошелек</a></li>
+        <!-- Добавьте другие пункты меню здесь -->
+    </ul>
+</div>
 </body>
 </html>
 

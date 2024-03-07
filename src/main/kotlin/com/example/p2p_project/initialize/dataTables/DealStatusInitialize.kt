@@ -14,12 +14,14 @@ class DealStatusInitialize(val dealStatusRepository: DealStatusRepository): Comm
         if (dealStatusRepository.count() != 0L) return;
         val dealStatuses: MutableList<DealStatus> = mutableListOf()
 
-        dealStatuses.add(DealStatus(null, "Ожидание перевода", 3))
-        dealStatuses.add(DealStatus(null, "Ожидание подтверждения перевода", 2))
-        dealStatuses.add(DealStatus(null, "Закрыто: успешно", 6))
-        dealStatuses.add(DealStatus(null, "Ожидание решения менеджера", 1))
-        dealStatuses.add(DealStatus(null, "Закрыто: Время перевода истекло", 4))
-        dealStatuses.add(DealStatus(null, "Закрыто: неактуально", 5))
+        dealStatuses.add(DealStatus(name="Ожидание перевода", priority=5))
+        dealStatuses.add(DealStatus(name="Подтверждение сделки", priority=3))
+        dealStatuses.add(DealStatus(name="Ожидание подтверждения перевода", priority=4))
+        dealStatuses.add(DealStatus(name="Закрыто: успешно", priority=8))
+        dealStatuses.add(DealStatus(name="Приостановлено: решение проблем", priority=2))
+        dealStatuses.add(DealStatus(name="Ожидание решения менеджера", priority=1))
+        dealStatuses.add(DealStatus(name="Закрыто: Время перевода истекло", priority=6))
+        dealStatuses.add(DealStatus(name="Закрыто: неактуально", priority=7))
 
         for (dealStatus in dealStatuses) {
             dealStatusRepository.save(dealStatus)

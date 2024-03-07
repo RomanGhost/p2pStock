@@ -10,11 +10,11 @@ data class UserRole(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long?=0,
 
-    @ManyToOne(cascade = [CascadeType.ALL])
+    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
     @JoinColumn(name = "user_id")
     val user: User,
 
-    @ManyToOne(cascade = [CascadeType.ALL])
+    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
     @JoinColumn(name = "role_id")
     val role: Role
 )

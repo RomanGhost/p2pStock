@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Wallet</title>
+</head>
+<body>
+<h1>Add wallet</h1>
+<form th:action="${link} + @{/wallet/save}" method="post" th:object="${wallet}">
+    <label for="walletName">Wallet name:</label>
+    <input type="text" id="walletName" name="walletName" th:field="*{name}" required><br>
+    <span th:if="${errorMessage}" class="error" th:text="${errorMessage}"></span><br>
+
+</form>
+</body>
+</html>

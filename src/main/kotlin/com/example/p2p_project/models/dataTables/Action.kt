@@ -1,9 +1,6 @@
 package com.example.p2p_project.models.dataTables
 
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
+import jakarta.persistence.*
 
 @Entity
 data class Action(
@@ -11,6 +8,9 @@ data class Action(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long?,
 
+    @Column
     val name: String,
+
+    @Column
     val description: String
 )

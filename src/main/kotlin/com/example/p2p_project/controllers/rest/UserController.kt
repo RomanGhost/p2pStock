@@ -21,17 +21,13 @@ class UserController(val userService: UserService) {
     fun update(
         @RequestBody user: User,
         @RequestParam(required = false) id:Long?,
-        @RequestParam(required = false) login: String?,
-        @RequestParam(required = false) mail: String?,
-        @RequestParam(required = false) phone: String?
+        @RequestParam(required = false) login: String?
     ): ResponseEntity<Any> {
 
         val userId: Long =
             when {
                 id != null -> id
                 login != null -> userService.getByLogin(login)?.id
-                mail != null -> userService.getByMail(mail)?.id
-                phone != null -> userService.getByPhone(phone)?.id
                 else -> null
             } ?: return ResponseEntity("No parameters", HttpStatus.BAD_REQUEST)
 
@@ -59,15 +55,11 @@ class UserController(val userService: UserService) {
 
     @GetMapping("/get_user")
     fun getByParams(
-        @RequestParam(required = false) login: String?,
-        @RequestParam(required = false) mail: String?,
-        @RequestParam(required = false) phone: String?
+        @RequestParam(required = false) login: String?
     ): ResponseEntity<Any> {
         val user: User =
             when {
                 login != null -> userService.getByLogin(login)
-                mail != null -> userService.getByMail(mail)
-                phone != null -> userService.getByPhone(phone)
                 else -> null
             }?: return ResponseEntity("No parameters", HttpStatus.BAD_REQUEST)
 

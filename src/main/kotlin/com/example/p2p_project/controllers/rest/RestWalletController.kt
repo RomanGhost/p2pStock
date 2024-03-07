@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("\${application.info.appLink}/wallet")
-class WalletController(val walletService: WalletService) {
+class RestWalletController(val walletService: WalletService) {
     @PostMapping("/add")
     fun add(@RequestBody wallet: Wallet): ResponseEntity<Wallet> {
         val newWallet = walletService.add(wallet)

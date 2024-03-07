@@ -11,32 +11,34 @@ data class Request(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long?=0,
 
-    @ManyToOne(cascade = [CascadeType.ALL])
+    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
     @JoinColumn(name = "wallet_id")
     val wallet: Wallet=Wallet(),
 
-    @ManyToOne(cascade = [CascadeType.ALL])
+    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
     @JoinColumn(name = "user_id")
     val user: User=User(),
 
-    @ManyToOne(cascade = [CascadeType.ALL])
+    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
     @JoinColumn(name = "card_id")
     val card: Card = Card(),
 
-    @ManyToOne(cascade = [CascadeType.ALL])
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "request_type_id")
     val requestType: RequestType= RequestType(),
 
-    @ManyToOne(cascade = [CascadeType.ALL])
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "request_status_id")
     val requestStatus: RequestStatus = RequestStatus(),
 
     @Column(name = "price_per_unit")
     val pricePerUnit: Double =0.0,
+    @Column
     val quantity: Double= 0.0,
+    @Column
     val description: String="",
     @Column(name = "create_date_time")
-    val createDateTime: LocalDateTime?=null,
+    val createDateTime: LocalDateTime = LocalDateTime.now(),
     @Column(name = "deadline_date_time")
-    val deadlineDateTime:LocalDateTime? = null
+    val deadlineDateTime:LocalDateTime = LocalDateTime.now()
 )
