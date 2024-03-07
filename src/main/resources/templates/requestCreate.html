@@ -7,7 +7,7 @@
 </head>
 <body>
 <h1>Create Request</h1>
-<form action="#" th:action="${link} + @{/submit_request}" th:object="${request}" method="post">
+<form action="#" th:action="@{/submit_request}" th:object="${request}" method="post">
 \
     <label for="user">User:</label>
     <input type="text" id="user" name="user" th:field="*{user}" required><br><br>

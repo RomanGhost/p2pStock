@@ -8,10 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
-@RequestMapping("\${application.info.appLink}/request")
+@RequestMapping("/request")
 class RequestController {
-   @Value("\${application.info.appLink}")
-    private lateinit var appLink: String
+
 
     @GetMapping("/create")
     fun createRequest(model: Model):String{

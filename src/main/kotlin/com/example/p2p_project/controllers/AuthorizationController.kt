@@ -4,7 +4,6 @@ import com.example.p2p_project.models.User
 import com.example.p2p_project.services.AuthenticationService
 import com.example.p2p_project.services.UserRoleService
 import com.example.p2p_project.services.UserService
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
@@ -16,19 +15,18 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 
 @Controller
-@RequestMapping("\${application.info.appLink}")
+@RequestMapping("")
 class AuthorizationController(
     val userService: UserService,
     val userRoleService: UserRoleService,
     val authenticationService:AuthenticationService
 ) {
-   @Value("\${application.info.appLink}")
-    private lateinit var appLink: String
+
 
     @GetMapping("/sign-up")
     fun showSignUp(model:Model, redirectAttributes: RedirectAttributes):String{
         val user:User = User()
-        model.addAttribute("link", appLink)
+        
         model.addAttribute("user", user)
         return "signUp"
     }
@@ -42,17 +40,17 @@ class AuthorizationController(
 
         // В случае, если пользователь найден, переотправить на sign-in
         if (user != null){
-            return "redirect:${appLink}/sign-in"
+            return "redirect:/sign-in"
         }
 
-        model.addAttribute("link", appLink)
+        
         if (newUser.password.length < 8) {
             redirectAttributes.addFlashAttribute("errorMessage", "Card number is too short")
-            return "redirect:${appLink}/sign-in"
+            return "redirect:/sign-in"
         }
         if (newUser.login.length < 2) {
             redirectAttributes.addFlashAttribute("errorMessage", "Card number is too short")
-            return "redirect:${appLink}/sign-in"
+            return "redirect:/sign-in"
         }
 
         val registerUser  = userService.add(newUser)
@@ -61,12 +59,12 @@ class AuthorizationController(
         //TODO("Реализовать вход пользователя в личный кабинет без формы входа")
         authenticationService.authenticateUser(registerUser.login, registerUser.password);
 
-        return "redirect:${appLink}/account/welcome"
+        return "redirect:/account/welcome"
     }
 
     @GetMapping("/sign-in")
     fun showSignIn(model:Model):String{
-        model.addAttribute("link", appLink)
+        
         return "signIn"
     }
 

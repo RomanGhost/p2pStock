@@ -2,14 +2,13 @@ package com.example.p2p_project.controllers.rest
 
 import com.example.p2p_project.models.Deal
 import com.example.p2p_project.services.DealService
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 
 @RestController
-@RequestMapping("\${application.info.appLink}/deal")
+@RequestMapping("\${application.info.apiLink}/deal")
 class DealController(val dealService: DealService) {
 
     @PostMapping("/add")

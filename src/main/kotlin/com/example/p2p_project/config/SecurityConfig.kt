@@ -2,7 +2,6 @@ package com.example.p2p_project.config
 
 import com.example.p2p_project.handlers.AuthErrorHandler
 import com.example.p2p_project.services.MyUserDetailsService
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationProvider
@@ -17,8 +16,7 @@ import org.springframework.security.web.SecurityFilterChain
 @Configuration
 @EnableWebSecurity
 class SecurityConfig {
-   @Value("\${application.info.appLink}")
-    private lateinit var appLink: String
+
     @Bean
     fun userDetailsService(): UserDetailsService {
         return MyUserDetailsService()
@@ -29,14 +27,14 @@ class SecurityConfig {
     fun securityFilterChain(httpSecurity: HttpSecurity): SecurityFilterChain {
         return httpSecurity.csrf{it.disable()}
             .authorizeHttpRequests {
-                it.requestMatchers("${appLink}/sign-in/**", "${appLink}/sign-up/**").permitAll()
-                it.requestMatchers("${appLink}/**").authenticated()
+                it.requestMatchers("/sign-in/**", "/sign-up/**").permitAll()
+                it.requestMatchers("/**").authenticated()
                 it.anyRequest().permitAll()
             }
             .formLogin{
-                it.loginPage("${appLink}/sign-in")
-                it.failureHandler(AuthErrorHandler(appLink))
-                it.defaultSuccessUrl("${appLink}/account/welcome")
+                it.loginPage("/sign-in")
+                it.failureHandler(AuthErrorHandler())
+                it.defaultSuccessUrl("/account/welcome")
             }
             .build()
     }

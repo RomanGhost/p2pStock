@@ -7,7 +7,7 @@
 </head>
 <body>
 <h1>Add wallet</h1>
-<form th:action="${link} + @{/wallet/save}" method="post" th:object="${wallet}">
+<form th:action="@{/wallet/save}" method="post" th:object="${wallet}">
     <label for="walletName">Wallet name:</label>
     <input type="text" id="walletName" name="walletName" th:field="*{name}" required><br>
     <span th:if="${errorMessage}" class="error" th:text="${errorMessage}"></span><br>
