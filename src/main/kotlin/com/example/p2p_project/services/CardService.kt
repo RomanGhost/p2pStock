@@ -36,4 +36,8 @@ class CardService(val cardRepository: CardRepository) {
     fun add(card: Card): Card {
         return cardRepository.save(card)
     }
+
+    fun getByUserId(userId:Long):List<Card>{
+        return cardRepository.findByUserId(userId)
+    }
 }

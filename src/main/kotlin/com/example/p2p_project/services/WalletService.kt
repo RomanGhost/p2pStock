@@ -1,7 +1,7 @@
 package com.example.p2p_project.services
 
-import com.example.p2p_project.repositories.WalletRepository
 import com.example.p2p_project.models.Wallet
+import com.example.p2p_project.repositories.WalletRepository
 import jakarta.persistence.EntityNotFoundException
 import org.springframework.orm.jpa.JpaObjectRetrievalFailureException
 import org.springframework.stereotype.Service
@@ -35,5 +35,9 @@ class WalletService(val walletRepository: WalletRepository) {
 
     fun add(wallet: Wallet): Wallet {
         return walletRepository.save(wallet)
+    }
+
+    fun getByUserId(userId:Long):List<Wallet>{
+        return walletRepository.findByUserId(userId)
     }
 }

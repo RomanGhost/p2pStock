@@ -28,6 +28,42 @@
         <li><a href="/card/add">Добавить карту</a></li>
         <!-- Добавьте другие пункты меню здесь -->
     </ul>
+
+    <h3>Карты</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Название</th>
+            <th>Номер карты</th>
+            <th>Банк</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="card : ${cards}">
+            <td th:text="${card.name}"></td>
+            <td th:text="${card.cardNumber}"></td>
+            <td th:text="${card.bank.name}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>Кошельки</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Название</th>
+            <th>Тип криптовалюты</th>
+            <th>Адресс</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="wallet : ${wallets}">
+            <td th:text="${wallet.name}"></td>
+            <td th:text="${wallet.cryptocurrency.code}"></td>
+            <td th:text="${wallet.publicKey}"></td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 </body>
 </html>
