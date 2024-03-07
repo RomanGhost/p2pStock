@@ -81,7 +81,7 @@
 <body>
 <div class="container">
     <h2>User Registration Form</h2>
-    <form action="#" th:action="@{/sign-up/save}" th:object="${user}" method="post" onsubmit="return validateForm()">
+    <form action="#" th:action="@{/auth/sign-up/save}" th:object="${user}" method="post" onsubmit="return validateForm()">
         <label>Login*:</label><br>
         <input type="text" id="login" name="login" th:field="*{login}" required><br>
         <span id="loginError" class="error"><br></span>
@@ -93,7 +93,7 @@
 
         <input type="submit" value="Register">
     </form>
-    <a th:href="@{/sign-in}" class="signInLink">Sign In</a>
+    <a th:href="@{/auth/sign-in}" class="signInLink">Sign In</a>
 </div>
 
 <script>

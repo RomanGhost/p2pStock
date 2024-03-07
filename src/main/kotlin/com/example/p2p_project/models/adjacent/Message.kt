@@ -15,7 +15,7 @@ data class Message (
     val user1: User = User(),
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user1")
+    @JoinColumn(name = "user2")
     val user2: User = User(),
 
     @Column

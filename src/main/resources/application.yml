@@ -11,7 +11,7 @@ spring:
 
 application:
   info:
-    api: "/api/v1/p2p"
+    apiLink: "/api/v1/p2p"
 
 token:
   signing:

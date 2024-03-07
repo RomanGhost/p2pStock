@@ -4,14 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Wallet</title>
+    <style>
+        .crypto-option {
+            display: flex;
+            align-items: center;
+        }
+        .crypto-code {
+            margin-right: 10px;
+        }
+    </style>
 </head>
 <body>
 <h1>Add wallet</h1>
 <form th:action="@{/wallet/save}" method="post" th:object="${wallet}">
     <label for="walletName">Wallet name:</label>
     <input type="text" id="walletName" name="walletName" th:field="*{name}" required><br>
-    <span th:if="${errorMessage}" class="error" th:text="${errorMessage}"></span><br>
+    <span th:if="${errorMessage}" class="error" th:text="${errorMessage}"><br></span><br>
 
+    <label for="cryptocurrency">Cryptocurrency:</label>
+    <select id="cryptocurrency" name="cryptocurrency" th:field="*{cryptocurrency}" required>
+        <option th:each="cryptocurrency : ${cryptocurrencies}" th:value="${cryptocurrency.id}">
+            <div class="crypto-option">
+                <span class="crypto-code" th:text="${cryptocurrency.code}"></span>
+                <span th:text="${cryptocurrency.name}"></span>
+            </div>
+        </option>
+    </select><br><br>
+
+    <input type="submit" value="Add Wallet">
 </form>
 </body>
 </html>

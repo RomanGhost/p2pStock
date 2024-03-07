@@ -25,7 +25,7 @@ class WalletController(
     fun getAddNewWallet(model: Model, redirectAttributes: RedirectAttributes) :String{
         val cryptocurrency = cryptocurrencyService.getAll()
 
-        model.addAttribute("cryptocurrency", cryptocurrency)
+        model.addAttribute("cryptocurrencies", cryptocurrency)
         model.addAttribute("wallet", Wallet())
         
 

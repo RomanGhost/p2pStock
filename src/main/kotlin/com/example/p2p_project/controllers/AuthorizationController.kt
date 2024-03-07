@@ -15,7 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 
 @Controller
-@RequestMapping("")
+@RequestMapping("/auth")
 class AuthorizationController(
     val userService: UserService,
     val userRoleService: UserRoleService,
@@ -37,20 +37,18 @@ class AuthorizationController(
                redirectAttributes:RedirectAttributes
     ):String{
         val user = userService.getByLogin(newUser.login)
-
         // В случае, если пользователь найден, переотправить на sign-in
         if (user != null){
-            return "redirect:/sign-in"
+            return "redirect:/auth/sign-in"
         }
 
-        
         if (newUser.password.length < 8) {
             redirectAttributes.addFlashAttribute("errorMessage", "Card number is too short")
-            return "redirect:/sign-in"
+            return "redirect:/auth/sign-in"
         }
         if (newUser.login.length < 2) {
             redirectAttributes.addFlashAttribute("errorMessage", "Card number is too short")
-            return "redirect:/sign-in"
+            return "redirect:/auth/sign-in"
         }
 
         val registerUser  = userService.add(newUser)

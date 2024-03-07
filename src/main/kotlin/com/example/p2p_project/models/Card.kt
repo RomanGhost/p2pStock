@@ -13,6 +13,9 @@ data class Card(
     @JoinColumn(name = "user_id")
     var user: User = User(),
 
+    @Column
+    val name:String = "",
+
     @Column(name = "card_number")
     var cardNumber: String = "",
 

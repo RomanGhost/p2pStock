@@ -81,7 +81,7 @@
 <body>
 <div class="container">
     <h1>Please Log In</h1>
-    <form action="#" th:action="@{/sign-in}" method="post">
+    <form action="#" th:action="@{/auth/sign-in}" method="post">
         <label>Login*:</label><br>
         <input type="text" name="username" placeholder="Username"/><br>
 
@@ -90,7 +90,7 @@
 
         <input type="submit" value="Enter">
     </form>
-    <a th:href="@{/sign-up}" style="color: #2a5885; text-decoration: none;">Register</a>
+    <a th:href="@{/auth/sign-up}" style="color: #2a5885; text-decoration: none;">Register</a>
 
     <div th:if="${param.error}" class="error">
         Invalid password.
