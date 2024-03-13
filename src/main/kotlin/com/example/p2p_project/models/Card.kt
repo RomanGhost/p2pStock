@@ -14,7 +14,7 @@ data class Card(
     var user: User = User(),
 
     @Column
-    val name:String = "",
+    val cardName:String = "",
 
     @Column(name = "card_number")
     var cardNumber: String = "",

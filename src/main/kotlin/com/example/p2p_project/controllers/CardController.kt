@@ -31,7 +31,7 @@ class CardController(
     }
 
     @PostMapping("/save")
-    fun submitNewCard(
+    fun saveNewCard(
         @ModelAttribute("card") card: Card,
         authentication: Authentication,
         redirectAttributes: RedirectAttributes
@@ -39,6 +39,7 @@ class CardController(
         val userDetails = authentication.principal as MyUserDetails
         card.user = userDetails.user
 
+        //TODO("Сделать проверку на то, есть ли данная карта у пользователя")
         if (card.cardNumber.length < 16){
             redirectAttributes.addFlashAttribute("errorMessage", "Card number is too short")
             return "redirect:/card/add?error"

@@ -26,6 +26,7 @@
     <ul>
         <li><a href="/wallet/add">Добавить кошелек</a></li>
         <li><a href="/card/add">Добавить карту</a></li>
+        <li><a href="/request/add">Создать заявку</a></li>
         <!-- Добавьте другие пункты меню здесь -->
     </ul>
 
@@ -40,7 +41,7 @@
         </thead>
         <tbody>
         <tr th:each="card : ${cards}">
-            <td th:text="${card.name}"></td>
+            <td th:text="${card.cardName}"></td>
             <td th:text="${card.cardNumber}"></td>
             <td th:text="${card.bank.name}"></td>
         </tr>

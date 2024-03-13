@@ -9,7 +9,7 @@
 <h1>Add Card</h1>
 <form th:action="@{/card/save}" method="post" th:object="${card}">
     <label for="cardName">Card Name:</label>
-    <input type="text" id="cardName" name="cardName" th:field="*{name}" required><br>
+    <input type="text" id="cardName" name="cardName" th:field="*{cardName}" required><br>
 
 
     <label for="cardNumber">Card Number:</label>
