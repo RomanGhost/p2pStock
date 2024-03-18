@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface RequestStatusRepository:JpaRepository<RequestStatus, Long> {
+    fun findByName(name:String):RequestStatus
 }

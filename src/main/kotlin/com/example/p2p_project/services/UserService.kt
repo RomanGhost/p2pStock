@@ -20,7 +20,7 @@ class UserService(
         return userRepository.findAll()
     }
 
-    fun getById(id:Long):User?{
+    fun getById(id:Long):User{
         val user = try{
             userRepository.getReferenceById(id)
         }catch (ex: JpaObjectRetrievalFailureException){

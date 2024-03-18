@@ -7,21 +7,19 @@ import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 
 @Component
-
 class RequestStatusInitialize(val requestStatusRepository: RequestStatusRepository): CommandLineRunner {
     @Transactional
     override fun run(vararg args: String?) {
         if (requestStatusRepository.count() != 0L) return;
         val requestStatuses: MutableList<RequestStatus> = mutableListOf()
 
-        requestStatuses.add(RequestStatus(name="Создание", id=7))
-        requestStatuses.add(RequestStatus(name="Модерация", id=1))
-        requestStatuses.add(RequestStatus(name="Отправлено на доработку", id=2))
-        requestStatuses.add(RequestStatus(name="Ожидание на платформе", id=6))
-        requestStatuses.add(RequestStatus(name="Используется в сделке", id=5))
-        requestStatuses.add(RequestStatus(name="Закрыто: успешно", id=8))
-        requestStatuses.add(RequestStatus(name="Закрыто: неактуально", id=4))
-        requestStatuses.add(RequestStatus(name="Закрыто: проблема", id=3))
+        requestStatuses.add(RequestStatus(name="Модерация"))
+        requestStatuses.add(RequestStatus(name="Отправлено на доработку"))
+        requestStatuses.add(RequestStatus(name="Ожидание на платформе"))
+        requestStatuses.add(RequestStatus(name="Используется в сделке"))
+        requestStatuses.add(RequestStatus(name="Закрыто: успешно"))
+        requestStatuses.add(RequestStatus(name="Закрыто: неактуально"))
+        requestStatuses.add(RequestStatus(name="Закрыто: проблема"))
 
         for (requestStatus in requestStatuses) {
             requestStatusRepository.save(requestStatus)

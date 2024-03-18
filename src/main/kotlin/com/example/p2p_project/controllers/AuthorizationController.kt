@@ -43,12 +43,12 @@ class AuthorizationController(
         }
 
         if (newUser.password.length < 8) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Card number is too short")
-            return "redirect:/auth/sign-in"
+            redirectAttributes.addFlashAttribute("errorMessage", "Password is too short")
+            return "redirect:/auth/sign-up"
         }
         if (newUser.login.length < 2) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Card number is too short")
-            return "redirect:/auth/sign-in"
+            redirectAttributes.addFlashAttribute("errorMessage", "Login length is too short")
+            return "redirect:/auth/sign-up"
         }
 
         val registerUser  = userService.add(newUser)

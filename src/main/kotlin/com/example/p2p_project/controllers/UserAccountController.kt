@@ -2,6 +2,7 @@ package com.example.p2p_project.controllers
 
 import com.example.p2p_project.config.MyUserDetails
 import com.example.p2p_project.services.CardService
+import com.example.p2p_project.services.RequestService
 import com.example.p2p_project.services.WalletService
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Controller
@@ -14,7 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping
 
 class UserAccountController(
     private val walletService: WalletService,
-    private val cardService: CardService
+    private val cardService: CardService,
+    private val requestService: RequestService
 ) {
 
     @GetMapping("/welcome")
@@ -25,10 +27,12 @@ class UserAccountController(
 
         val cards = cardService.getByUserId(userId)
         val wallets = walletService.getByUserId(userId)
+        val requests = requestService.getByUserId(userId)
 
         model.addAttribute("login", login)
         model.addAttribute("cards", cards)
         model.addAttribute("wallets", wallets)
+        model.addAttribute("requests", requests)
 
 
         return "welcome"

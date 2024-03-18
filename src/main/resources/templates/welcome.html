@@ -65,6 +65,40 @@
         </tr>
         </tbody>
     </table>
+
+    <h3>Заявки пользователя</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Номер заявки</th>
+            <th>Тип заявки</th>
+            <th>Итоговая цена</th>
+            <th>Название кошелька</th>
+            <th>Название карты</th>
+            <th>Статус сделки</th>
+            <th>Последнее изменение</th>
+            <th>Цена за единицу</th>
+            <th>Количество</th>
+            <th>Время создания</th>
+            <th>Время закрытия</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="request : ${requests}">
+            <td th:text="${request.id}"></td>
+            <td th:text="${request.requestType}"></td>
+            <td th:text="${request.quantity * request.pricePerUnit}"></td>
+            <td th:text="${request.wallet.name}"></td>
+            <td th:text="${request.card.cardName}"></td>
+            <td th:text="${request.requestStatus.name}"></td>
+            <td th:text="${request.lastChangeStatusDateTime}"></td>
+            <td th:text="${request.pricePerUnit}"></td>
+            <td th:text="${request.quantity}"></td>
+            <td th:text="${request.createDateTime}"></td>
+            <td th:text="${request.deadlineDateTime}"></td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 </body>
 </html>

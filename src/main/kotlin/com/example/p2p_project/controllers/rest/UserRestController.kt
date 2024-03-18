@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("\${application.info.apiLink}/user")
-class UserController(val userService: UserService) {
+class UserRestController(val userService: UserService) {
     @PostMapping("/add")
     fun add(@RequestBody user: User): ResponseEntity<User> {
         val newUser = userService.add(user)

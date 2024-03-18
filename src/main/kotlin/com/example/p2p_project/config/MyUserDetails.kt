@@ -35,4 +35,8 @@ class MyUserDetails(val user:User, private val roles:List<Role>):UserDetails {
     override fun isEnabled(): Boolean {
         return true
     }
+
+    fun getUserId(): Long{
+        return user.id
+    }
 }

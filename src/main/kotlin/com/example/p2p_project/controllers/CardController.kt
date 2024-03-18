@@ -24,6 +24,7 @@ class CardController(
     @GetMapping("/add")
     fun getAddNewCard(model:Model, redirectAttributes: RedirectAttributes):String {
         val banks = bankService.getAll()
+
         model.addAttribute("banks", banks)
         model.addAttribute("card", Card())
         
@@ -40,7 +41,7 @@ class CardController(
         card.user = userDetails.user
 
         //TODO("Сделать проверку на то, есть ли данная карта у пользователя")
-        if (card.cardNumber.length < 16){
+        if (card.cardNumber.length == 16){
             redirectAttributes.addFlashAttribute("errorMessage", "Card number is too short")
             return "redirect:/card/add?error"
         }

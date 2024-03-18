@@ -15,8 +15,8 @@ class MyUserDetailsService:UserDetailsService {
     @Autowired
     lateinit var userRoleRepository: UserRoleRepository
     override fun loadUserByUsername(username: String): MyUserDetails {
-        val user = userRepository.findByLogin(username) ?: throw LoginNotFoundException("User with $username not found")
-        val roles = userRoleRepository.findRoleByUserId(user.id!!)
+        val user = userRepository.findByLogin(username) ?: throw LoginNotFoundException("User with login $username not found")
+        val roles = userRoleRepository.findRoleByUserId(user.id)
         return MyUserDetails(user, roles)
     }
 }

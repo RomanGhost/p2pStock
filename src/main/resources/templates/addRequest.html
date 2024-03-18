@@ -7,7 +7,7 @@
 </head>
 <body>
 <h1>Create Request</h1>
-<form action="#" th:action="@{/submit_request}" th:object="${request}" method="post">
+<form action="#" th:action="@{/request/save}" th:object="${request}" method="post">
     <label for="requestType">Тип заявки:</label>
     <select id="requestType" name="requestType" th:field="*{requestType}">
         <option th:each="type : ${types}" th:value="${type.id}" th:text="${type.name}"></option>
@@ -24,13 +24,15 @@
     </select><br><br>
 
     <label for="pricePerUnit">Price Per Unit:</label>
-    <input type="number" id="pricePerUnit" name="pricePerUnit" step="0.01" th:field="*{pricePerUnit}" required><br><br>
+    <input type="number" id="pricePerUnit" name="pricePerUnit" step="0.1" th:field="*{pricePerUnit}" required><br>
+    <span th:if="${priceError}" class="error" th:text="${priceError}"><br></span><br>
 
     <label for="quantity">Quantity:</label>
-    <input type="number" id="quantity" name="quantity" step="0.01" th:field="*{quantity}" required><br><br>
+    <input type="number" id="quantity" name="quantity" step="0.01" th:field="*{quantity}" required><br>
+    <span th:if="${quantityError}" class="error" th:text="${quantityError}"><BR></span><br>
 
     <label for="description">Description:</label><br>
-    <textarea id="description" name="description" rows="4" cols="50" th:field="*{description}" required></textarea><br><br>
+    <textarea id="description" name="description" rows="4" cols="50" th:field="*{description}"></textarea><br><br>
 
     <input type="submit" value="Submit">
 </form>
