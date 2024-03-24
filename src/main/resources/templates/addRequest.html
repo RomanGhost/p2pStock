@@ -20,7 +20,7 @@
 
     <label for="card">Card:</label>
     <select id="card" name="card" th:field="*{card}">
-        <option th:each="card : ${cards}" th:value="${card.id}" th:text="${card.cardNumber}"></option>
+        <option th:each="card : ${cards}" th:value="${card.id}" th:text="${card.cardName}"></option>
     </select><br><br>
 
     <label for="pricePerUnit">Price Per Unit:</label>

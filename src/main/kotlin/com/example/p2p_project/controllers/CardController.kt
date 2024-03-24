@@ -40,13 +40,16 @@ class CardController(
         val userDetails = authentication.principal as MyUserDetails
         card.user = userDetails.user
 
-        //TODO("Сделать проверку на то, есть ли данная карта у пользователя")
-        if (card.cardNumber.length == 16){
+        if (cardService.existsByCardNumber(card.cardNumber) ){
+            redirectAttributes.addFlashAttribute("errorMessage", "Card number is exist")
+            return "redirect:/card/add?error"
+        }
+        if (card.cardNumber.length != 16){
             redirectAttributes.addFlashAttribute("errorMessage", "Card number is too short")
             return "redirect:/card/add?error"
         }
 
         cardService.add(card)
-        return "redirect:/account/welcome"
+        return "redirect:/platform/account/welcome"
     }
 }

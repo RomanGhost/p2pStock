@@ -27,14 +27,14 @@ class SecurityConfig {
     fun securityFilterChain(httpSecurity: HttpSecurity): SecurityFilterChain {
         return httpSecurity.csrf{it.disable()}
             .authorizeHttpRequests {
-                it.requestMatchers("/auth/sign-in/**", "/auth/sign-up/**").permitAll()
+                it.requestMatchers("/auth/sign-in/**", "/auth/sign-up/**", "/api/**r").permitAll()
                 it.requestMatchers("/**").authenticated()
                 it.anyRequest().permitAll()
             }
             .formLogin{
                 it.loginPage("/auth/sign-in")
                 it.failureHandler(AuthErrorHandler())
-                it.defaultSuccessUrl("/account/welcome")
+                it.defaultSuccessUrl("/platform/account/welcome")
             }
             .build()
     }

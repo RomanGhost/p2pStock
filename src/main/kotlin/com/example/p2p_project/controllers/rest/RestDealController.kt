@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("\${application.info.apiLink}/deal")
-class DealController(val dealService: DealService) {
+class RestDealController(val dealService: DealService) {
 
     @PostMapping("/add")
     fun add(@RequestBody deal: Deal):ResponseEntity<Deal>{

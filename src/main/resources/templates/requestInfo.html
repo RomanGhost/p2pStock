@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Request Info</title>
+</head>
+<body>
+<h2>Request Information</h2>
+<form action="#" th:action="@{/deal/add}" method="post">
+    <input type="hidden" th:field="${request.id}"/>
+    <div>
+        <label>Request Type: </label>
+        <span th:text="${request.requestType.name}"></span>
+    </div>
+    <div>
+        <label>Wallet: </label>
+        <span th:text="${request.wallet.name}"></span>
+    </div>
+    <div>
+        <label>User: </label>
+        <span th:text="${request.user.login}"></span>
+    </div>
+    <div>
+        <label>Card: </label>
+        <span th:text="${request.card.cardName}"></span>
+    </div>
+    <div>
+        <label>Request Status: </label>
+        <span th:text="${request.requestStatus.name}"></span>
+    </div>
+    <div>
+        <label>Price Per Unit: </label>
+        <span th:text="${request.pricePerUnit}"></span>
+    </div>
+    <div>
+        <label>Quantity: </label>
+        <span th:text="${request.quantity}"></span>
+    </div>
+    <div>
+        <label>Description: </label>
+        <span th:text="${request.description}"></span>
+    </div>
+    <div th:if="${isInitiator}">
+        <!-- Если пользователь инициатор заявки, скрыть кнопку создания сделки -->
+        <p>Вы не можете создать сделку по этой заявке, так как вы ее инициировали.</p>
+    </div>
+    <div th:unless="${isInitiator}">
+        <!-- Если пользователь не является инициатором заявки, отобразить кнопку создания сделки -->
+        <form th:action="@{/submitDeal}" method="post">
+            <button type="submit">Создать сделку</button>
+        </form>
+    </div>
+</form>
+</body>
+</html>

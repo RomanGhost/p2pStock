@@ -40,4 +40,8 @@ class CardService(val cardRepository: CardRepository) {
     fun getByUserId(userId:Long):List<Card>{
         return cardRepository.findByUserId(userId)
     }
+
+    fun existsByCardNumber(cardNumber:String):Boolean{
+        return cardRepository.existsByCardNumber(cardNumber)
+    }
 }

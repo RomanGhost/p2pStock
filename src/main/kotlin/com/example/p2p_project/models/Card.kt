@@ -16,7 +16,7 @@ data class Card(
     @Column
     val cardName:String = "",
 
-    @Column(name = "card_number")
+    @Column(name = "card_number", unique = true)
     var cardNumber: String = "",
 
     @ManyToOne(fetch = FetchType.LAZY)

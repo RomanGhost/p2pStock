@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository
 @Repository
 interface CardRepository : JpaRepository<Card, Long>{
     fun findByUserId(userId:Long):List<Card>
+    fun existsByCardNumber(cardNumber:String):Boolean
 }

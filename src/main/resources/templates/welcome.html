@@ -86,7 +86,7 @@
         <tbody>
         <tr th:each="request : ${requests}">
             <td th:text="${request.id}"></td>
-            <td th:text="${request.requestType}"></td>
+            <td th:text="${request.requestType.name}"></td>
             <td th:text="${request.quantity * request.pricePerUnit}"></td>
             <td th:text="${request.wallet.name}"></td>
             <td th:text="${request.card.cardName}"></td>

@@ -47,6 +47,6 @@ class WalletController(
         wallet.user = userDetails.user
 
         walletService.add(wallet)
-        return "redirect:/account/welcome"
+        return "redirect:/platform/account/welcome"
     }
 }

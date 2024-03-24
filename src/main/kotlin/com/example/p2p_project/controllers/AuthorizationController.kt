@@ -57,7 +57,7 @@ class AuthorizationController(
         //TODO("Реализовать вход пользователя в личный кабинет без формы входа")
         authenticationService.authenticateUser(registerUser.login, registerUser.password);
 
-        return "redirect:/account/welcome"
+        return "redirect:/platform/account/welcome"
     }
 
     @GetMapping("/sign-in")
