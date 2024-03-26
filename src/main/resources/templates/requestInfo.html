@@ -5,9 +5,8 @@
     <title>Request Info</title>
 </head>
 <body>
-<h2>Request Information</h2>
-<form action="#" th:action="@{/deal/add}" method="post">
-    <input type="hidden" th:field="${request.id}"/>
+<div>
+    <h2>Request Information</h2>
     <div>
         <label>Request Type: </label>
         <span th:text="${request.requestType.name}"></span>
@@ -40,16 +39,28 @@
         <label>Description: </label>
         <span th:text="${request.description}"></span>
     </div>
-    <div th:if="${isInitiator}">
-        <!-- Если пользователь инициатор заявки, скрыть кнопку создания сделки -->
-        <p>Вы не можете создать сделку по этой заявке, так как вы ее инициировали.</p>
-    </div>
-    <div th:unless="${isInitiator}">
-        <!-- Если пользователь не является инициатором заявки, отобразить кнопку создания сделки -->
-        <form th:action="@{/submitDeal}" method="post">
-            <button type="submit">Создать сделку</button>
-        </form>
-    </div>
-</form>
+</div>
+<br>
+<br>
+<div th:if="${isAccess}">
+    <form action="#" th:action="@{'/deal/add'}" method="post">
+        <input type="hidden" th:name="requestId" th:value="${request.id}"/>
+        <div th:if="${isBuying}">
+            <label for="walletId">Select Wallet:</label>
+            <select id="walletId" name="walletId">
+                <option th:each="wallet : ${wallets}" th:value="${wallet.id}" th:text="${wallet.name}"></option>
+            </select>
+        </div>
+        <div th:if="${!isBuying}">
+            <label for="cardId">Select Card:</label>
+            <select id="cardId" name="cardId">
+                <option th:each="card : ${cards}" th:value="${card.id}" th:text="${card.cardName}"></option>
+            </select>
+        </div>
+
+        <button type="submit">Create Deal</button>
+    </form>
+</div>
+
 </body>
 </html>

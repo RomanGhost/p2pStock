@@ -15,7 +15,7 @@ class RequestStatusInitialize(val requestStatusRepository: RequestStatusReposito
 
         requestStatuses.add(RequestStatus(name="Модерация"))
         requestStatuses.add(RequestStatus(name="Отправлено на доработку"))
-        requestStatuses.add(RequestStatus(name="Ожидание на платформе"))
+        requestStatuses.add(RequestStatus(name="Доступна на платформе"))
         requestStatuses.add(RequestStatus(name="Используется в сделке"))
         requestStatuses.add(RequestStatus(name="Закрыто: успешно"))
         requestStatuses.add(RequestStatus(name="Закрыто: неактуально"))

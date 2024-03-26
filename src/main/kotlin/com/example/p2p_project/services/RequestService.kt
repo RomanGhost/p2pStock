@@ -11,9 +11,9 @@ import java.time.LocalDateTime
 @Service
 class RequestService(val requestRepository: RequestRepository, val requestStatusRepository: RequestStatusRepository) {
     fun add(request: Request, requestStatusName:String=""):Request {
-        if (requestStatusName != ""){
+        if(requestStatusName != "")
             request.requestStatus = requestStatusRepository.findByName(requestStatusName)
-        }
+
         request.createDateTime = LocalDateTime.now()
         request.deadlineDateTime = request.createDateTime.plusDays(1)
 
@@ -46,6 +46,15 @@ class RequestService(val requestRepository: RequestRepository, val requestStatus
         else
             throw EntityNotFoundException("Request with id: $id not found")
 
+    }
+
+    fun updateStatus(request: Request, id:Long, requestStatusName:String):Request{
+        if (!requestRepository.existsById(id))
+            throw EntityNotFoundException("Request with id: $id not found")
+
+        request.id = id
+        request.requestStatus = requestStatusRepository.findByName(requestStatusName)
+        return requestRepository.save(request)
     }
 
     fun getByUserId(userId:Long): List<Request> {

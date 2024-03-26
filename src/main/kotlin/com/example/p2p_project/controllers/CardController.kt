@@ -2,7 +2,7 @@ package com.example.p2p_project.controllers
 
 import com.example.p2p_project.config.MyUserDetails
 import com.example.p2p_project.models.Card
-import com.example.p2p_project.services.BankService
+import com.example.p2p_project.services.dataServices.BankService
 import com.example.p2p_project.services.CardService
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Controller

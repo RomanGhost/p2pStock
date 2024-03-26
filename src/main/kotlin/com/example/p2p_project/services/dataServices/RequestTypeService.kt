@@ -10,4 +10,8 @@ class RequestTypeService(private val requestTypeRepository: RequestTypeRepositor
     fun getAll(): MutableList<RequestType> {
         return requestTypeRepository.findAll()
     }
+
+    fun getByName(name:String):RequestType{
+        return requestTypeRepository.findByName(name)
+    }
 }

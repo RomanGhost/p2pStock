@@ -1,4 +1,4 @@
-package com.example.p2p_project.services
+package com.example.p2p_project.services.dataServices
 
 import com.example.p2p_project.models.User
 import com.example.p2p_project.models.adjacent.UserRole

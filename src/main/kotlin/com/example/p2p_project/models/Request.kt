@@ -16,16 +16,16 @@ data class Request(
     val requestType: RequestType = RequestType(),
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
-    @JoinColumn(name = "wallet_id")
-    val wallet: Wallet=Wallet(),
+    @JoinColumn(name = "wallet_id", nullable = true)
+    val wallet: Wallet? = Wallet(),
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
     @JoinColumn(name = "user_id")
     var user: User=User(),
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
-    @JoinColumn(name = "card_id")
-    val card: Card = Card(),
+    @JoinColumn(name = "card_id", nullable = true)
+    val card: Card? = Card(),
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "request_status_id")

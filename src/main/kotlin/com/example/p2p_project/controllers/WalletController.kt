@@ -2,7 +2,7 @@ package com.example.p2p_project.controllers
 
 import com.example.p2p_project.config.MyUserDetails
 import com.example.p2p_project.models.Wallet
-import com.example.p2p_project.services.CryptocurrencyService
+import com.example.p2p_project.services.dataServices.CryptocurrencyService
 import com.example.p2p_project.services.WalletService
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Controller

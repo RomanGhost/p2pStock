@@ -1,4 +1,4 @@
-package com.example.p2p_project.services
+package com.example.p2p_project.services.dataServices
 
 import com.example.p2p_project.models.dataTables.Cryptocurrency
 import com.example.p2p_project.repositories.dataTables.CryptocurrencyRepository

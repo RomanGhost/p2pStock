@@ -2,7 +2,7 @@ package com.example.p2p_project.controllers
 
 import com.example.p2p_project.models.User
 import com.example.p2p_project.services.AuthenticationService
-import com.example.p2p_project.services.UserRoleService
+import com.example.p2p_project.services.dataServices.UserRoleService
 import com.example.p2p_project.services.UserService
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model

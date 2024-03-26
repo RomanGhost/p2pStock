@@ -6,5 +6,7 @@ import org.springframework.stereotype.Repository
 
 
 @Repository
-interface RequestTypeRepository : JpaRepository<RequestType, Long>
+interface RequestTypeRepository : JpaRepository<RequestType, Long>{
+    fun findByName(name:String):RequestType
+}
 

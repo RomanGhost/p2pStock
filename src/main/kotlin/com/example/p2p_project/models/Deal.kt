@@ -8,25 +8,25 @@ import java.time.LocalDateTime
 data class Deal(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long?,
+    var id: Long?=-1,
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
     @JoinColumn(name = "status_id")
-    val status: DealStatus,
+    val status: DealStatus = DealStatus(),
 
     @Column(name = "open_date_time")
-    val openDateTime: LocalDateTime,
+    val openDateTime: LocalDateTime = LocalDateTime.now(),
 
     @Column(name = "close_date_time")
-    val closeDateTime: LocalDateTime,
+    val closeDateTime: LocalDateTime = LocalDateTime.now(),
 
-    val isBuyCreated: Boolean,
+    val isBuyCreated: Boolean?=null,
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
     @JoinColumn(name = "sell_request_id")
-    val sellRequest: Request,
+    val sellRequest: Request = Request(),
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
     @JoinColumn(name = "buy_request_id")
-    val buyRequest:Request
+    val buyRequest:Request = Request()
 )

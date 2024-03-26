@@ -73,9 +73,27 @@ class RequestController(
         val userId = userDetails.user.id
         model.addAttribute("request", request)
 
+        val isAccess = request.requestStatus.name == "Доступна на платформе"
+        model.addAttribute("isAccess", isAccess)
+        if(!isAccess){
+            return "requestInfo"
+        }
+
+        val isBuying = request.requestType.name == "Покупка"
+        model.addAttribute("isBuying", isBuying)
+
         val isInitiator = request.user.id == userId
         model.addAttribute("isInitiator", isInitiator)
 
+        //если заявка на покупку, то показать кошельки
+        if(isBuying) {
+            val wallets = walletService.getByUserId(userId)
+            model.addAttribute("wallets", wallets)
+        }
+        else{
+            val cards = cardService.getByUserId(userId)
+            model.addAttribute("cards", cards)
+        }
         return "requestInfo"
     }
 }
