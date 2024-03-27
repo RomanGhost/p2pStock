@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Deal</title>
+</head>
+<body>
+    <h2>Deal Information</h2>
+    <div>
+        <label>Status</label>
+        <span th:text="${deal.status.name}"></span>
+    </div>
+    <div>
+        <label>Open date time</label>
+        <span th:text="${deal.openDateTime}"></span>
+    </div>
+    <div>
+        <label>Close date time</label>
+        <span th:text="${deal.closeDateTime}"></span>
+    </div>
+    <div>
+        <label>Sell deal id</label>
+        <a th:href="@{'/request/' + ${deal.sellRequest.id}}" th:text="${deal.sellRequest.id}"></a>
+    </div>
+
+    <div>
+        <label>Sell deal id</label>
+        <a th:href="@{'/request/' + ${deal.buyRequest.id}}" th:text="${deal.buyRequest.id}"></a>
+    </div>
+
+</body>
+</html>
