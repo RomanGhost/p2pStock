@@ -14,8 +14,8 @@ class DealStatusInitialize(val dealStatusRepository: DealStatusRepository): Comm
         if (dealStatusRepository.count() != 0L) return;
         val dealStatuses: MutableList<DealStatus> = mutableListOf()
 
-        dealStatuses.add(DealStatus(name="Ожидание перевода", priority=5))
         dealStatuses.add(DealStatus(name="Подтверждение сделки", priority=3))
+        dealStatuses.add(DealStatus(name="Ожидание перевода", priority=5))
         dealStatuses.add(DealStatus(name="Ожидание подтверждения перевода", priority=4))
         dealStatuses.add(DealStatus(name="Закрыто: успешно", priority=8))
         dealStatuses.add(DealStatus(name="Приостановлено: решение проблем", priority=2))

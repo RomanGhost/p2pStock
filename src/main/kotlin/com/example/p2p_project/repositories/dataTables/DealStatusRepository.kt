@@ -5,4 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface DealStatusRepository : JpaRepository<DealStatus, Long>
+interface DealStatusRepository : JpaRepository<DealStatus, Long>{
+    fun findByName(dealName:String):DealStatus
+}

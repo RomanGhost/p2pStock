@@ -2,8 +2,8 @@ package com.example.p2p_project.controllers
 
 import com.example.p2p_project.config.MyUserDetails
 import com.example.p2p_project.models.Card
-import com.example.p2p_project.services.dataServices.BankService
 import com.example.p2p_project.services.CardService
+import com.example.p2p_project.services.dataServices.BankService
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -39,12 +39,16 @@ class CardController(
     ):String {
         val userDetails = authentication.principal as MyUserDetails
         card.user = userDetails.user
+        //TODO(Проверить есть ли такое название у пользователя в БД)
 
         if (cardService.existsByCardNumber(card.cardNumber) ){
             redirectAttributes.addFlashAttribute("errorMessage", "Card number is exist")
             return "redirect:/card/add?error"
         }
-        if (card.cardNumber.length != 16){
+        if (card.cardNumber.length < 16){
+            redirectAttributes.addFlashAttribute("errorMessage", "Card number is too short")
+            return "redirect:/card/add?error"
+        } else if (card.cardNumber.length > 16){
             redirectAttributes.addFlashAttribute("errorMessage", "Card number is too short")
             return "redirect:/card/add?error"
         }

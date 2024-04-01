@@ -27,7 +27,7 @@ class SecurityConfig {
     fun securityFilterChain(httpSecurity: HttpSecurity): SecurityFilterChain {
         return httpSecurity.csrf{it.disable()}
             .authorizeHttpRequests {
-                it.requestMatchers("/auth/sign-in/**", "/auth/sign-up/**", "/api/**r").permitAll()
+                it.requestMatchers("/auth/sign-in/**", "/auth/sign-up/**", "/api/**").permitAll()
                 it.requestMatchers("/**").authenticated()
                 it.anyRequest().permitAll()
             }

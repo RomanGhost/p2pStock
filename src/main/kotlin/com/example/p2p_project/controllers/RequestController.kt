@@ -73,27 +73,37 @@ class RequestController(
         val userId = userDetails.user.id
         model.addAttribute("request", request)
 
-        val isAccess = request.requestStatus.name == "Доступна на платформе"
-        model.addAttribute("isAccess", isAccess)
-        if(!isAccess){
-            return "requestInfo"
-        }
-
         val isBuying = request.requestType.name == "Покупка"
         model.addAttribute("isBuying", isBuying)
-
-        val isInitiator = request.user.id == userId
-        model.addAttribute("isInitiator", isInitiator)
 
         //если заявка на покупку, то показать кошельки
         if(isBuying) {
             val wallets = walletService.getByUserId(userId)
-            model.addAttribute("wallets", wallets)
+            if(wallets.isNotEmpty())
+                model.addAttribute("wallets", wallets)
         }
         else{
             val cards = cardService.getByUserId(userId)
-            model.addAttribute("cards", cards)
+            if (cards.isNotEmpty())
+                model.addAttribute("cards", cards)
         }
+        var isAccess = request.requestStatus.name == "Доступна на платформе"
+        if (model.getAttribute("wallets")==null &&
+            model.getAttribute("cards")==null){
+            isAccess = false
+        }
+        if(request.user.id == userId){
+            isAccess = false
+        }
+        model.addAttribute("isAccess", isAccess)
         return "requestInfo"
+    }
+
+    @GetMapping("/all")
+    fun getAllRequest(model:Model):String{
+        val requests = requestService.getAll()
+        model.addAttribute("requests", requests)
+
+        return "allRequest"
     }
 }

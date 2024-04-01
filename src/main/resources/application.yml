@@ -8,6 +8,8 @@ spring:
     generate-ddl: true
     hibernate:
       ddl-auto: update
+  thymeleaf:
+    cache: false
 
 application:
   info:

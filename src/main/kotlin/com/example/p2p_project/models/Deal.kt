@@ -12,7 +12,7 @@ data class Deal(
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
     @JoinColumn(name = "status_id")
-    val status: DealStatus = DealStatus(),
+    var status: DealStatus = DealStatus(),
 
     @Column(name = "open_date_time")
     val openDateTime: LocalDateTime = LocalDateTime.now(),

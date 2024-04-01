@@ -2,8 +2,8 @@ package com.example.p2p_project.controllers
 
 import com.example.p2p_project.config.MyUserDetails
 import com.example.p2p_project.models.Wallet
-import com.example.p2p_project.services.dataServices.CryptocurrencyService
 import com.example.p2p_project.services.WalletService
+import com.example.p2p_project.services.dataServices.CryptocurrencyService
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -42,6 +42,7 @@ class WalletController(
             redirectAttributes.addFlashAttribute("errorMessage", "Wallet name is too short")
             return "redirect:/wallet/add?error"
         }
+        //TODO(Проверить есть ли такое название у пользователя в БД)
 
         val userDetails = authentication.principal as MyUserDetails
         wallet.user = userDetails.user

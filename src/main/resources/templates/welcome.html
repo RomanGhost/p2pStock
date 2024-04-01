@@ -73,9 +73,7 @@
             <th>Номер заявки</th>
             <th>Тип заявки</th>
             <th>Итоговая цена</th>
-            <th>Название кошелька</th>
-            <th>Название карты</th>
-            <th>Статус сделки</th>
+           <th>Статус сделки</th>
             <th>Последнее изменение</th>
             <th>Цена за единицу</th>
             <th>Количество</th>
@@ -85,11 +83,9 @@
         </thead>
         <tbody>
         <tr th:each="request : ${requests}">
-            <td th:text="${request.id}"></td>
+            <td><a th:href="@{'/request/' + ${request.id}}" th:text="${request.id}"></a></td>
             <td th:text="${request.requestType.name}"></td>
             <td th:text="${request.quantity * request.pricePerUnit}"></td>
-            <td th:text="${request.wallet.name}"></td>
-            <td th:text="${request.card.cardName}"></td>
             <td th:text="${request.requestStatus.name}"></td>
             <td th:text="${request.lastChangeStatusDateTime}"></td>
             <td th:text="${request.pricePerUnit}"></td>
