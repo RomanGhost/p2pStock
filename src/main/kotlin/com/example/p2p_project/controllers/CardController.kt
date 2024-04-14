@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 @Controller
-@RequestMapping("/card")
+@RequestMapping("/platform/card")
 class CardController(
     private val cardService: CardService,
     private val bankService: BankService
@@ -39,18 +39,17 @@ class CardController(
     ):String {
         val userDetails = authentication.principal as MyUserDetails
         card.user = userDetails.user
-        //TODO(Проверить есть ли такое название у пользователя в БД)
 
         if (cardService.existsByCardNumber(card.cardNumber) ){
             redirectAttributes.addFlashAttribute("errorMessage", "Card number is exist")
-            return "redirect:/card/add?error"
+            return "redirect:/platform/card/add?error"
         }
         if (card.cardNumber.length < 16){
             redirectAttributes.addFlashAttribute("errorMessage", "Card number is too short")
-            return "redirect:/card/add?error"
+            return "redirect:/platform/card/add?error"
         } else if (card.cardNumber.length > 16){
             redirectAttributes.addFlashAttribute("errorMessage", "Card number is too short")
-            return "redirect:/card/add?error"
+            return "redirect:/platform/card/add?error"
         }
 
         cardService.add(card)

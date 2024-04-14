@@ -2,8 +2,8 @@ package com.example.p2p_project.controllers
 
 import com.example.p2p_project.models.User
 import com.example.p2p_project.services.AuthenticationService
-import com.example.p2p_project.services.dataServices.UserRoleService
 import com.example.p2p_project.services.UserService
+import com.example.p2p_project.services.dataServices.UserRoleService
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
@@ -36,6 +36,7 @@ class AuthorizationController(
                result:BindingResult, model: Model,
                redirectAttributes:RedirectAttributes
     ):String{
+        //TODO("Добавить второе поле повтор пароля(Не обязательно)")
         val user = userService.getByLogin(newUser.login)
         // В случае, если пользователь найден, переотправить на sign-in
         if (user != null){
@@ -62,7 +63,6 @@ class AuthorizationController(
 
     @GetMapping("/sign-in")
     fun showSignIn(model:Model):String{
-        
         return "signIn"
     }
 

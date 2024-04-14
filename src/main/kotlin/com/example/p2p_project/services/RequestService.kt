@@ -24,6 +24,10 @@ class RequestService(val requestRepository: RequestRepository, val requestStatus
         return requestRepository.findAll()
     }
 
+    fun getByStatus(status:String):List<Request>{
+        return getAll().filter { it.requestStatus.name == status }
+    }
+
     fun getById(id: Long):Request{
         val request =
             try{
@@ -45,14 +49,12 @@ class RequestService(val requestRepository: RequestRepository, val requestStatus
             return requestRepository.save(request)
         else
             throw EntityNotFoundException("Request with id: $id not found")
-
     }
 
-    fun updateStatus(request: Request, id:Long, requestStatusName:String):Request{
+    fun updateStatusById(id:Long, requestStatusName:String):Request{
         if (!requestRepository.existsById(id))
             throw EntityNotFoundException("Request with id: $id not found")
-
-        request.id = id
+        val request = requestRepository.getReferenceById(id)
         request.requestStatus = requestStatusRepository.findByName(requestStatusName)
         return requestRepository.save(request)
     }

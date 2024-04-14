@@ -1,6 +1,7 @@
 package com.example.p2p_project.services
 
 import com.example.p2p_project.models.Deal
+import com.example.p2p_project.models.User
 import com.example.p2p_project.models.dataTables.DealStatus
 import com.example.p2p_project.repositories.DealRepository
 import jakarta.persistence.EntityNotFoundException
@@ -54,18 +55,38 @@ class DealService(val dealRepository: DealRepository) {
         return deal.buyRequest.user.id == userId || deal.sellRequest.user.id == userId
     }
 
-    fun initiatorAccept(dealId: Long, userId: Long, status:String): Boolean {
-        val deal = this.getById(dealId)
-        return ((deal.isBuyCreated == true && deal.sellRequest.user.id == userId) ||
-                (deal.isBuyCreated == false && deal.buyRequest.user.id == userId)) &&
+    private fun initiatorAccept(deal: Deal, user: User, status:String): Boolean {
+        return ((deal.isBuyCreated == true && deal.sellRequest.user.id == user.id) ||
+                (deal.isBuyCreated == false && deal.buyRequest.user.id == user.id)) &&
                 deal.status.name == status
 
     }
 
-    fun counterpartyAccept(dealId: Long, userId: Long, status: String):Boolean{
-        val deal = this.getById(dealId)
-        return ((deal.isBuyCreated == true && deal.buyRequest.user.id == userId) ||
-                (deal.isBuyCreated == false && deal.sellRequest.user.id == userId)) &&
+    private fun counterpartyAccept(deal: Deal, user: User, status: String):Boolean{
+        return ((deal.isBuyCreated == true && deal.buyRequest.user.id == user.id) ||
+                (deal.isBuyCreated == false && deal.sellRequest.user.id == user.id)) &&
                 deal.status.name == status
+    }
+
+    fun acceptDeal(deal: Deal, user: User):Boolean{
+        return initiatorAccept(deal, user, "Подтверждение сделки")
+    }
+
+    fun confirmPayment(deal:Deal, user: User):Boolean{
+        // Если исходная заявка на покупку - то инициатор должен подтвердить перевод средств
+        // Если исходная заявка на продажу - то контрагент должен подтвердить перевод средств
+        return (initiatorAccept(deal, user, "Ожидание перевода")
+                && deal.isBuyCreated==false)
+        || (counterpartyAccept(deal, user, "Ожидание перевода")
+                        && deal.isBuyCreated==true)
+    }
+
+    fun confirmReceipt(deal:Deal, user: User):Boolean {
+        // Если исходная заявка на покупку - то аконтрагент должен подтвердить получение средств
+        // Если исходная заявка на продажу - то инициатор должен подтвердить получение средств
+        return (initiatorAccept(deal, user, "Ожидание подтверждения перевода")
+                && deal.isBuyCreated==true)
+            || (counterpartyAccept(deal, user, "Ожидание подтверждения перевода")
+                && deal.isBuyCreated==false)
     }
 }

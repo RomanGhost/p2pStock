@@ -28,7 +28,7 @@ class SecurityConfig {
         return httpSecurity.csrf{it.disable()}
             .authorizeHttpRequests {
                 it.requestMatchers("/auth/sign-in/**", "/auth/sign-up/**", "/api/**").permitAll()
-                it.requestMatchers("/**").authenticated()
+                it.requestMatchers("/platform/**").authenticated()
                 it.anyRequest().permitAll()
             }
             .formLogin{

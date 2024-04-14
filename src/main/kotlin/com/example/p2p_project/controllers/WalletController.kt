@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 @Controller
-@RequestMapping("/wallet")
+@RequestMapping("/platform/wallet")
 class WalletController(
     private val walletService: WalletService,
     private val cryptocurrencyService: CryptocurrencyService
@@ -40,7 +40,7 @@ class WalletController(
     ): String{
         if (wallet.name.length < 2){
             redirectAttributes.addFlashAttribute("errorMessage", "Wallet name is too short")
-            return "redirect:/wallet/add?error"
+            return "redirect:/platform/wallet/add?error"
         }
         //TODO(Проверить есть ли такое название у пользователя в БД)
 

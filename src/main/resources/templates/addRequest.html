@@ -7,7 +7,7 @@
 </head>
 <body>
 <h1>Create Request</h1>
-<form action="#" th:action="@{/request/save}" th:object="${request}" method="post">
+<form action="#" th:action="@{/platform/request/save}" th:object="${request}" method="post">
     <label for="requestType">Тип заявки:</label>
     <select id="requestType" name="requestType" th:field="*{requestType}">
         <option th:each="type : ${types}" th:value="${type.id}" th:text="${type.name}"></option>

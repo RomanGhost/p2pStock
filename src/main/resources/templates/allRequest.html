@@ -22,7 +22,7 @@
     </thead>
     <tbody>
     <tr th:each="request : ${requests}">
-        <td><a th:href="@{'/request/' + ${request.id}}" th:text="${request.id}"></a></td>
+        <td><a th:href="@{'/platform/request/' + ${request.id}}" th:text="${request.id}"></a></td>
         <td th:text="${request.requestType.name}"></td>
         <td th:text="${request.quantity * request.pricePerUnit}"></td>
         <td th:text="${request.requestStatus.name}"></td>

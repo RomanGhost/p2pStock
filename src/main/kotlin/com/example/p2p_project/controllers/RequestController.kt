@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 @Controller
-@RequestMapping("/request")
+@RequestMapping("/platform/request")
 class RequestController(
     private val walletService: WalletService,
     private val cardService: CardService,
@@ -48,11 +48,11 @@ class RequestController(
                        redirectAttributes: RedirectAttributes):String{
         if(request.pricePerUnit <= 0.0){
             redirectAttributes.addFlashAttribute("priceError", "Price can't be negative")
-            return "redirect:/request/add?error"
+            return "redirect:/platform/request/add?error"
         }
         if(request.quantity <= 0.0){
             redirectAttributes.addFlashAttribute("quantityError", "Quantity can't be negative")
-            return "redirect:/request/add?error"
+            return "redirect:/platform/request/add?error"
         }
 
 
@@ -101,7 +101,7 @@ class RequestController(
 
     @GetMapping("/all")
     fun getAllRequest(model:Model):String{
-        val requests = requestService.getAll()
+        val requests = requestService.getByStatus("Доступна на платформе")
         model.addAttribute("requests", requests)
 
         return "allRequest"

@@ -24,9 +24,9 @@
     <p>Добро пожаловать, <span th:text="${login}"></span>!</p>
 
     <ul>
-        <li><a href="/wallet/add">Добавить кошелек</a></li>
-        <li><a href="/card/add">Добавить карту</a></li>
-        <li><a href="/request/add">Создать заявку</a></li>
+        <li><a href="/platform/wallet/add">Добавить кошелек</a></li>
+        <li><a href="/platform/card/add">Добавить карту</a></li>
+        <li><a href="/platform/request/add">Создать заявку</a></li>
         <!-- Добавьте другие пункты меню здесь -->
     </ul>
 
@@ -83,7 +83,7 @@
         </thead>
         <tbody>
         <tr th:each="request : ${requests}">
-            <td><a th:href="@{'/request/' + ${request.id}}" th:text="${request.id}"></a></td>
+            <td><a th:href="@{'/platform/request/' + ${request.id}}" th:text="${request.id}"></a></td>
             <td th:text="${request.requestType.name}"></td>
             <td th:text="${request.quantity * request.pricePerUnit}"></td>
             <td th:text="${request.requestStatus.name}"></td>

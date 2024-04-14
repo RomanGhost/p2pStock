@@ -6,13 +6,15 @@ import com.example.p2p_project.models.dataTables.DealStatus
 import com.example.p2p_project.models.dataTables.RequestType
 import com.example.p2p_project.services.*
 import com.example.p2p_project.services.dataServices.RequestTypeService
+import org.springframework.http.HttpStatus
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.server.ResponseStatusException
 
 @Controller
-@RequestMapping("/deal")
+@RequestMapping("/platform/deal")
 class DealController(
     private val dealService: DealService,
     private val requestService: RequestService,
@@ -31,14 +33,18 @@ class DealController(
             return "redirect:/platform/account/welcome"
         }
 
-        val showAcceptButton = dealService.initiatorAccept(dealId, authUserId, "Подтверждение сделки")
-        model.addAttribute("showAcceptButton", showAcceptButton)
-
-        val showConfirmPaymentButton = dealService.counterpartyAccept(dealId, authUserId, "Ожидание перевода")
-        model.addAttribute("showConfirmPaymentButton", showConfirmPaymentButton)
-
         val deal = dealService.getById(dealId)
         model.addAttribute("deal", deal)
+
+        val showAcceptButton = dealService.acceptDeal(deal, userDetails.user)
+        model.addAttribute("showAcceptButton", showAcceptButton)
+
+        val showConfirmPaymentButton = dealService.confirmPayment(deal, userDetails.user)
+        model.addAttribute("showConfirmPaymentButton", showConfirmPaymentButton)
+
+        val showConfirmReceiptButton = dealService.confirmReceipt(deal, userDetails.user)
+        model.addAttribute("showConfirmReceiptButton", showConfirmReceiptButton)
+
         return "dealInfo"
     }
 
@@ -54,7 +60,7 @@ class DealController(
         val authUserId = userDetails.user.id
 
         if (initialRequest.user.id == authUserId) {
-            //TODO(Выдать ошибку о том что пользователь не может быть контрагентом для себя)
+            throw ResponseStatusException(HttpStatus.FORBIDDEN, "User cannot be a counterparty to themselves")
         }
 
         //Заявка контрагент
@@ -81,7 +87,7 @@ class DealController(
         val newStatus = "Используется в сделке"
         newRequest = requestService.add(newRequest, newStatus)
 
-        initialRequest = requestService.updateStatus(initialRequest, requestId, newStatus)
+        initialRequest = requestService.updateStatusById(requestId, newStatus)
 
         //Создание сделки на основе заявок
         //Если исходная заявка на продажу
@@ -112,12 +118,13 @@ class DealController(
         return "redirect:/deal/${resultDeal.id}"
     }
 
+    //Buttons success
     @PostMapping("/{dealId}/accept")
     fun acceptDeal(@PathVariable dealId: Long, authentication: Authentication): String {
         val userDetails = authenticationService.getUserDetails(authentication)
-        val authUserId = userDetails.user.id
+        val deal = dealService.getById(dealId)
 
-        if (!dealService.initiatorAccept(dealId, authUserId, "Подтверждение сделки")) {
+        if (!dealService.acceptDeal(deal, userDetails.user)) {
             return "redirect:/deal/${dealId}"
         }
 
@@ -128,13 +135,35 @@ class DealController(
     @PostMapping("/{dealId}/confirm_payment")
     fun confirmPaymentDeal(@PathVariable dealId: Long, authentication: Authentication): String {
         val userDetails = authenticationService.getUserDetails(authentication)
-        val authUserId = userDetails.user.id
+        val deal = dealService.getById(dealId)
 
-        if (!dealService.counterpartyAccept(dealId, authUserId, "Ожидание перевода")) {
+        if (!dealService.confirmPayment(deal, userDetails.user)) {
             return "redirect:/deal/${dealId}"
         }
 
         dealService.updateStatus(dealId, "Ожидание подтверждения перевода")
         return "redirect:/deal/${dealId}"
     }
+
+    @PostMapping("/{dealId}/confirm_receipt_payment")
+    fun confirmReceiptPaymentDeal(@PathVariable dealId: Long, authentication: Authentication): String {
+        val userDetails = authenticationService.getUserDetails(authentication)
+        val deal = dealService.getById(dealId)
+
+        if (!dealService.confirmReceipt(deal, userDetails.user)) {
+            return "redirect:/deal/${dealId}"
+        }
+
+        val newStatus = "Закрыто: успешно"
+        requestService.updateStatusById(deal.sellRequest.id!!, newStatus)
+        requestService.updateStatusById(deal.buyRequest.id!!, newStatus)
+
+        dealService.updateStatus(dealId, newStatus)
+        return "redirect:/deal/${dealId}"
+    }
+
+    // Buttons failure
+    //TODO("Реализовать проблемные места(см. бизнес процесс)")
+
+
 }
