@@ -72,6 +72,11 @@ class DealService(val dealRepository: DealRepository) {
         return initiatorAccept(deal, user, "Подтверждение сделки")
     }
 
+    fun refuseDeal(deal:Deal):Boolean{
+        return deal.status.name == "Подтверждение сделки" ||
+                deal.status.name == "Ожидание перевода"
+    }
+
     fun confirmPayment(deal:Deal, user: User):Boolean{
         // Если исходная заявка на покупку - то инициатор должен подтвердить перевод средств
         // Если исходная заявка на продажу - то контрагент должен подтвердить перевод средств
@@ -84,9 +89,18 @@ class DealService(val dealRepository: DealRepository) {
     fun confirmReceipt(deal:Deal, user: User):Boolean {
         // Если исходная заявка на покупку - то аконтрагент должен подтвердить получение средств
         // Если исходная заявка на продажу - то инициатор должен подтвердить получение средств
+        return ((initiatorAccept(deal, user, "Ожидание подтверждения перевода") ||
+                initiatorAccept(deal, user, "Приостановлено: решение проблем"))
+                && deal.isBuyCreated==true)
+            || ((counterpartyAccept(deal, user, "Ожидание подтверждения перевода") ||
+                counterpartyAccept(deal, user, "Приостановлено: решение проблем"))
+                && deal.isBuyCreated==false)
+    }
+
+    fun denyReceipt(deal:Deal, user:User):Boolean{
         return (initiatorAccept(deal, user, "Ожидание подтверждения перевода")
                 && deal.isBuyCreated==true)
-            || (counterpartyAccept(deal, user, "Ожидание подтверждения перевода")
+                || (counterpartyAccept(deal, user, "Ожидание подтверждения перевода")
                 && deal.isBuyCreated==false)
     }
 }

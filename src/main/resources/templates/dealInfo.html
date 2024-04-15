@@ -29,19 +29,31 @@
     </div>
 
     <div th:if="${showAcceptButton}">
-        <form th:action="@{'/deal/' + ${deal.id} +'/accept'}" method="post">
+        <form th:action="@{'/platform/deal/' + ${deal.id} +'/accept'}" method="post">
             <button type="submit">Accept!</button>
         </form>
     </div>
 
+    <div th:if="${showRefuseButton}">
+        <form th:action="@{'/platform/deal/' + ${deal.id} +'/refuse'}" method="post">
+            <button type="submit">Refuse!</button>
+        </form>
+    </div>
+
     <div th:if="${showConfirmPaymentButton}">
-        <form th:action="@{'/deal/' + ${deal.id} +'/confirm_payment?'}" method="post">
+        <form th:action="@{'/platform/deal/' + ${deal.id} +'/confirm_payment?'}" method="post">
             <button type="submit">Confirm send payment!</button>
         </form>
     </div>
 
+    <div th:if="${showDenyReceiptButton}">
+        <form th:action="@{'/platform/deal/' + ${deal.id} +'/deny_received_payment'}" method="post">
+            <button type="submit">Founds not received!</button>
+        </form>
+    </div>
+
     <div th:if="${showConfirmReceiptButton}">
-        <form th:action="@{'/deal/' + ${deal.id} +'/confirm_receipt_payment'}" method="post">
+        <form th:action="@{'/platform/deal/' + ${deal.id} +'/confirm_receipt_payment'}" method="post">
             <button type="submit">Confirm receipt payment!</button>
         </form>
     </div>
