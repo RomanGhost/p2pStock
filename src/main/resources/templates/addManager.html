@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin panel</title>
+</head>
+<body>
+<h1>User List</h1>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Login</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Iterating over the list of users -->
+    <tr th:each="user : ${userList}">
+        <td th:text="${user.id}">ID</td>
+        <td th:text="${user.login}">Login</td>
+        <td>
+            <form th:action="@{/admin_panel/add_manager?userid=${user.id}}" method="post">
+                <input type="submit" value="Add Manager">
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

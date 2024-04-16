@@ -1,4 +1,4 @@
-package com.example.p2p_project.controllers
+package com.example.p2p_project.controllers.user
 
 import com.example.p2p_project.config.MyUserDetails
 import com.example.p2p_project.models.Wallet
@@ -43,6 +43,10 @@ class WalletController(
             return "redirect:/platform/wallet/add?error"
         }
         //TODO(Проверить есть ли такое название у пользователя в БД)
+        if(walletService.existWalletForUserId(wallet.name, wallet.user.id)){
+            redirectAttributes.addFlashAttribute("errorMessage", "Wallet name is exist")
+            return "redirect:/platform/wallet/add?error"
+        }
 
         val userDetails = authentication.principal as MyUserDetails
         wallet.user = userDetails.user

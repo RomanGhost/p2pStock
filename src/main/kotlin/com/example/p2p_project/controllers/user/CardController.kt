@@ -1,4 +1,4 @@
-package com.example.p2p_project.controllers
+package com.example.p2p_project.controllers.user
 
 import com.example.p2p_project.config.MyUserDetails
 import com.example.p2p_project.models.Card

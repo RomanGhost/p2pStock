@@ -1,4 +1,4 @@
-package com.example.p2p_project.controllers
+package com.example.p2p_project.controllers.user
 
 import com.example.p2p_project.config.MyUserDetails
 import com.example.p2p_project.models.*
@@ -128,7 +128,7 @@ class DealController(
 
         val resultDeal = dealService.add(deal)
 
-        return "redirect:/platform/deal/${resultDeal.id}"
+        return "redirect:/platform/deal/${resultDeal.id}?create"
     }
 
     //Buttons success
@@ -138,11 +138,11 @@ class DealController(
         val deal = dealService.getById(dealId)
 
         if (!dealService.acceptDeal(deal, userDetails.user)) {
-            return "redirect:/platform/deal/${dealId}"
+            return "redirect:/platform/deal/${dealId}?denied"
         }
 
         dealService.updateStatus(dealId, "Ожидание перевода")
-        return "redirect:/platform/deal/${dealId}"
+        return "redirect:/platform/deal/${dealId}?accept"
     }
 
     @PostMapping("/{dealId}/confirm_payment")
@@ -151,11 +151,11 @@ class DealController(
         val deal = dealService.getById(dealId)
 
         if (!dealService.confirmPayment(deal, userDetails.user)) {
-            return "redirect:/platform/deal/${dealId}"
+            return "redirect:/platform/deal/${dealId}?denied"
         }
 
         dealService.updateStatus(dealId, "Ожидание подтверждения перевода")
-        return "redirect:/platform/deal/${dealId}"
+        return "redirect:/platform/deal/${dealId}?confirm"
     }
 
     @PostMapping("/{dealId}/confirm_receipt_payment")
@@ -164,7 +164,7 @@ class DealController(
         val deal = dealService.getById(dealId)
 
         if (!dealService.confirmReceipt(deal, userDetails.user)) {
-            return "redirect:/platform/deal/${dealId}"
+            return "redirect:/platform/deal/${dealId}?denied"
         }
 
         val newStatus = "Закрыто: успешно"
@@ -172,11 +172,10 @@ class DealController(
         requestService.updateStatusById(deal.buyRequest.id, newStatus)
 
         dealService.updateStatus(dealId, newStatus)
-        return "redirect:/platform/deal/${dealId}"
+        return "redirect:/platform/deal/${dealId}?confirm"
     }
 
     // Buttons failure
-    //TODO("Реализовать проблемные места(см. бизнес процесс)")
     //Отклонить предложение о создании заявки(инициатор)
     //отклонить заявку перед переводом средств(контрагент)
     @PostMapping("/{dealId}/refuse")
@@ -193,7 +192,7 @@ class DealController(
         }
 
         dealService.updateStatus(dealId, newStatus)
-        return "redirect:/platform/deal/${dealId}"
+        return "redirect:/platform/deal/${dealId}?error"
     }
 
     //Если средства отправлены, но не получены
@@ -203,11 +202,11 @@ class DealController(
         val deal = dealService.getById(dealId)
 
         if (!dealService.denyReceipt(deal, userDetails.user)) {
-            return "redirect:/platform/deal/${dealId}"
+            return "redirect:/platform/deal/${dealId}?denied"
         }
         val newStatus = "Приостановлено: решение проблем"
         dealService.updateStatus(dealId, newStatus)
 
-        return "redirect:/platform/deal/${dealId}"
+        return "redirect:/platform/deal/${dealId}?error"
     }
 }

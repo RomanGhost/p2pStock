@@ -22,13 +22,18 @@ class SecurityConfig {
         return MyUserDetailsService()
     }
 
-
     @Bean
     fun securityFilterChain(httpSecurity: HttpSecurity): SecurityFilterChain {
+        //TODO "Переключиться на роль менеджера, настроить для него"
+//        val auth = SecurityContextHolder.getContext().authentication
+//        println("User roles: ${auth.authorities}")
+
         return httpSecurity.csrf{it.disable()}
             .authorizeHttpRequests {
                 it.requestMatchers("/auth/sign-in/**", "/auth/sign-up/**", "/api/**").permitAll()
                 it.requestMatchers("/platform/**").authenticated()
+                it.requestMatchers("/platform/manager/**").hasRole("Менеджер")
+                it.requestMatchers("/admin_panel/**").hasAuthority("Администратор")
                 it.anyRequest().permitAll()
             }
             .formLogin{

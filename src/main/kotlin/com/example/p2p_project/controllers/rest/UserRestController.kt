@@ -3,6 +3,7 @@ package com.example.p2p_project.controllers.rest
 import com.example.p2p_project.models.User
 import com.example.p2p_project.models.dataTables.Role
 import com.example.p2p_project.services.UserService
+import com.example.p2p_project.services.dataServices.UserRoleService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -10,12 +11,21 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("\${application.info.apiLink}/user")
-class UserRestController(val userService: UserService) {
+class UserRestController(val userService: UserService,
+                         val userRoleService: UserRoleService) {
     @PostMapping("/add")
     fun add(@RequestBody user: User): ResponseEntity<User> {
         val newUser = userService.add(user)
+        userRoleService.addUserRole(newUser, "Пользователь")
         return ResponseEntity<User>(newUser, HttpStatus.CREATED)
     }
+
+    @PostMapping("/add/admin")
+    fun addAdmin(@RequestParam userId:Long){
+        val user = userService.getById(userId)
+        userRoleService.addUserRole(user, "Администратор")
+    }
+
 
     @PutMapping("/update")
     fun update(

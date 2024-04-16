@@ -12,6 +12,9 @@ class WalletService(val walletRepository: WalletRepository) {
         return walletRepository.findAll()
     }
 
+    fun existWalletForUserId(nameWallet:String, userId: Long):Boolean{
+        return walletRepository.existsByNameAndUserId(nameWallet, userId)
+    }
     fun getById(id: Long): Wallet {
         val wallet = try{
             walletRepository.getReferenceById(id)

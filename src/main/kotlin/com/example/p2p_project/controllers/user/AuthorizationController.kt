@@ -1,4 +1,4 @@
-package com.example.p2p_project.controllers
+package com.example.p2p_project.controllers.user
 
 import com.example.p2p_project.models.User
 import com.example.p2p_project.services.AuthenticationService
