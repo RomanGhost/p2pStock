@@ -66,4 +66,12 @@ class UserService(
     fun getRoles(id: Long): List<Role> {
         return userRoleRepository.findRoleByUserId(id)
     }
+
+    fun getUserByRole(role:String): List<User>? {
+        return userRepository.findByRoleType(role)
+    }
+
+    fun getUserWithoutRole(role:String): List<User>? {
+        return userRepository.findWithoutRole(role)
+    }
 }

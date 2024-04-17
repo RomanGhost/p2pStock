@@ -32,7 +32,7 @@ class SecurityConfig {
             .authorizeHttpRequests {
                 it.requestMatchers("/auth/sign-in/**", "/auth/sign-up/**", "/api/**").permitAll()
                 it.requestMatchers("/platform/**").authenticated()
-                it.requestMatchers("/platform/manager/**").hasRole("Менеджер")
+                it.requestMatchers("/platform/manager/**").hasAuthority("Менеджер")
                 it.requestMatchers("/admin_panel/**").hasAuthority("Администратор")
                 it.anyRequest().permitAll()
             }

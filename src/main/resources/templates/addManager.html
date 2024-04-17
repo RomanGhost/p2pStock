@@ -16,11 +16,11 @@
     </thead>
     <tbody>
     <!-- Iterating over the list of users -->
-    <tr th:each="user : ${userList}">
+    <tr th:each="user : ${users}">
         <td th:text="${user.id}">ID</td>
         <td th:text="${user.login}">Login</td>
         <td>
-            <form th:action="@{/admin_panel/add_manager?userid=${user.id}}" method="post">
+            <form th:action="@{'/admin_panel/add_manager?userId=' + ${user.id}}" method="post">
                 <input type="submit" value="Add Manager">
             </form>
         </td>
