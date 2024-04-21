@@ -2,14 +2,14 @@ package com.example.p2p_project.services
 
 import com.example.p2p_project.models.Deal
 import com.example.p2p_project.models.User
-import com.example.p2p_project.models.dataTables.DealStatus
 import com.example.p2p_project.repositories.DealRepository
+import com.example.p2p_project.repositories.dataTables.DealStatusRepository
 import jakarta.persistence.EntityNotFoundException
 import org.springframework.orm.jpa.JpaObjectRetrievalFailureException
 import org.springframework.stereotype.Service
 
 @Service
-class DealService(val dealRepository: DealRepository) {
+class DealService(val dealRepository: DealRepository, val dealStatusRepository: DealStatusRepository) {
     fun getAll(): List<Deal> {
         return dealRepository.findAll()
     }
@@ -31,11 +31,11 @@ class DealService(val dealRepository: DealRepository) {
             throw EntityNotFoundException("Deal with id: $id not found")
     }
 
-    fun updateStatus(id:Long, status:String):Deal{
-        if (!dealRepository.existsById(id))
-            throw EntityNotFoundException("Deal with id: $id not found")
-        val dealStatus = DealStatus(name=status)
-        val deal = dealRepository.getReferenceById(id)
+    fun updateStatus(dealId:Long, status:String):Deal{
+        if (!dealRepository.existsById(dealId))
+            throw EntityNotFoundException("Deal with id: $dealId not found")
+        val dealStatus = dealStatusRepository.findByName(status)
+        val deal = dealRepository.getReferenceById(dealId)
         deal.status = dealStatus
         dealRepository.save(deal)
 

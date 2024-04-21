@@ -10,7 +10,7 @@ data class Deal(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long?=-1,
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "status_id")
     var status: DealStatus = DealStatus(),
 

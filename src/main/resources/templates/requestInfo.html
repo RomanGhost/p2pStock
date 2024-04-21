@@ -62,5 +62,23 @@
     </form>
 </div>
 
+<div th:if="${isModeration}">
+    <h2><b>Внимание!</b></h2>
+    Внимательно проверь поля заполненные пользоватлем<br>
+    Проверь, есть ли недопустимые слова в комментарии, если все соответвует то одобри заявку<br>
+
+    <form action="#" th:action="@{'/platform/manager/request/' + ${request.id} + '/moderation/accept'}" method="post">
+        <button type="submit" name="action" value="accept">Одобрить заявку</button>
+    </form>
+    <form action="#" th:action="@{'/platform/manager/request/' + ${request.id} + '/moderation/change'}" method="post">
+        <button type="submit" name="action" value="change">Отправить на изменение</button>
+    </form>
+    <form action="#" th:action="@{'/platform/manager/request/' + ${request.id} + '/moderation/discard'}" method="post">
+        <button type="submit" name="action" value="discard">Закрыть заявку</button>
+    </form>
+
+
+</div>
+
 </body>
 </html>

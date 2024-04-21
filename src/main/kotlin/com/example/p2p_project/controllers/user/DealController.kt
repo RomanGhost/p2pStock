@@ -2,9 +2,9 @@ package com.example.p2p_project.controllers.user
 
 import com.example.p2p_project.config.MyUserDetails
 import com.example.p2p_project.models.*
-import com.example.p2p_project.models.dataTables.DealStatus
 import com.example.p2p_project.models.dataTables.RequestType
 import com.example.p2p_project.services.*
+import com.example.p2p_project.services.dataServices.DealStatusService
 import com.example.p2p_project.services.dataServices.RequestTypeService
 import org.springframework.http.HttpStatus
 import org.springframework.security.core.Authentication
@@ -17,6 +17,7 @@ import org.springframework.web.server.ResponseStatusException
 @RequestMapping("/platform/deal")
 class DealController(
     private val dealService: DealService,
+    private val dealStatusService: DealStatusService,
     private val requestService: RequestService,
     private val requestTypeService: RequestTypeService,
     private val walletService: WalletService,
@@ -105,7 +106,7 @@ class DealController(
         //Создание сделки на основе заявок
         //Если исходная заявка на продажу
         val isBuyCreated = initialRequest.requestType.name == "Продажа"
-        val dealStatus = DealStatus(name="Подтверждение сделки")
+        val dealStatus = dealStatusService.getByNameStatus("Подтверждение сделки")
 
         lateinit var sellRequest: Request
         lateinit var buyRequest: Request

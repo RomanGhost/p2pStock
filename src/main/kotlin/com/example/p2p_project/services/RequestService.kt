@@ -28,6 +28,10 @@ class RequestService(val requestRepository: RequestRepository, val requestStatus
         return getAll().filter { it.requestStatus.name == status }
     }
 
+    fun existById(id:Long): Boolean {
+        return requestRepository.existsById(id)
+    }
+
     fun getById(id: Long):Request{
         val request =
             try{

@@ -20,7 +20,7 @@ data class Wallet(
     @Column(name = "name")
     val name: String = "",
     @Column(name = "public_key", unique = true)
-    val publicKey: String = "",
+    var publicKey: String = "",
     @Column(name = "private_key")
     val privateKey: String = ""
 )

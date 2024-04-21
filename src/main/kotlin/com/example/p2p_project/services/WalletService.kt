@@ -5,6 +5,7 @@ import com.example.p2p_project.repositories.WalletRepository
 import jakarta.persistence.EntityNotFoundException
 import org.springframework.orm.jpa.JpaObjectRetrievalFailureException
 import org.springframework.stereotype.Service
+import java.time.LocalTime
 
 @Service
 class WalletService(val walletRepository: WalletRepository) {
@@ -37,6 +38,8 @@ class WalletService(val walletRepository: WalletRepository) {
     }
 
     fun add(wallet: Wallet): Wallet {
+        //TODO("Change to Addr")
+        wallet.publicKey = LocalTime.now().toString()
         return walletRepository.save(wallet)
     }
 
