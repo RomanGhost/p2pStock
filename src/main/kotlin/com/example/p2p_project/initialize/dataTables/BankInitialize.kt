@@ -14,12 +14,12 @@ class BankInitialize(val bankRepository: BankRepository): CommandLineRunner {
         if (bankRepository.count() != 0L) return;
         val banks:MutableList<Bank> = mutableListOf()
 
-        banks.add(Bank(null,"Сбербанк"))
-        banks.add(Bank(null,"Альфа-Банк"))
-        banks.add(Bank(null,"ВТБ"))
-        banks.add(Bank(null,"Газпромбанк"))
-        banks.add(Bank(null,"Тинькофф"))
-        banks.add(Bank(null,"СБП"))
+        banks.add(Bank(-1,"Сбербанк"))
+        banks.add(Bank(-1,"Альфа-Банк"))
+        banks.add(Bank(-1,"ВТБ"))
+        banks.add(Bank(-1,"Газпромбанк"))
+        banks.add(Bank(-1,"Тинькофф"))
+        banks.add(Bank(-1,"СБП"))
 
         for (bank in banks){
             bankRepository.save(bank)

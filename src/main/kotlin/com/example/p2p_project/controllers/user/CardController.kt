@@ -3,6 +3,7 @@ package com.example.p2p_project.controllers.user
 import com.example.p2p_project.config.MyUserDetails
 import com.example.p2p_project.models.Card
 import com.example.p2p_project.services.CardService
+import com.example.p2p_project.services.UserService
 import com.example.p2p_project.services.dataServices.BankService
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Controller
@@ -17,8 +18,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 @RequestMapping("/platform/card")
 class CardController(
     private val cardService: CardService,
-    private val bankService: BankService
-
+    private val bankService: BankService,
+    private val userService: UserService
 ) {
  
     @GetMapping("/add")
@@ -38,7 +39,7 @@ class CardController(
         redirectAttributes: RedirectAttributes
     ):String {
         val userDetails = authentication.principal as MyUserDetails
-        card.user = userDetails.user
+        card.user = userService.getById(userDetails.user.id)
 
         if (cardService.existsByCardNumber(card.cardNumber) ){
             redirectAttributes.addFlashAttribute("errorMessage", "Card number is exist")

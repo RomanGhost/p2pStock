@@ -14,8 +14,8 @@ class RequestTypeInitialize(val requestTypeRepository: RequestTypeRepository): C
         if (requestTypeRepository.count() != 0L) return;
         val requestTypes: MutableList<RequestType> = mutableListOf()
 
-        requestTypes.add(RequestType(null, "Покупка"))
-        requestTypes.add(RequestType(null, "Продажа"))
+        requestTypes.add(RequestType(name = "Покупка"))
+        requestTypes.add(RequestType(name = "Продажа"))
 
         for (requestType in requestTypes) {
             requestTypeRepository.save(requestType)

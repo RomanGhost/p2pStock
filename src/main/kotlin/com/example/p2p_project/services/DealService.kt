@@ -7,6 +7,7 @@ import com.example.p2p_project.repositories.dataTables.DealStatusRepository
 import jakarta.persistence.EntityNotFoundException
 import org.springframework.orm.jpa.JpaObjectRetrievalFailureException
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
 
 @Service
 class DealService(val dealRepository: DealRepository, val dealStatusRepository: DealStatusRepository) {
@@ -37,9 +38,10 @@ class DealService(val dealRepository: DealRepository, val dealStatusRepository: 
         val dealStatus = dealStatusRepository.findByName(status)
         val deal = dealRepository.getReferenceById(dealId)
         deal.status = dealStatus
-        dealRepository.save(deal)
 
-        return deal
+        deal.changeLastTime = LocalDateTime.now()
+
+        return dealRepository.save(deal)
     }
 
     fun delete(id:Long){
@@ -102,5 +104,11 @@ class DealService(val dealRepository: DealRepository, val dealStatusRepository: 
                 && deal.isBuyCreated==true)
                 || (counterpartyAccept(deal, user, "Ожидание подтверждения перевода")
                 && deal.isBuyCreated==false)
+    }
+
+    fun changeLastStatusTime(deal:Deal):Deal{
+        deal.changeLastTime = LocalDateTime.now()
+        val updateDeal = update(deal, deal.id)
+        return updateDeal
     }
 }

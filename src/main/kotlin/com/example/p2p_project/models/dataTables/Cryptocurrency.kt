@@ -6,7 +6,7 @@ import jakarta.persistence.*
 data class Cryptocurrency(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long? = 0,
+    var id: Long = 0,
 
     @Column
     val name: String = "",

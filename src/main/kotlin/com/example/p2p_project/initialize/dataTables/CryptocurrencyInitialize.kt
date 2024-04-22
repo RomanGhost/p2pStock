@@ -14,8 +14,8 @@ class CryptocurrencyInitialize(val cryptocurrencyRepository: CryptocurrencyRepos
         if (cryptocurrencyRepository.count() != 0L) return;
         val cryptocurrencies: MutableList<Cryptocurrency> = mutableListOf()
 
-        cryptocurrencies.add(Cryptocurrency(null, "Bitcoin", "BTC"))
-        cryptocurrencies.add(Cryptocurrency(null, "Etherium", "ETH"))
+        cryptocurrencies.add(Cryptocurrency(-1, "Bitcoin", "BTC"))
+        cryptocurrencies.add(Cryptocurrency(-1, "Etherium", "ETH"))
 
         for (cryptocurrency in cryptocurrencies) {
             cryptocurrencyRepository.save(cryptocurrency)

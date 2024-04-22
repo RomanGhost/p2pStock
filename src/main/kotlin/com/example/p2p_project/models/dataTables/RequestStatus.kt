@@ -6,7 +6,7 @@ import jakarta.persistence.*
 data class RequestStatus(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long? = 0L,
+    var id: Long = 0L,
 
     @Column
     val name: String="",

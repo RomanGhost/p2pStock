@@ -87,6 +87,7 @@ class RequestController(
             if (cards.isNotEmpty())
                 model.addAttribute("cards", cards)
         }
+
         var isAccess = request.requestStatus.name == "Доступна на платформе"
         if (model.getAttribute("wallets")==null &&
             model.getAttribute("cards")==null){
@@ -94,9 +95,16 @@ class RequestController(
         }
         if(request.user.id == userId){
             isAccess = false
+            model.addAttribute("isUserInitiator", isAccess)
         }
         model.addAttribute("isAccess", isAccess)
         return "requestInfo"
+    }
+
+    @GetMapping("/{requestId}/cancel")
+    fun postCancelRequest(@PathVariable requestId:Long, model:Model, authentication: Authentication):String {
+        requestService.updateStatusById(requestId, "Закрыто: неактуально")
+        return "redirect:/platform/request/$requestId"
     }
 
     @GetMapping("/all")

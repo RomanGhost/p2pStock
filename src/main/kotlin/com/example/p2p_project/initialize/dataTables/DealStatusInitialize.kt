@@ -20,7 +20,8 @@ class DealStatusInitialize(val dealStatusRepository: DealStatusRepository): Comm
         dealStatuses.add(DealStatus(name="Закрыто: успешно", priority=8))
         dealStatuses.add(DealStatus(name="Приостановлено: решение проблем", priority=2))
         dealStatuses.add(DealStatus(name="Ожидание решения менеджера", priority=1))
-        dealStatuses.add(DealStatus(name="Закрыто: Время перевода истекло", priority=6))
+        dealStatuses.add(DealStatus(name="Закрыто: время кс истекло", priority=6))
+        dealStatuses.add(DealStatus(name="Закрыто: отменена менеджером", priority=9))
         dealStatuses.add(DealStatus(name="Закрыто: неактуально", priority=7))
 
         for (dealStatus in dealStatuses) {

@@ -60,6 +60,7 @@ class RequestService(val requestRepository: RequestRepository, val requestStatus
             throw EntityNotFoundException("Request with id: $id not found")
         val request = requestRepository.getReferenceById(id)
         request.requestStatus = requestStatusRepository.findByName(requestStatusName)
+        request.lastChangeStatusDateTime = LocalDateTime.now()
         return requestRepository.save(request)
     }
 

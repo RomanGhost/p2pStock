@@ -10,7 +10,7 @@ import java.time.LocalDateTime
 data class WalletOperation(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long?,
+    var id: Long,
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
     @JoinColumn(name = "wallet_id")

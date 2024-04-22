@@ -14,9 +14,9 @@ class PriorityInitialize(val priorityRepository: PriorityRepository): CommandLin
         if (priorityRepository.count() != 0L) return;
         val priorities: MutableList<Priority> = mutableListOf()
 
-        priorities.add(Priority(null, 5, "Низкий"))
-        priorities.add(Priority(null, 4, "Средний"))
-        priorities.add(Priority(null, 3, "Высокий"))
+        priorities.add(Priority(-1, 5, "Низкий"))
+        priorities.add(Priority(-1, 4, "Средний"))
+        priorities.add(Priority(-1, 3, "Высокий"))
 
         for (priority in priorities) {
             priorityRepository.save(priority)

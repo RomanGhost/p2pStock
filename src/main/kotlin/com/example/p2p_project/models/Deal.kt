@@ -8,7 +8,7 @@ import java.time.LocalDateTime
 data class Deal(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long?=-1,
+    var id: Long=-1,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "status_id")
@@ -19,6 +19,9 @@ data class Deal(
 
     @Column(name = "close_date_time")
     val closeDateTime: LocalDateTime = LocalDateTime.now(),
+
+    @Column(name = "change_last_time")
+    var changeLastTime: LocalDateTime = LocalDateTime.now(),
 
     val isBuyCreated: Boolean?=null,
 

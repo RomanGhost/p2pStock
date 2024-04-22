@@ -14,9 +14,9 @@ class OperationTypeInitialize(val operationTypeRepository: OperationTypeReposito
         if (operationTypeRepository.count() != 0L) return;
         val operationTypes: MutableList<OperationType> = mutableListOf()
 
-        operationTypes.add(OperationType(null, "Пополнение"))
-        operationTypes.add(OperationType(null, "Вывод"))
-        operationTypes.add(OperationType(null, "Первод на другой кошелек"))
+        operationTypes.add(OperationType(-1, "Пополнение"))
+        operationTypes.add(OperationType(-1, "Вывод"))
+        operationTypes.add(OperationType(-1, "Первод на другой кошелек"))
 
         for (operationType in operationTypes) {
             operationTypeRepository.save(operationType)

@@ -6,7 +6,7 @@ import jakarta.persistence.*
 data class OperationType(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long?,
+    var id: Long,
 
     @Column(name = "operation_name")
     val operationName: String

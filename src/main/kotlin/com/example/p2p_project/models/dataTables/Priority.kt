@@ -6,11 +6,11 @@ import jakarta.persistence.*
 data class Priority(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long?,
+    var id: Long=-1,
 
     @Column
-    val priority: Int,
+    val priority: Int=-1,
 
     @Column
-    val type: String
+    val type: String=""
 )

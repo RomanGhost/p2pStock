@@ -7,7 +7,7 @@ import jakarta.persistence.*
 data class Wallet(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long? = 0,
+    var id: Long = 0,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cryptocurrency_id")

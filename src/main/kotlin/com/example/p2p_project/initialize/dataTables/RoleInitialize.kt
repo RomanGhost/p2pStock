@@ -13,9 +13,9 @@ class RoleInitialize(val roleRepository: RoleRepository): CommandLineRunner {
         if (roleRepository.count() != 0L) return;
         val roles: MutableList<Role> = mutableListOf()
 
-        roles.add(Role(null, 3, "Пользователь"))
-        roles.add(Role(null, 2, "Менеджер"))
-        roles.add(Role(null, 1, "Администратор"))
+        roles.add(Role(-1, 3, "Пользователь"))
+        roles.add(Role(-1, 2, "Менеджер"))
+        roles.add(Role(-1, 1, "Администратор"))
 
         for (role in roles) {
             roleRepository.save(role)

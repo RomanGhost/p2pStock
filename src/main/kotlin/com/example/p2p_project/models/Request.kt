@@ -47,5 +47,5 @@ data class Request(
     var deadlineDateTime:LocalDateTime = createDateTime,
 
     @Column(name = "last_change_date_time")
-    val lastChangeStatusDateTime:LocalDateTime = createDateTime
+    var lastChangeStatusDateTime:LocalDateTime = createDateTime
 )

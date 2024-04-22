@@ -9,24 +9,24 @@ import jakarta.persistence.*
 data class DealAction(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long?,
+    var id: Long=-1,
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
     @JoinColumn(name = "deal_id")
-    val deal: Deal,
+    var deal: Deal = Deal(),
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
     @JoinColumn(name = "manager_id")
-    val user: User,
+    var user: User = User(),
 
     @Column
-    val confirmation: Boolean,
+    val confirmation: Boolean=false,
     @Column(name = "action_description")
-    val actionDescription: String,
+    val actionDescription: String = "",
     @Column(name = "error_description")
-    val errorModel: String,
+    val errorModel: String = "",
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="priority_id")
-    val priority: Priority
+    var priority: Priority = Priority()
 )

@@ -2,6 +2,7 @@ package com.example.p2p_project.controllers.user
 
 import com.example.p2p_project.config.MyUserDetails
 import com.example.p2p_project.models.Wallet
+import com.example.p2p_project.services.UserService
 import com.example.p2p_project.services.WalletService
 import com.example.p2p_project.services.dataServices.CryptocurrencyService
 import org.springframework.security.core.Authentication
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 @RequestMapping("/platform/wallet")
 class WalletController(
     private val walletService: WalletService,
+    private val userService: UserService,
     private val cryptocurrencyService: CryptocurrencyService
 ) {
  
@@ -49,7 +51,7 @@ class WalletController(
         }
 
         val userDetails = authentication.principal as MyUserDetails
-        wallet.user = userDetails.user
+        wallet.user = userService.getById(userDetails.user.id)
 
         walletService.add(wallet)
         return "redirect:/platform/account/welcome"

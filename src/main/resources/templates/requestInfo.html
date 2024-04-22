@@ -62,6 +62,12 @@
     </form>
 </div>
 
+<div th:if="${isUserInitiator}">
+    <form action="#" th:action="@{'/platform/request/' + ${request.id} + '/cancel'}" method="post">
+        <button type="submit">Отменить заявку</button>
+    </form>
+</div>
+
 <div th:if="${isModeration}">
     <h2><b>Внимание!</b></h2>
     Внимательно проверь поля заполненные пользоватлем<br>

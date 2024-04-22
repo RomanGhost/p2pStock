@@ -8,13 +8,13 @@ import jakarta.persistence.*
 data class UserRole(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long?=0,
+    var id: Long=0,
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
     @JoinColumn(name = "user_id")
     val user: User,
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id")
     val role: Role
 )

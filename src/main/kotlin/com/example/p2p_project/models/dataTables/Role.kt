@@ -6,7 +6,7 @@ import jakarta.persistence.*
 data class Role(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long?,
+    var id: Long,
 
     @Column
     val priority: Int,
