@@ -2,6 +2,7 @@ package com.example.p2p_project.controllers.user
 
 import com.example.p2p_project.config.MyUserDetails
 import com.example.p2p_project.models.Request
+import com.example.p2p_project.models.Wallet
 import com.example.p2p_project.services.CardService
 import com.example.p2p_project.services.RequestService
 import com.example.p2p_project.services.UserService
@@ -87,7 +88,10 @@ class RequestController(
 
         //если заявка на покупку, то показать кошельки
         if(isBuying) {
-            val wallets = walletService.getByUserId(userId)
+            val userWallets = walletService.getByUserId(userId)
+
+            val wallets: List<Wallet> = userWallets.filter { it.cryptocurrency.id == request.wallet!!.cryptocurrency.id }
+
             if(wallets.isNotEmpty())
                 model.addAttribute("wallets", wallets)
         }
