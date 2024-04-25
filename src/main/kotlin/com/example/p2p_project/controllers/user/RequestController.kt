@@ -55,6 +55,15 @@ class RequestController(
             return "redirect:/platform/request/add?error"
         }
 
+        if(request.wallet == null){
+            redirectAttributes.addFlashAttribute("walletError", "Кошелек не выбран!")
+            return "redirect:/platform/request/add?error"
+        }
+
+        if(request.card == null){
+            redirectAttributes.addFlashAttribute("cardError", "Карта не выбрана!")
+            return "redirect:/platform/request/add?error"
+        }
 
         val userDetails = authentication.principal as MyUserDetails
         val userId = userDetails.user.id

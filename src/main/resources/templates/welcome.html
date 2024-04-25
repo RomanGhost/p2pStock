@@ -27,6 +27,7 @@
         <li><a href="/platform/wallet/add">Добавить кошелек</a></li>
         <li><a href="/platform/card/add">Добавить карту</a></li>
         <li><a href="/platform/request/add">Создать заявку</a></li>
+        <li><a href="/platform/request/all">Все заявки</a></li>
         <!-- Добавьте другие пункты меню здесь -->
     </ul>
 
@@ -73,7 +74,7 @@
             <th>Номер заявки</th>
             <th>Тип заявки</th>
             <th>Итоговая цена</th>
-           <th>Статус сделки</th>
+            <th>Статус заявки</th>
             <th>Последнее изменение</th>
             <th>Цена за единицу</th>
             <th>Количество</th>
@@ -92,6 +93,33 @@
             <td th:text="${request.quantity}"></td>
             <td th:text="${request.createDateTime}"></td>
             <td th:text="${request.deadlineDateTime}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>Сделки пользователя</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Номер сделки</th>
+            <th>Статус сделки</th>
+            <th>Заявка на покупку</th>
+            <th>Заявка на продажу</th>
+            <th>Последнее изменение</th>
+            <th>Время создания</th>
+            <th>Время закрытия</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="deal : ${deals}">
+            <td><a th:href="@{'/platform/deal/' + ${deal.id}}" th:text="${deal.id}"></a></td>
+            <td th:text="${deal.status.name}"></td>
+            <td><b th:if="${deal.isBuyCreated}"><a th:href="@{'/platform/request/' + ${deal.sellRequest.id}}" th:text="${deal.sellRequest.id}"></a></b></td>
+            <td><b th:if="${!deal.isBuyCreated}"><a th:href="@{'/platform/request/' + ${deal.buyRequest.id}}" th:text="${deal.buyRequest.id}"></a></b></td>
+<!--            <td><a th:href="@{'/platform/request/' + ${deal.buyRequest.id}}" th:text="${deal.buyRequest.id}"></a></td>-->
+            <td th:text="${deal.changeLastTime}"></td>
+            <td th:text="${deal.openDateTime}"></td>
+            <td th:text="${deal.closeDateTime}"></td>
         </tr>
         </tbody>
     </table>

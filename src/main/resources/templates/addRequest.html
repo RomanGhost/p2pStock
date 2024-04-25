@@ -16,12 +16,16 @@
     <label for="wallet">Wallet:</label>
     <select id="wallet" name="wallet" th:field="*{wallet}">
         <option th:each="wallet : ${wallets}" th:value="${wallet.id}" th:text="${wallet.name}"></option>
-    </select><br><br>
+    </select>
+    <span th:if="${walletError}" class="error" th:text="${walletError}"><BR></span><br><br>
 
     <label for="card">Card:</label>
     <select id="card" name="card" th:field="*{card}">
         <option th:each="card : ${cards}" th:value="${card.id}" th:text="${card.cardName}"></option>
-    </select><br><br>
+    </select>
+    <span th:if="${cardError}" class="error" th:text="${cardError}"><BR></span><br><br>
+
+
 
     <label for="pricePerUnit">Price Per Unit:</label>
     <input type="number" id="pricePerUnit" name="pricePerUnit" step="0.1" th:field="*{pricePerUnit}" required><br>
