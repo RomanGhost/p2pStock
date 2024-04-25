@@ -11,10 +11,6 @@
         <label>Request Type: </label>
         <span th:text="${request.requestType.name}"></span>
     </div>
-<!--    <div>-->
-<!--        <label>Wallet: </label>-->
-<!--        <span th:text="${request.wallet.name}"></span>-->
-<!--    </div>-->
     <div>
         <label>User: </label>
         <span th:text="${request.user.login}"></span>
@@ -26,6 +22,10 @@
     <div>
         <label>Request Status: </label>
         <span th:text="${request.requestStatus.name}"></span>
+    </div>
+    <div>
+        <label>Криптовалюта заявки</label>
+        <span th:text="${request.wallet.cryptocurrency.name}"></span>
     </div>
     <div>
         <label>Price Per Unit: </label>

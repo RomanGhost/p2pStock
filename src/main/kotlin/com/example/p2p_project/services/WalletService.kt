@@ -46,4 +46,8 @@ class WalletService(val walletRepository: WalletRepository) {
     fun getByUserId(userId:Long):List<Wallet>{
         return walletRepository.findByUserId(userId)
     }
+
+    fun getByCryptocurrencyId(cryptocurrencyId:Long):List<Wallet> {
+        return walletRepository.findByCryptocurrencyId(cryptocurrencyId)
+    }
 }
