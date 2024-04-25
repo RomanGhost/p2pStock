@@ -12,10 +12,10 @@ interface DealRepository : JpaRepository<Deal, Long>{
     fun findByStatus(status:DealStatus):List<Deal>
 
     @Query("""
-        SELECT d FROM Deal d 
-        LEFT JOIN Request sr ON sr.id = d.sellRequest
-        LEFT JOIN Request br ON sr.id = d.buyRequest
-        WHERE sr.userId = :userId OR br.userId = :userId;
+                SELECT d FROM Deal d 
+                LEFT JOIN Request sr ON sr.id = d.sellRequest.id
+                LEFT JOIN Request br ON br.id = d.buyRequest.id
+                WHERE sr.user.id = :userId OR br.user.id = :userId
     """)
     fun findDealByUserId(@Param("userId") userId:Long):List<Deal>
 
