@@ -15,6 +15,10 @@ class DealService(val dealRepository: DealRepository, val dealStatusRepository: 
         return dealRepository.findAll()
     }
 
+    fun getByUserId(userId: Long): List<Deal> {
+        return dealRepository.findDealByUserId(userId)
+    }
+
     fun getById(id: Long): Deal {
         val deal = try{
             dealRepository.getReferenceById(id)

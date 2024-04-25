@@ -9,7 +9,7 @@
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         var id: Long=0,
 
-        @Column(unique = true, nullable = true)
+        @Column(unique = true)
         val login: String="",
 
         @Column

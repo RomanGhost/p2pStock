@@ -17,7 +17,7 @@ data class Request(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "wallet_id", nullable = true)
-    val wallet: Wallet? = Wallet(),
+    val wallet: Wallet? = null,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -25,7 +25,7 @@ data class Request(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "card_id", nullable = true)
-    val card: Card? = Card(),
+    val card: Card? = null,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "request_status_id")
