@@ -56,4 +56,6 @@ class WalletController(
         walletService.add(wallet)
         return "redirect:/platform/account/welcome"
     }
+
+//    @GetMapping()
 }

@@ -21,5 +21,5 @@ data class Card(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bank_id")
-    var bank: Bank = Bank()
+    var bank: Bank = Bank(),
 )

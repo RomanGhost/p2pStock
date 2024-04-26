@@ -23,7 +23,7 @@ class RestWalletController(val walletService: WalletService) {
 
     @DeleteMapping("/delete/{walletId}")
     fun delete(@PathVariable walletId:Long): ResponseEntity<Wallet> {
-        walletService.delete(walletId)
+        walletService.deleteById(walletId)
         return ResponseEntity(HttpStatus.OK)
     }
 

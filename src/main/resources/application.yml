@@ -7,7 +7,7 @@ spring:
   jpa:
     generate-ddl: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
   thymeleaf:
     cache: false
 
