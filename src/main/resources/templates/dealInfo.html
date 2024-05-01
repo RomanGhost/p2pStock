@@ -67,7 +67,8 @@
 
     <div th:if="${showDealActionFrom}">
         <h3>Deal Action Form</h3>
-        <form action="#" th:action="@{'/platform/manager/deal/' + ${deal.id} +'/action'}" method="post">
+        <form action="#" method="post" th:action="@{'/platform/manager/deal/' + ${deal.id} +'/action'}"
+              th:object="${dealAction}">
             <label for="confirmation">Confirmation:</label>
             <input type="checkbox" id="confirmation" name="confirmation" th:checked="${dealAction.confirmation}">
             <br>

@@ -31,6 +31,10 @@ data class Request(
     @JoinColumn(name = "request_status_id")
     var requestStatus: RequestStatus = RequestStatus(),
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "manager_id", nullable = true)
+    var managerId: User? = null,
+
     @Column(name = "price_per_unit")
     val pricePerUnit: Double = 0.0,
 
@@ -38,7 +42,7 @@ data class Request(
     val quantity: Double= 0.0,
 
     @Column
-    val description: String="",
+    var description: String = "",
 
     @Column(name = "create_date_time")
     var createDateTime: LocalDateTime = LocalDateTime.now(),

@@ -3,24 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Card</title>
+    <title>Добавить карту</title>
 </head>
 <body>
-<h1>Add Card</h1>
+<h1>Добавить карту</h1>
 <form th:action="@{/platform/card/save}" method="post" th:object="${card}">
-    <label for="cardName">Card Name:</label>
+    <label for="cardName">Название карты:</label>
     <input type="text" id="cardName" name="cardName" th:field="*{cardName}" required><br>
 
-    <label for="cardNumber">Card Number:</label>
+    <label for="cardNumber">Номер карты:</label>
     <input type="number" id="cardNumber" name="cardNumber" th:field="*{cardNumber}" required><br>
     <span th:if="${errorMessage}" class="error" th:text="${errorMessage}"></span><br>
 
-    <label for="bank">Bank:</label>
+    <label for="bank">Банк, в котором выпущенв карта:</label>
     <select id="bank" name="bank" th:field="*{bank}" required>
         <option th:each="bank : ${banks}" th:value="${bank.id}" th:text="${bank.name}"></option>
     </select><br><br>
 
-    <input type="submit" value="Add Card">
+    <input type="submit" value="Добавить">
 </form>
 </body>
 </html>
