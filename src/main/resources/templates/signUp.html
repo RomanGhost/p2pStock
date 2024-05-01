@@ -3,115 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <title>User Registration</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            width: 50%;
-            margin: 50px auto;
-            background-color: #e0e9f0;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center; /* Добавлено для центрирования содержимого */
-        }
-
-        h2 {
-            text-align: center;
-            color: #2a5885;
-        }
-
-        form {
-            max-width: 400px;
-            margin: 0 auto;
-        }
-
-        label {
-            font-weight: bold;
-            color: #2a5885;
-        }
-
-        input[type="text"],
-        input[type="email"],
-        input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-
-        input[type="submit"] {
-            width: 100%;
-            background-color: #2a5885;
-            color: #fff;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #1e3a57;
-        }
-
-        .error {
-            color: red;
-            font-size: 12px;
-        }
-
-        .signInLink {
-            display: block; /* Делаем ссылку блочным элементом */
-            color: #2a5885;
-            text-decoration: none;
-            margin-top: 10px;
-        }
-
-        .signInLink:hover {
-            color: #1e3a57;
-        }
-    </style>
+    <link href="css/sign_up_styles.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div class="container">
-    <h2>User Registration Form</h2>
+    <h2>Форма регистрации пользователя</h2>
     <form action="#" th:action="@{/auth/sign-up/save}" th:object="${user}" method="post" onsubmit="return validateForm()">
-        <label>Login*:</label><br>
+        <label>Логин*:</label><br>
         <input type="text" id="login" name="login" th:field="*{login}" required><br>
-        <span id="loginError" class="error"><br></span>
+        <span class="error" th:errors="*{login}" th:if="${#fields.hasErrors('login')}"></span><br>
 
-        <label>Password*:</label><br>
+        <label>Пароль*:</label><br>
         <input type="password" id="password" name="password" th:field="*{password}" required><br>
-        <span id="passwordError" class="error"></span><br>
-        <span th:if="${errorMessage}" class="error" th:text="${errorMessage}"></span><br>
+        <span class="error" th:errors="*{password}" th:if="${#fields.hasErrors('password')}"></span><br>
 
-        <input type="submit" value="Register">
+        <input type="submit" value="Зарегистрироваться">
     </form>
-    <a th:href="@{/auth/sign-in}" class="signInLink">Sign In</a>
+    <a class="signInLink" th:href="@{/auth/sign-in}">Войти</a>
 </div>
 
 <script>
     function validateForm() {
         var login = document.getElementById('login').value;
         var password = document.getElementById('password').value;
-        var loginError = document.getElementById('loginError');
-        var passwordError = document.getElementById('passwordError');
+        var loginError = document.querySelector('#login + .error');
+        var passwordError = document.querySelector('#password + .error');
         loginError.textContent = '';
         passwordError.textContent = '';
 
         if (login.length < 2) {
-            loginError.textContent = 'Login must be at least 2 characters long';
+            loginError.textContent = 'Логин должен содержать не менее 2 символов';
             return false;
         }
 
         if (password.length < 8) {
-            passwordError.textContent = 'Password must be at least 8 characters long';
+            passwordError.textContent = 'Пароль должен содержать не менее 8 символов';
             return false;
         }
 

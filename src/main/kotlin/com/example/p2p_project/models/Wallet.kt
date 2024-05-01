@@ -13,7 +13,7 @@ data class Wallet(
     @JoinColumn(name = "cryptocurrency_id")
     val cryptocurrency: Cryptocurrency = Cryptocurrency(),
 
-    @ManyToOne(fetch=FetchType.LAZY, cascade = [CascadeType.ALL])
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     var user: User = User(),
 

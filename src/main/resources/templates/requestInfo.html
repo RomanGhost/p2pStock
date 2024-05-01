@@ -2,13 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title th:text="Зявка + ${request.requestType.id}"></title>
+    <title th:text="Заявка + ${request.requestType.id}"></title>
+    <link href="css/request_styles.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div>
     <h2>Информация о заявке</h2>
     <div>
-        <label>Request Type: </label>
+        <label>Тип заявки: </label>
         <span th:text="${request.requestType.name}"></span>
     </div>
     <div>
@@ -20,15 +21,15 @@
         <span th:text="${request.requestStatus.name}"></span>
     </div>
     <div>
-        <label>Криптовалюта заявки</label>
+        <label>Криптовалюта заявки: </label>
         <span th:text="${request.wallet.cryptocurrency.name}"></span>
     </div>
     <div>
-        <label>Цена за удиницу: </label>
+        <label>Цена за единицу: </label>
         <span th:text="${request.pricePerUnit}"></span>
     </div>
     <div>
-        <label>Количетсво: </label>
+        <label>Количество: </label>
         <span th:text="${request.quantity}"></span>
     </div>
     <div>
@@ -61,33 +62,30 @@
                 <option th:each="card : ${cards}" th:value="${card.id}" th:text="${card.cardName}"></option>
             </select>
         </div>
-
         <button type="submit">Создать сделку</button>
     </form>
 </div>
 
 <div th:if="${isUserInitiator}">
     <form action="#" th:action="@{'/platform/request/' + ${request.id} + '/cancel'}" method="post">
-        <button type="submit">Отменить заявку</button>
+        <button class="red-button" type="submit">Отменить заявку</button>
     </form>
 </div>
 
 <div th:if="${isModeration}">
     <h2><b>Внимание!</b></h2>
-    Внимательно проверь поля заполненные пользоватлем<br>
-    Проверь, есть ли недопустимые слова в комментарии, если все соответвует, то одобри заявку<br>
+    Внимательно проверьте поля, заполненные пользователем<br>
+    Проверьте, есть ли недопустимые слова в комментарии. Если все соответствует, то одобрите заявку.<br>
 
     <form action="#" th:action="@{'/platform/manager/request/' + ${request.id} + '/moderation/accept'}" method="post">
         <button type="submit" name="action" value="accept">Одобрить заявку</button>
     </form>
     <form action="#" th:action="@{'/platform/manager/request/' + ${request.id} + '/moderation/change'}" method="post">
-        <button type="submit" name="action" value="change">Отправить на изменение</button>
+        <button class="yellow-button" name="action" type="submit" value="change">Отправить на изменение</button>
     </form>
     <form action="#" th:action="@{'/platform/manager/request/' + ${request.id} + '/moderation/discard'}" method="post">
-        <button type="submit" name="action" value="discard">Закрыть заявку</button>
+        <button class="red-button" name="action" type="submit" value="discard">Закрыть заявку</button>
     </form>
-
-
 </div>
 
 </body>

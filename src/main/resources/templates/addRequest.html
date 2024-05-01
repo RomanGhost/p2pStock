@@ -4,39 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Request</title>
+    <link href="css/request_type_styles.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-<h1>Create Request</h1>
-<form action="#" th:action="@{/platform/request/save}" th:object="${request}" method="post">
-    <label for="requestType">Тип заявки:</label>
-    <select id="requestType" name="requestType" th:field="*{requestType}">
-        <option th:each="type : ${types}" th:value="${type.id}" th:text="${type.name}"></option>
-    </select><br><br>
+<div class="container">
+    <h1>Create Request</h1>
+    <form action="#" method="post" th:action="@{/platform/request/save}" th:object="${request}">
+        <label for="requestType">Тип заявки:</label>
+        <select id="requestType" name="requestType" th:field="*{requestType}">
+            <option th:each="type : ${types}" th:text="${type.name}" th:value="${type.id}"></option>
+        </select><br>
 
-    <label for="wallet">Wallet:</label>
-    <select id="wallet" name="wallet" th:field="*{wallet}">
-        <option th:each="wallet : ${wallets}" th:value="${wallet.id}" th:text="${wallet.name}"></option>
-    </select>
-    <span th:if="${walletError}" class="error" th:text="${walletError}"><BR></span><br><br>
+        <label for="wallet">Wallet:</label>
+        <select id="wallet" name="wallet" th:field="*{wallet}">
+            <option th:each="wallet : ${wallets}" th:text="${wallet.name}" th:value="${wallet.id}"></option>
+        </select>
+        <span class="error" th:if="${walletError}" th:text="${walletError}"></span><br>
 
-    <label for="card">Card:</label>
-    <select id="card" name="card" th:field="*{card}">
-        <option th:each="card : ${cards}" th:value="${card.id}" th:text="${card.cardName}"></option>
-    </select>
-    <span th:if="${cardError}" class="error" th:text="${cardError}"><BR></span><br><br>
+        <label for="card">Card:</label>
+        <select id="card" name="card" th:field="*{card}">
+            <option th:each="card : ${cards}" th:text="${card.cardName}" th:value="${card.id}"></option>
+        </select>
+        <span class="error" th:if="${cardError}" th:text="${cardError}"></span><br>
 
-    <label for="pricePerUnit">Price Per Unit:</label>
-    <input type="number" id="pricePerUnit" name="pricePerUnit" step="0.1" th:field="*{pricePerUnit}" required><br>
-    <span th:if="${priceError}" class="error" th:text="${priceError}"><br></span><br>
+        <label for="pricePerUnit">Цена за единицу:</label>
+        <input id="pricePerUnit" name="pricePerUnit" required step="0.1" th:field="*{pricePerUnit}" type="number">
+        <span class="error" th:if="${priceError}" th:text="${priceError}"></span><br>
 
-    <label for="quantity">Quantity:</label>
-    <input type="number" id="quantity" name="quantity" step="0.01" th:field="*{quantity}" required><br>
-    <span th:if="${quantityError}" class="error" th:text="${quantityError}"><BR></span><br>
+        <label for="quantity">Количетсво:</label>
+        <input id="quantity" name="quantity" required step="0.01" th:field="*{quantity}" type="number">
+        <span class="error" th:if="${quantityError}" th:text="${quantityError}"></span><br>
 
-    <label for="description">Description:</label><br>
-    <textarea id="description" name="description" rows="4" cols="50" th:field="*{description}"></textarea><br><br>
+        <label for="description">Описание:</label><br>
+        <textarea cols="50" id="description" name="description" rows="4" th:field="*{description}"></textarea><br>
 
-    <input type="submit" value="Submit">
-</form>
+        <input type="submit" value="Submit">
+    </form>
+</div>
 </body>
 </html>
