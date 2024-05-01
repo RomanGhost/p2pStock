@@ -2,85 +2,90 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Deal</title>
+    <title>Deal Information</title>
+    <link href="css/deal_styles.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-    <h2>Deal Information</h2>
-    <div>
-        <label>Status</label>
-        <span th:text="${deal.status.name}"></span>
-    </div>
-    <div>
-        <label>Open date time</label>
-        <span th:text="${deal.openDateTime}"></span>
-    </div>
-    <div>
-        <label>Close date time</label>
-        <span th:text="${deal.closeDateTime}"></span>
-    </div>
-    <div>
-        <label>Sell deal id</label>
-        <a th:href="@{'/platform/request/' + ${deal.sellRequest.id}}" th:text="${deal.sellRequest.id}"></a>
-    </div>
+<h2>Сделка</h2>
+<div>
+    <label>Статус:</label>
+    <span th:text="${deal.status.name}"></span>
+</div>
+<div>
+    <label>Время открытия:</label>
+    <span th:text="${deal.openDateTime}"></span>
+</div>
+<div>
+    <label>Контрольный срок:</label>
+    <span th:text="${deal.closeDateTime}"></span>
+</div>
+<div>
+    <label>Номер сделки продавца:</label>
+    <a th:href="@{'/platform/request/' + ${deal.sellRequest.id}}" th:text="${deal.sellRequest.id}"></a>
+</div>
 
-    <div>
-        <label>Buy deal id</label>
-        <a th:href="@{'/platform/request/' + ${deal.buyRequest.id}}" th:text="${deal.buyRequest.id}"></a>
-    </div>
+<div>
+    <label>Номер сделки покупателя:</label>
+    <a th:href="@{'/platform/request/' + ${deal.buyRequest.id}}" th:text="${deal.buyRequest.id}"></a>
+</div>
 
-    <div th:if="${showAcceptButton}">
-        <form th:action="@{'/platform/deal/' + ${deal.id} +'/accept'}" method="post">
-            <button type="submit">Принять!</button>
-        </form>
-    </div>
+<div th:if="${showAcceptButton}">
+    <form method="post" th:action="@{'/platform/deal/' + ${deal.id} +'/accept'}">
+        <button type="submit">Принять!</button>
+    </form>
+</div>
 
-    <div th:if="${showRefuseButton}">
-        <form th:action="@{'/platform/deal/' + ${deal.id} +'/refuse'}" method="post">
-            <button type="submit">Отменить!</button>
-        </form>
-    </div>
+<div th:if="${showRefuseButton}">
+    <form method="post" th:action="@{'/platform/deal/' + ${deal.id} +'/refuse'}">
+        <button class="cancel-button" type="submit">Отменить!</button>
+    </form>
+</div>
 
-    <div th:if="${showConfirmPaymentButton}">
-        <form th:action="@{'/platform/deal/' + ${deal.id} +'/confirm_payment?'}" method="post">
-            <button type="submit">Подтвердить отправку средств!</button>
-        </form>
-    </div>
+<div th:if="${showConfirmPaymentButton}">
+    <form method="post" th:action="@{'/platform/deal/' + ${deal.id} +'/confirm_payment?'}">
+        <button type="submit">Подтвердить отправку средств!</button>
+    </form>
+</div>
 
-    <div th:if="${showDenyReceiptButton}">
-        <form th:action="@{'/platform/deal/' + ${deal.id} +'/deny_received_payment'}" method="post">
-            <button type="submit">Средства не дошли!</button>
-        </form>
-    </div>
+<div th:if="${showDenyReceiptButton}">
+    <form method="post" th:action="@{'/platform/deal/' + ${deal.id} +'/deny_received_payment'}">
+        <button class="deny-button" type="submit">Средства не дошли!</button>
+    </form>
+</div>
 
-    <div th:if="${showConfirmReceiptButton}">
-        <form th:action="@{'/platform/deal/' + ${deal.id} +'/confirm_receipt_payment'}" method="post">
-            <button type="submit">Подтвердить получение средств!</button>
-        </form>
-    </div>
+<div th:if="${showConfirmReceiptButton}">
+    <form method="post" th:action="@{'/platform/deal/' + ${deal.id} +'/confirm_receipt_payment'}">
+        <button type="submit">Подтвердить получение средств!</button>
+    </form>
+</div>
 
-    <div th:if="${showTakeInWorkButton}">
-        <form th:action="@{'/platform/manager/deal/' + ${deal.id} +'/take_in_work'}" method="post">
-            <button type="submit">Взять в работу</button>
-        </form>
-    </div>
+<div th:if="${showTakeInWorkButton}">
+    <form method="post" th:action="@{'/platform/manager/deal/' + ${deal.id} +'/take_in_work'}">
+        <button type="submit">Взять в работу</button>
+    </form>
+</div>
 
-
-    <div th:if="${showDealActionFrom}">
-        <h3>Deal Action Form</h3>
-        <form action="#" method="post" th:action="@{'/platform/manager/deal/' + ${deal.id} +'/action'}"
-              th:object="${dealAction}">
-            <label for="confirmation">Confirmation:</label>
+<div th:if="${showDealActionFrom}">
+    <h3>Действия со сделкой</h3>
+    <form action="#" method="post" th:action="@{'/platform/manager/deal/' + ${deal.id} +'/action'}"
+          th:object="${dealAction}">
+        <div>
+            <label for="confirmation">Подтвердить сделку?:</label>
             <input type="checkbox" id="confirmation" name="confirmation" th:checked="${dealAction.confirmation}">
-            <br>
-            <label for="actionDescription">Action Description:</label>
-            <input type="text" id="actionDescription" name="actionDescription" th:value="${dealAction.actionDescription}" required>
-            <br>
-            <label for="errorModel">Error Model:</label>
+        </div>
+        <div>
+            <label for="actionDescription">Описание решения:</label>
+            <textarea cols="50" id="actionDescription" name="actionDescription" rows="4"
+                      th:value="${dealAction.actionDescription}"></textarea><br>
+            <!--            <input type="text" id="actionDescription" name="actionDescription" th:value="${dealAction.actionDescription}" required>-->
+        </div>
+        <div>
+            <label for="errorModel">В чем проблема:</label>
             <input type="text" id="errorModel" name="errorModel" th:value="${dealAction.errorModel}" required>
-            <br>
-            <button type="submit">Submit</button>
-        </form>
-    </div>
+        </div>
+        <button type="submit">Подтвердить</button>
+    </form>
+</div>
 
 </body>
 </html>
