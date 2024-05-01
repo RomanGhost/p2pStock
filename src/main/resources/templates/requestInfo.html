@@ -2,25 +2,21 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Request Info</title>
+    <title th:text="Зявка + ${request.requestType.id}"></title>
 </head>
 <body>
 <div>
-    <h2>Request Information</h2>
+    <h2>Информация о заявке</h2>
     <div>
         <label>Request Type: </label>
         <span th:text="${request.requestType.name}"></span>
     </div>
     <div>
-        <label>User: </label>
+        <label>Логин пользователя: </label>
         <span th:text="${request.user.login}"></span>
     </div>
-<!--    <div>-->
-<!--        <label>Card: </label>-->
-<!--        <span th:text="${request.card.cardName}"></span>-->
-<!--    </div>-->
     <div>
-        <label>Request Status: </label>
+        <label>Статус заявки: </label>
         <span th:text="${request.requestStatus.name}"></span>
     </div>
     <div>
@@ -28,37 +24,45 @@
         <span th:text="${request.wallet.cryptocurrency.name}"></span>
     </div>
     <div>
-        <label>Price Per Unit: </label>
+        <label>Цена за удиницу: </label>
         <span th:text="${request.pricePerUnit}"></span>
     </div>
     <div>
-        <label>Quantity: </label>
+        <label>Количетсво: </label>
         <span th:text="${request.quantity}"></span>
     </div>
     <div>
-        <label>Description: </label>
-        <span th:text="${request.description}"></span>
+        <label>Описание: </label>
+        <span th:if="${edit==null || !edit}" th:text="${request.description}"></span>
+        <form method="post" th:action="@{'/platform/request/' + ${request.id} + '/update'}"
+              th:if="${edit?:false && isUserInitiator}" th:object="${request}">
+            <textarea cols="50" rows="4" th:field="*{description}" th:text="${request.description}"></textarea><br>
+            <span class="error" th:if="${errorMessage}" th:text="${errorMessage}"></span><br>
+            <button type="submit">Отправить изменения</button>
+        </form>
     </div>
 </div>
+
+
 <br>
 <br>
-<div th:if="${isAccess}">
+<div th:if="${isAccess?:false && !isUserInitiator?:true}">
     <form action="#" th:action="@{'/platform/deal/add'}" method="post">
         <input type="hidden" th:name="requestId" th:value="${request.id}"/>
         <div th:if="${isBuying}">
-            <label for="walletId">Select Wallet:</label>
+            <label for="walletId">Кошелек:</label>
             <select id="walletId" name="walletId">
                 <option th:each="wallet : ${wallets}" th:value="${wallet.id}" th:text="${wallet.name}"></option>
             </select>
         </div>
         <div th:if="${!isBuying}">
-            <label for="cardId">Select Card:</label>
+            <label for="cardId">Выбранная карта:</label>
             <select id="cardId" name="cardId">
                 <option th:each="card : ${cards}" th:value="${card.id}" th:text="${card.cardName}"></option>
             </select>
         </div>
 
-        <button type="submit">Create Deal</button>
+        <button type="submit">Создать сделку</button>
     </form>
 </div>
 
@@ -71,7 +75,7 @@
 <div th:if="${isModeration}">
     <h2><b>Внимание!</b></h2>
     Внимательно проверь поля заполненные пользоватлем<br>
-    Проверь, есть ли недопустимые слова в комментарии, если все соответвует то одобри заявку<br>
+    Проверь, есть ли недопустимые слова в комментарии, если все соответвует, то одобри заявку<br>
 
     <form action="#" th:action="@{'/platform/manager/request/' + ${request.id} + '/moderation/accept'}" method="post">
         <button type="submit" name="action" value="accept">Одобрить заявку</button>

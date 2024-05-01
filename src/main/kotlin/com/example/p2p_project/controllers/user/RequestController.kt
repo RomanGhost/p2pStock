@@ -89,9 +89,7 @@ class RequestController(
         //если заявка на покупку, то показать кошельки
         if(isBuying) {
             val userWallets = walletService.getByUserId(userId)
-
             val wallets: List<Wallet> = userWallets.filter { it.cryptocurrency.id == request.wallet!!.cryptocurrency.id }
-
             if(wallets.isNotEmpty())
                 model.addAttribute("wallets", wallets)
         }
@@ -106,11 +104,14 @@ class RequestController(
             model.getAttribute("cards")==null){
             isAccess = false
         }
-        if(request.user.id == userId){
-            isAccess = false
-            model.addAttribute("isUserInitiator", isAccess)
-        }
         model.addAttribute("isAccess", isAccess)
+
+        val isUserInitiator = request.user.id == userId
+        model.addAttribute("isUserInitiator", isUserInitiator)
+
+        val requestEditStatus = request.requestStatus.name == "Отправлено на доработку"
+        model.addAttribute("edit", requestEditStatus)
+
         return "requestInfo"
     }
 
@@ -126,5 +127,22 @@ class RequestController(
         model.addAttribute("requests", requests)
 
         return "allRequest"
+    }
+
+    @PostMapping("/{requestId}/update")
+    fun updateRequest(
+        @PathVariable("requestId") requestId: Long,
+        @ModelAttribute request: Request,
+        redirectAttributes: RedirectAttributes
+    ): String {
+        val oldRequest = requestService.getById(requestId)
+        if (oldRequest.description == request.description) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Заявка не имеет изменений")
+            return "redirect:/platform/request/$requestId?error"
+        }
+        oldRequest.description = request.description
+        requestService.update(oldRequest)
+        requestService.updateStatusById(requestId, "Модерация")
+        return "redirect:/platform/request/$requestId"
     }
 }
