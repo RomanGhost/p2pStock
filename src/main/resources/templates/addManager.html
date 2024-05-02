@@ -3,9 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin panel</title>
-    <link href="css/add_manager_styles.css" rel="stylesheet" type="text/css">
+    <link href="/css/header.css" rel="stylesheet" type="text/css">
+    <link href="/css/footer.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/add_manager_styles.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+<header th:replace="~{header.html}"></header>
+
 <h1>User List</h1>
 <table>
     <thead>
@@ -28,5 +32,7 @@
     </tr>
     </tbody>
 </table>
+
+<footer th:replace="~{footer.html}"></footer>
 </body>
 </html>

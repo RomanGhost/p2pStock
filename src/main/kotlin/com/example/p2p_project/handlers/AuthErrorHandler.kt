@@ -7,13 +7,13 @@ import org.springframework.security.authentication.InternalAuthenticationService
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.web.authentication.AuthenticationFailureHandler
 
-class AuthErrorHandler(): AuthenticationFailureHandler {
+class AuthErrorHandler : AuthenticationFailureHandler {
     override fun onAuthenticationFailure(
         request: HttpServletRequest?,
         response: HttpServletResponse,
         exception: AuthenticationException?
     ) {
-        println("Login Exception $exception")
+//        println("Login Exception $exception")
         when(exception){
             is BadCredentialsException -> response.sendRedirect("/auth/sign-in?error")
             is InternalAuthenticationServiceException -> response.sendRedirect("/auth/sign-up")
