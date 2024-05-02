@@ -23,7 +23,7 @@ class RestCardController(val cardService: CardService) {
 
     @DeleteMapping("/delete/{cardId}")
     fun delete(@PathVariable cardId:Long): ResponseEntity<Card> {
-        cardService.delete(cardId)
+        cardService.deleteById(cardId)
         return ResponseEntity(HttpStatus.OK)
     }
 

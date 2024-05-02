@@ -25,11 +25,13 @@ data class Deal(
 
     val isBuyCreated: Boolean?=null,
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE])
+
     @JoinColumn(name = "sell_request_id")
     val sellRequest: Request = Request(),
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE])
     @JoinColumn(name = "buy_request_id")
     val buyRequest:Request = Request()
 )

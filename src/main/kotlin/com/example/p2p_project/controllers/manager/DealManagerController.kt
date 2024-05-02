@@ -39,6 +39,7 @@ class DealManagerController(
 
         return "redirect:/platform/manager/deal/$dealId"
     }
+
     @PostMapping("/{dealId}/action")
     fun postActionDeal(@PathVariable dealId:Long,
                        @ModelAttribute("dealAction") dealAction: DealAction,
@@ -52,11 +53,12 @@ class DealManagerController(
 
         dealAction.deal = deal
         dealAction.user = user
-        val newDealAction = dealActionService.add(dealAction)
+
         val price = deal.buyRequest.pricePerUnit * deal.buyRequest.quantity
-            if (price < 1000) dealActionService.setPriority(newDealAction,"Низкий")
-            else if (price < 10000) dealActionService.setPriority(newDealAction,"Средний")
-            else dealActionService.setPriority(newDealAction,"Высокий")
+        if (price < 1000) dealActionService.setPriority(dealAction, "Низкий")
+        else if (price < 10000) dealActionService.setPriority(dealAction, "Средний")
+        else dealActionService.setPriority(dealAction, "Высокий")
+        dealActionService.add(dealAction)
 
         if(dealAction.confirmation){
             dealService.updateStatus(dealId, "Ожидание подтверждения перевода")
@@ -66,6 +68,4 @@ class DealManagerController(
 
         return "redirect:/platform/manager/deal/$dealId"
     }
-
-
 }

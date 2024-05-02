@@ -2,10 +2,11 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Requests</title>
+    <title>Заявки</title>
+    <link href="css/all_request_styles.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-<h2>Requests</h2>
+<h2>Активные заявки</h2>
 <table>
     <thead>
     <tr>
@@ -23,7 +24,8 @@
     <tbody>
     <tr th:each="request : ${requests}">
         <td>
-            <a th:if="${isManager==null}" th:href="@{'/platform/request/' + ${request.id}}" th:text="${request.id}"></a>
+            <a th:href="@{'/platform/request/' + ${request.id}}" th:if="${isManager == null}"
+               th:text="${request.id}"></a>
             <a th:if="${isManager}" th:href="@{'/platform/manager/request/' + ${request.id}}" th:text="${request.id}"></a>
         </td>
         <td th:text="${request.requestType.name}"></td>
