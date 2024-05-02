@@ -4,9 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Request</title>
-    <link href="css/request_type_styles.css" rel="stylesheet" type="text/css">
+    <link href="/css/header.css" rel="stylesheet" type="text/css">
+    <link href="/css/footer.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/request_type_styles.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+<header th:replace="~{header.html}"></header>
+
 <div class="container">
     <h1>Create Request</h1>
     <form action="#" method="post" th:action="@{/platform/request/save}" th:object="${request}">
@@ -41,5 +45,7 @@
         <input type="submit" value="Submit">
     </form>
 </div>
+
+<footer th:replace="~{footer.html}"></footer>
 </body>
 </html>

@@ -3,9 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title th:text="Заявка + ${request.requestType.id}"></title>
-    <link href="css/request_styles.css" rel="stylesheet" type="text/css">
+    <link href="/css/header.css" rel="stylesheet" type="text/css">
+    <link href="/css/footer.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/request_styles.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+<header th:replace="~{header.html}"></header>
+
 <div>
     <h2>Информация о заявке</h2>
     <div>
@@ -88,5 +92,7 @@
     </form>
 </div>
 
+
+<footer th:replace="~{footer.html}"></footer>
 </body>
 </html>

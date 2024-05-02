@@ -4,9 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Новый кошелек</title>
-    <link href="css/add_wallet_styles.css" rel="stylesheet" type="text/css">
+    <link href="/css/header.css" rel="stylesheet" type="text/css">
+    <link href="/css/footer.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/add_wallet_styles.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+<header th:replace="~{header.html}"></header>
+
 <div class="container">
     <h1>Добавить кошелек</h1>
     <form method="post" th:action="@{/platform/wallet/save}" th:object="${wallet}">
@@ -27,5 +31,7 @@
         <input type="submit" value="Добавить">
     </form>
 </div>
+
+<footer th:replace="~{footer.html}"></footer>
 </body>
 </html>

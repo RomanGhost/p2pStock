@@ -4,9 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Добавить карту</title>
-    <link href="css/card_styles.css" rel="stylesheet" type="text/css">
+    <link href="/css/header.css" rel="stylesheet" type="text/css">
+    <link href="/css/footer.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/card_styles.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+<header th:replace="~{header.html}"></header>
+
 <div class="container">
     <h1>Добавить карту</h1>
     <form method="post" th:action="@{/platform/card/save}" th:object="${card}">
@@ -32,5 +36,7 @@
         </div>
     </form>
 </div>
+
+<footer th:replace="~{footer.html}"></footer>
 </body>
 </html>

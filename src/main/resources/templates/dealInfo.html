@@ -3,9 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Deal Information</title>
-    <link href="css/deal_styles.css" rel="stylesheet" type="text/css">
+    <link href="/css/header.css" rel="stylesheet" type="text/css">
+    <link href="/css/footer.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/deal_styles.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+<header th:replace="~{header.html}"></header>
+
 <h2>Сделка</h2>
 <div>
     <label>Статус:</label>
@@ -87,5 +91,7 @@
     </form>
 </div>
 
+
+<footer th:replace="~{footer.html}"></footer>
 </body>
 </html>

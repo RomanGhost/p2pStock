@@ -38,7 +38,6 @@ class UserAccountController(
         model.addAttribute("requests", requests)
         model.addAttribute("deals", deals)
 
-        println(authentication.authorities)
         return "welcome"
     }
 
