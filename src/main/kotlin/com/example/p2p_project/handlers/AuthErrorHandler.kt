@@ -16,7 +16,7 @@ class AuthErrorHandler : AuthenticationFailureHandler {
 //        println("Login Exception $exception")
         when(exception){
             is BadCredentialsException -> response.sendRedirect("/auth/sign-in?error")
-            is InternalAuthenticationServiceException -> response.sendRedirect("/auth/sign-up")
+            is InternalAuthenticationServiceException -> response.sendRedirect("/auth/sign-up?error")
             else -> println("WTF?")
         }
     }
