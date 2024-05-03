@@ -15,11 +15,11 @@
     <form action="#" th:action="@{/auth/sign-up/save}" th:object="${user}" method="post" onsubmit="return validateForm()">
         <label>Логин*:</label><br>
         <input type="text" id="login" name="login" th:field="*{login}" required><br>
-        <span class="error" th:errors="*{login}" th:if="${#fields.hasErrors('login')}"></span><br>
+        <!--        <span class="error" th:errors="*{login}" th:if="${#fields.hasErrors('login')}"></span><br>-->
 
         <label>Пароль*:</label><br>
         <input type="password" id="password" name="password" th:field="*{password}" required><br>
-        <span class="error" th:errors="*{password}" th:if="${#fields.hasErrors('password')}"></span><br>
+        <span class="error" th:if="${errorMessage}" th:text="${errorMessage}"></span><br>
 
         <input type="submit" value="Зарегистрироваться">
     </form>

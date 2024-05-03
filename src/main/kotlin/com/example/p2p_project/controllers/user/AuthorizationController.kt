@@ -7,10 +7,7 @@ import com.example.p2p_project.services.dataServices.UserRoleService
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.ModelAttribute
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 
@@ -24,9 +21,14 @@ class AuthorizationController(
 
 
     @GetMapping("/sign-up")
-    fun showSignUp(model:Model, redirectAttributes: RedirectAttributes):String{
+    fun showSignUp(
+        model: Model,
+        redirectAttributes: RedirectAttributes,
+        @RequestParam(name = "error", required = false) error: String? = null
+    ): String {
         val user:User = User()
-        
+        if (error != null)
+            model.addAttribute("errorMessage", "Пользователь не найден")
         model.addAttribute("user", user)
         return "signUp"
     }
@@ -56,7 +58,7 @@ class AuthorizationController(
         userRoleService.addUserRole(registerUser, "Пользователь")
 
         //TODO("Реализовать вход пользователя в личный кабинет без формы входа")
-        authenticationService.authenticateUser(registerUser.login, registerUser.password);
+        authenticationService.authenticateUser(registerUser.login, registerUser.password)
 
         return "redirect:/platform/account/welcome"
     }
