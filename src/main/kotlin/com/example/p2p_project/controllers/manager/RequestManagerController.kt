@@ -10,7 +10,7 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
 
 @Controller
-@RequestMapping("/platform/manager/request")
+@RequestMapping("/manager/request")
 class RequestManagerController(
     private val requestService: RequestService,
     private val userService: UserService,
@@ -51,7 +51,7 @@ class RequestManagerController(
         requestService.addManager(manager, requestId)
 
         requestService.updateStatusById(requestId, "Доступна на платформе")
-        return "redirect:/platform/manager/request/${requestId}"
+        return "redirect:/manager/request/${requestId}"
     }
 
     @PostMapping("/{requestId}/moderation/change")
@@ -64,7 +64,7 @@ class RequestManagerController(
         requestService.addManager(manager, requestId)
 
         requestService.updateStatusById(requestId, "Отправлено на доработку")
-        return "redirect:/platform/manager/request/${requestId}"
+        return "redirect:/manager/request/${requestId}"
     }
 
     @PostMapping("/{requestId}/moderation/discard")
@@ -77,7 +77,7 @@ class RequestManagerController(
         requestService.addManager(manager, requestId)
 
         requestService.updateStatusById(requestId, "Закрыто: проблема")
-        return "redirect:/platform/manager/request/${requestId}"
+        return "redirect:/manager/request/${requestId}"
     }
 
 }

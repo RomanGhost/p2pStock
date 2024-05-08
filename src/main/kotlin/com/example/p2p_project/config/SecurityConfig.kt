@@ -29,7 +29,7 @@ class SecurityConfig {
             .authorizeHttpRequests {
                 it.requestMatchers("/auth/sign-in/**", "/auth/sign-up/**", "/api/**", "/static/css/**").permitAll()
                 it.requestMatchers("/platform/**").authenticated()
-                it.requestMatchers("/platform/manager/**").hasAuthority("Менеджер")
+                it.requestMatchers("/manager/**").hasAuthority("Менеджер")
                 it.requestMatchers("/admin_panel/**").hasAuthority("Администратор")
                 it.anyRequest().permitAll()
             }

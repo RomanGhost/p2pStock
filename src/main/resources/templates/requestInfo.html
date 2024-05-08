@@ -81,13 +81,13 @@
     Внимательно проверьте поля, заполненные пользователем<br>
     Проверьте, есть ли недопустимые слова в комментарии. Если все соответствует, то одобрите заявку.<br>
 
-    <form action="#" th:action="@{'/platform/manager/request/' + ${request.id} + '/moderation/accept'}" method="post">
+    <form action="#" method="post" th:action="@{'/manager/request/' + ${request.id} + '/moderation/accept'}">
         <button type="submit" name="action" value="accept">Одобрить заявку</button>
     </form>
-    <form action="#" th:action="@{'/platform/manager/request/' + ${request.id} + '/moderation/change'}" method="post">
+    <form action="#" method="post" th:action="@{'/manager/request/' + ${request.id} + '/moderation/change'}">
         <button class="yellow-button" name="action" type="submit" value="change">Отправить на изменение</button>
     </form>
-    <form action="#" th:action="@{'/platform/manager/request/' + ${request.id} + '/moderation/discard'}" method="post">
+    <form action="#" method="post" th:action="@{'/manager/request/' + ${request.id} + '/moderation/discard'}">
         <button class="red-button" name="action" type="submit" value="discard">Закрыть заявку</button>
     </form>
 </div>

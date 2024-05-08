@@ -64,14 +64,14 @@
 </div>
 
 <div th:if="${showTakeInWorkButton}">
-    <form method="post" th:action="@{'/platform/manager/deal/' + ${deal.id} +'/take_in_work'}">
+    <form method="post" th:action="@{'/manager/deal/' + ${deal.id} +'/take_in_work'}">
         <button type="submit">Взять в работу</button>
     </form>
 </div>
 
 <div th:if="${showDealActionFrom}">
     <h3>Действия со сделкой</h3>
-    <form action="#" method="post" th:action="@{'/platform/manager/deal/' + ${deal.id} +'/action'}"
+    <form action="#" method="post" th:action="@{'/manager/deal/' + ${deal.id} +'/action'}"
           th:object="${dealAction}">
         <div>
             <label for="confirmation">Подтвердить сделку?:</label>
