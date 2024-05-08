@@ -28,9 +28,10 @@
     <tbody>
     <tr th:each="request : ${requests}">
         <td>
-            <a th:href="@{'/platform/request/' + ${request.id}}" th:if="${isManager == null}"
+            <a th:href="@{'/platform/request/' + ${request.id}}" sec:authorize="hasAuthority('Пользователь')"
                th:text="${request.id}"></a>
-            <a th:if="${isManager}" th:href="@{'/platform/manager/request/' + ${request.id}}" th:text="${request.id}"></a>
+            <a sec:authorize="hasAuthority('Менеджер')" th:href="@{'/manager/request/' + ${request.id}}"
+               th:text="${request.id}"></a>
         </td>
         <td th:text="${request.requestType.name}"></td>
         <td th:text="${request.quantity * request.pricePerUnit}"></td>

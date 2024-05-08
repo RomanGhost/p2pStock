@@ -11,12 +11,24 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
 
 @Controller
-@RequestMapping("/platform/manager/deal")
+@RequestMapping("/manager/deal")
 class DealManagerController(
     private val dealService: DealService,
     private val dealActionService: DealActionService,
     private val userService: UserService
 ) {
+    @GetMapping("/all")
+    fun getAllDeal(@RequestParam("status_filter", required = false) status: String? = null, model: Model): String {
+        var deals = dealService.getAll()
+        if (status != null)
+            deals = deals.filter { it.status.name == status }
+        model.addAttribute("deals", deals)
+        model.addAttribute("isManager", true)
+
+        return "allDeal"
+
+    }
+
     @GetMapping("/{dealId}")
     fun getDealForManager(@PathVariable dealId:Long, model:Model):String{
         val deal = dealService.getById(dealId)
@@ -30,14 +42,17 @@ class DealManagerController(
         if(showDealActionFrom)
             model.addAttribute("dealAction", DealAction())
 
+        model.addAttribute("isManager", true)
+
         return "dealInfo"
     }
 
     @PostMapping("/{dealId}/take_in_work")
     fun postTakeInWork(@PathVariable dealId:Long, model:Model, authentication: Authentication):String{
         dealService.updateStatus(dealId, "Ожидание решения менеджера")
+        model.addAttribute("isManager", true)
 
-        return "redirect:/platform/manager/deal/$dealId"
+        return "redirect:/manager/deal/$dealId"
     }
 
     @PostMapping("/{dealId}/action")
@@ -66,6 +81,8 @@ class DealManagerController(
             dealService.updateStatus(dealId, "Закрыто: отменена менеджером")
         }
 
-        return "redirect:/platform/manager/deal/$dealId"
+        model.addAttribute("isManager", true)
+
+        return "redirect:/manager/deal/$dealId"
     }
 }
