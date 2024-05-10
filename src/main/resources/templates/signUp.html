@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>User Registration</title>
+    <title>Регистрация пользователя</title>
     <link href="/css/header.css" rel="stylesheet" type="text/css">
     <link href="/css/footer.css" rel="stylesheet" type="text/css">
     <link href="/css/sign_up_styles.css" rel="stylesheet" type="text/css">
@@ -11,19 +11,24 @@
 <header th:replace="~{header.html}"></header>
 
 <div class="container">
-    <h2>Форма регистрации пользователя</h2>
-    <form action="#" th:action="@{/auth/sign-up/save}" th:object="${user}" method="post" onsubmit="return validateForm()">
-        <label>Логин*:</label><br>
-        <input type="text" id="login" name="login" th:field="*{login}" required><br>
-        <!--        <span class="error" th:errors="*{login}" th:if="${#fields.hasErrors('login')}"></span><br>-->
+    <div class="card-form">
+        <h2>Форма регистрации пользователя</h2>
+        <form action="#" method="post" onsubmit="return validateForm()" th:action="@{/auth/sign-up/save}"
+              th:object="${user}">
+            <label class="label" for="login">Логин*:</label>
+            <input class="form-control" id="login" name="login" placeholder="Введите логин" required
+                   th:field="*{login}" type="text">
+            <span class="error" th:errors="*{login}" th:if="${#fields.hasErrors('login')}"></span>
 
-        <label>Пароль*:</label><br>
-        <input type="password" id="password" name="password" th:field="*{password}" required><br>
-        <span class="error" th:if="${errorMessage}" th:text="${errorMessage}"></span><br>
+            <label class="label" for="password">Пароль*:</label>
+            <input class="form-control" id="password" name="password" placeholder="Введите пароль" required
+                   th:field="*{password}" type="password">
+            <span class="error" th:if="${errorMessage}" th:text="${errorMessage}"></span>
 
-        <input type="submit" value="Зарегистрироваться">
-    </form>
-    <a class="signInLink" th:href="@{/auth/sign-in}">Войти</a>
+            <button class="btn-primary" type="submit">Зарегистрироваться</button>
+        </form>
+        <a th:href="@{/auth/sign-in}">Войти</a>
+    </div>
 </div>
 
 <script>

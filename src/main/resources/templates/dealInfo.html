@@ -1,97 +1,97 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Deal Information</title>
+    <title>Информация о сделке</title>
     <link href="/css/header.css" rel="stylesheet" type="text/css">
     <link href="/css/footer.css" rel="stylesheet" type="text/css">
-    <link href="../static/css/deal_styles.css" rel="stylesheet" type="text/css">
+    <link href="/css/deal_styles.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <header th:replace="~{header.html}"></header>
-
-<h2>Сделка</h2>
-<div>
-    <label>Статус:</label>
-    <span th:text="${deal.status.name}"></span>
-</div>
-<div>
-    <label>Время открытия:</label>
-    <span th:text="${deal.openDateTime}"></span>
-</div>
-<div>
-    <label>Контрольный срок:</label>
-    <span th:text="${deal.closeDateTime}"></span>
-</div>
-<div>
-    <label>Номер сделки продавца:</label>
-    <a th:href="@{'/platform/request/' + ${deal.sellRequest.id}}" th:text="${deal.sellRequest.id}"></a>
-</div>
-
-<div>
-    <label>Номер сделки покупателя:</label>
-    <a th:href="@{'/platform/request/' + ${deal.buyRequest.id}}" th:text="${deal.buyRequest.id}"></a>
-</div>
-
-<div th:if="${showAcceptButton}">
-    <form method="post" th:action="@{'/platform/deal/' + ${deal.id} +'/accept'}">
-        <button type="submit">Принять!</button>
-    </form>
-</div>
-
-<div th:if="${showRefuseButton}">
-    <form method="post" th:action="@{'/platform/deal/' + ${deal.id} +'/refuse'}">
-        <button class="cancel-button" type="submit">Отменить!</button>
-    </form>
-</div>
-
-<div th:if="${showConfirmPaymentButton}">
-    <form method="post" th:action="@{'/platform/deal/' + ${deal.id} +'/confirm_payment?'}">
-        <button type="submit">Подтвердить отправку средств!</button>
-    </form>
-</div>
-
-<div th:if="${showDenyReceiptButton}">
-    <form method="post" th:action="@{'/platform/deal/' + ${deal.id} +'/deny_received_payment'}">
-        <button class="deny-button" type="submit">Средства не дошли!</button>
-    </form>
-</div>
-
-<div th:if="${showConfirmReceiptButton}">
-    <form method="post" th:action="@{'/platform/deal/' + ${deal.id} +'/confirm_receipt_payment'}">
-        <button type="submit">Подтвердить получение средств!</button>
-    </form>
-</div>
-
-<div th:if="${showTakeInWorkButton}">
-    <form method="post" th:action="@{'/manager/deal/' + ${deal.id} +'/take_in_work'}">
-        <button type="submit">Взять в работу</button>
-    </form>
-</div>
-
-<div th:if="${showDealActionFrom}">
-    <h3>Действия со сделкой</h3>
-    <form action="#" method="post" th:action="@{'/manager/deal/' + ${deal.id} +'/action'}"
-          th:object="${dealAction}">
-        <div>
-            <label for="confirmation">Подтвердить сделку?:</label>
-            <input type="checkbox" id="confirmation" name="confirmation" th:checked="${dealAction.confirmation}">
+<div class="container">
+    <div class="card-form">
+        <h2>Информация о сделке</h2>
+        <div class="form-group">
+            <label>Статус:</label>
+            <span th:text="${deal.status.name}"></span>
         </div>
-        <div>
-            <label for="actionDescription">Описание решения:</label>
-            <textarea cols="50" id="actionDescription" name="actionDescription" rows="4"
-                      th:value="${dealAction.actionDescription}"></textarea><br>
-            <!--            <input type="text" id="actionDescription" name="actionDescription" th:value="${dealAction.actionDescription}" required>-->
+        <div class="form-group">
+            <label>Время открытия:</label>
+            <span th:text="${deal.openDateTime}"></span>
         </div>
-        <div>
-            <label for="errorModel">В чем проблема:</label>
-            <input type="text" id="errorModel" name="errorModel" th:value="${dealAction.errorModel}" required>
+        <div class="form-group">
+            <label>Контрольный срок:</label>
+            <span th:text="${deal.closeDateTime}"></span>
         </div>
-        <button type="submit">Подтвердить</button>
-    </form>
+        <div class="form-group">
+            <label>Номер сделки продавца:</label>
+            <a th:href="@{'/platform/request/' + ${deal.sellRequest.id}}" th:text="${deal.sellRequest.id}"></a>
+        </div>
+        <div class="form-group">
+            <label>Номер сделки покупателя:</label>
+            <a th:href="@{'/platform/request/' + ${deal.buyRequest.id}}" th:text="${deal.buyRequest.id}"></a>
+        </div>
+
+        <div class="form-group" th:if="${showAcceptButton}">
+            <form method="post" th:action="@{'/platform/deal/' + ${deal.id} +'/accept'}">
+                <button class="btn-primary" type="submit">Принять!</button>
+            </form>
+        </div>
+
+        <div class="form-group" th:if="${showRefuseButton}">
+            <form method="post" th:action="@{'/platform/deal/' + ${deal.id} +'/refuse'}">
+                <button class="btn-danger" type="submit">Отменить!</button>
+            </form>
+        </div>
+
+        <div class="form-group" th:if="${showConfirmPaymentButton}">
+            <form method="post" th:action="@{'/platform/deal/' + ${deal.id} +'/confirm_payment'}">
+                <button class="btn-primary" type="submit">Подтвердить отправку средств!</button>
+            </form>
+        </div>
+
+        <div class="form-group" th:if="${showDenyReceiptButton}">
+            <form method="post" th:action="@{'/platform/deal/' + ${deal.id} +'/deny_received_payment'}">
+                <button class="btn-danger" type="submit">Средства не дошли!</button>
+            </form>
+        </div>
+
+        <div class="form-group" th:if="${showConfirmReceiptButton}">
+            <form method="post" th:action="@{'/platform/deal/' + ${deal.id} +'/confirm_receipt_payment'}">
+                <button class="btn-primary" type="submit">Подтвердить получение средств!</button>
+            </form>
+        </div>
+
+        <div class="form-group" th:if="${showTakeInWorkButton}">
+            <form method="post" th:action="@{'/manager/deal/' + ${deal.id} +'/take_in_work'}">
+                <button class="btn-primary" type="submit">Взять в работу</button>
+            </form>
+        </div>
+
+        <div class="form-group" th:if="${showDealActionFrom}">
+            <h3>Действия со сделкой</h3>
+            <form method="post" th:action="@{'/manager/deal/' + ${deal.id} +'/action'}" th:object="${dealAction}">
+                <div class="form-group">
+                    <label for="confirmation">Подтвердить сделку?:</label>
+                    <input id="confirmation" name="confirmation" th:checked="${dealAction.confirmation}"
+                           type="checkbox">
+                </div>
+                <div class="form-group">
+                    <label for="actionDescription">Описание решения:</label>
+                    <textarea class="form-control" cols="50" id="actionDescription" name="actionDescription" rows="4"
+                              th:value="${dealAction.actionDescription}"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="errorModel">В чем проблема:</label>
+                    <input class="form-control" id="errorModel" name="errorModel" required
+                           th:value="${dealAction.errorModel}" type="text">
+                </div>
+                <button class="btn-primary" type="submit">Подтвердить</button>
+            </form>
+        </div>
+    </div>
 </div>
-
-
 <footer th:replace="~{footer.html}"></footer>
 </body>
 </html>
