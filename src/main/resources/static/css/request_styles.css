@@ -1,61 +1,116 @@
+/* Общие стили */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f4f8;
     margin: 0;
-    padding: 20px;
-    color: #333;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+}
+
+.card-form {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    margin: 2rem auto;
 }
 
 h2 {
+    color: #007bff;
     text-align: center;
-    color: #2a5885;
+    margin-bottom: 1.5rem;
 }
 
-label {
-    font-weight: bold;
+.form-group {
+    margin-bottom: 1rem;
 }
 
-div {
-    margin-bottom: 15px;
-}
-
-span {
-    color: #555;
-}
-
-form {
-    margin-top: 10px;
-}
-
-button {
-    background-color: #2a5885;
-    color: #fff;
-    border: none;
+.form-control {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: 1px solid #ddd;
     border-radius: 4px;
-    padding: 10px 20px;
-    cursor: pointer;
+    margin-top: 0.5rem;
 }
 
-button:hover {
-    background-color: #1e3a57;
+.form-control:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+.btn-primary, .btn-secondary, .btn-danger, .btn-warning {
+    display: inline-block;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    padding: 0.75rem 1.25rem;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+.btn-warning {
+    background-color: #ffc107;
+}
+
+.btn-warning:hover {
+    background-color: #e0a800;
 }
 
 .error {
-    color: #e74c3c;
+    color: #dc3545;
+    font-size: 0.9rem;
 }
 
-.red-button {
-    background-color: #e74c3c;
+/* Стили для статуса заявки */
+.status {
+    font-weight: bold;
+    padding: 0.5rem;
+    border-radius: 4px;
 }
 
-.red-button:hover {
-    background-color: #d83a2b;
+.status-open {
+    color: #ffffff;
+    background-color: #28a745;
 }
 
-.yellow-button {
-    background-color: #f39c12;
+.status-closed {
+    color: #ffffff;
+    background-color: #dc3545;
 }
 
-.yellow-button:hover {
-    background-color: #d68e10;
+.status-pending {
+    color: #ffffff;
+    background-color: #ffc107;
 }
