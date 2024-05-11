@@ -12,6 +12,7 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 80vh;
+    padding: 20px;
 }
 
 .card-form {
@@ -61,4 +62,43 @@ body {
 
 .btn-primary:hover {
     background-color: #0056b3;
+}
+
+/* Медиазапросы */
+@media only screen and (max-width: 768px) {
+    .card-form {
+        padding: 1.5rem;
+        max-width: 400px;
+    }
+
+    .form-control {
+        padding: 0.7rem;
+        font-size: 0.9rem;
+    }
+
+    .btn-primary {
+        font-size: 0.9rem;
+        padding: 0.65rem 1rem;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .card-form {
+        padding: 1rem;
+        max-width: 100%;
+    }
+
+    .form-control {
+        padding: 0.6rem;
+        font-size: 0.8rem;
+    }
+
+    .btn-primary {
+        font-size: 0.8rem;
+        padding: 0.6rem 0.9rem;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
 }

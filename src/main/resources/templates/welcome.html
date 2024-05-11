@@ -20,116 +20,132 @@
         <section class="section">
             <h3 class="section-title">Карты</h3>
             <a class="btn btn-primary" href="/platform/card/add">Добавить карту</a>
-            <table class="styled-table">
-                <thead>
-                <tr>
-                    <th>Название</th>
-                    <th>Номер карты</th>
-                    <th>Банк</th>
-                    <th>Действия</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="card : ${cards}">
-                    <td th:text="${card.cardName}"></td>
-                    <td th:text="${card.cardNumber}"></td>
-                    <td th:text="${card.bank.name}"></td>
-                    <td><a class="btn btn-secondary" th:href="@{'/platform/card/delete/' + ${card.id}}">Удалить</a></td>
-                </tr>
-                </tbody>
-            </table>
+            <div class="table-container">
+                <table class="styled-table">
+                    <thead>
+                    <tr>
+                        <th>Название</th>
+                        <th>Номер карты</th>
+                        <th>Банк</th>
+                        <th>Действия</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="card : ${cards}">
+                        <td th:text="${card.cardName}"></td>
+                        <td th:text="${card.cardNumber}"></td>
+                        <td th:text="${card.bank.name}"></td>
+                        <td>
+                            <a class="btn btn-secondary" th:href="@{'/platform/card/delete/' + ${card.id}}">Удалить</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </section>
 
         <section class="section">
             <h3 class="section-title">Кошельки</h3>
             <a class="btn btn-primary" href="/platform/wallet/add">Добавить кошелек</a>
-            <table class="styled-table">
-                <thead>
-                <tr>
-                    <th>Название</th>
-                    <th>Тип криптовалюты</th>
-                    <th>Адрес</th>
-                    <th>Действия</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="wallet : ${wallets}">
-                    <td th:text="${wallet.name}"></td>
-                    <td th:text="${wallet.cryptocurrency.code}"></td>
-                    <td th:text="${wallet.publicKey}"></td>
-                    <td><a class="btn btn-secondary" th:href="@{'/platform/wallet/delete/' + ${wallet.id}}">Удалить</a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+            <div class="table-container">
+                <table class="styled-table">
+                    <thead>
+                    <tr>
+                        <th>Название</th>
+                        <th>Тип криптовалюты</th>
+                        <th>Адрес</th>
+                        <th>Действия</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="wallet : ${wallets}">
+                        <td th:text="${wallet.name}"></td>
+                        <td th:text="${wallet.cryptocurrency.code}"></td>
+                        <td th:text="${wallet.publicKey}"></td>
+                        <td>
+                            <a class="btn btn-secondary"
+                               th:href="@{'/platform/wallet/delete/' + ${wallet.id}}">Удалить</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </section>
 
         <section class="section">
             <h3 class="section-title">Заявки пользователя</h3>
             <a class="btn btn-primary" href="/platform/request/add">Создать заявку</a>
-            <table class="styled-table">
-                <thead>
-                <tr>
-                    <th>Номер заявки</th>
-                    <th>Тип заявки</th>
-                    <th>Итоговая цена</th>
-                    <th>Статус заявки</th>
-                    <th>Последнее изменение</th>
-                    <th>Цена за единицу</th>
-                    <th>Количество</th>
-                    <th>Время создания</th>
-                    <th>Время закрытия</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="request : ${requests}">
-                    <td><a class="id-link" th:href="@{'/platform/request/' + ${request.id}}"
-                           th:text="${request.id}"></a></td>
-                    <td th:text="${request.requestType.name}"></td>
-                    <td th:text="${request.quantity * request.pricePerUnit}"></td>
-                    <td th:text="${request.requestStatus.name}"></td>
-                    <td th:text="${request.lastChangeStatusDateTime}"></td>
-                    <td th:text="${request.pricePerUnit}"></td>
-                    <td th:text="${request.quantity}"></td>
-                    <td th:text="${request.createDateTime}"></td>
-                    <td th:text="${request.deadlineDateTime}"></td>
-                </tr>
-                </tbody>
-            </table>
+            <div class="table-container">
+                <table class="styled-table">
+                    <thead>
+                    <tr>
+                        <th>Номер заявки</th>
+                        <th>Тип заявки</th>
+                        <th>Итоговая цена</th>
+                        <th>Статус заявки</th>
+                        <th>Последнее изменение</th>
+                        <th>Цена за единицу</th>
+                        <th>Количество</th>
+                        <th>Время создания</th>
+                        <th>Время закрытия</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="request : ${requests}">
+                        <td>
+                            <a class="id-link" th:href="@{'/platform/request/' + ${request.id}}"
+                               th:text="${request.id}"></a>
+                        </td>
+                        <td th:text="${request.requestType.name}"></td>
+                        <td th:text="${request.quantity * request.pricePerUnit}"></td>
+                        <td th:text="${request.requestStatus.name}"></td>
+                        <td th:text="${request.lastChangeStatusDateTime}"></td>
+                        <td th:text="${request.pricePerUnit}"></td>
+                        <td th:text="${request.quantity}"></td>
+                        <td th:text="${request.createDateTime}"></td>
+                        <td th:text="${request.deadlineDateTime}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </section>
 
         <section class="section">
             <h3 class="section-title">Сделки пользователя</h3>
-            <table class="styled-table">
-                <thead>
-                <tr>
-                    <th>Номер сделки</th>
-                    <th>Статус сделки</th>
-                    <th>Заявка на покупку</th>
-                    <th>Заявка на продажу</th>
-                    <th>Последнее изменение</th>
-                    <th>Время создания</th>
-                    <th>Время закрытия</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="deal : ${deals}">
-                    <td><a class="id-link" th:href="@{'/platform/deal/' + ${deal.id}}" th:text="${deal.id}"></a></td>
-                    <td th:text="${deal.status.name}"></td>
-                    <td>
-                        <a class="id-link" th:href="@{'/platform/request/' + ${deal.sellRequest.id}}"
-                           th:text="${deal.sellRequest.id}"></a>
-                    </td>
-                    <td>
-                        <a class="id-link" th:href="@{'/platform/request/' + ${deal.buyRequest.id}}"
-                           th:text="${deal.buyRequest.id}"></a>
-                    </td>
-                    <td th:text="${deal.changeLastTime}"></td>
-                    <td th:text="${deal.openDateTime}"></td>
-                    <td th:text="${deal.closeDateTime}"></td>
-                </tr>
-                </tbody>
-            </table>
+            <div class="table-container">
+                <table class="styled-table">
+                    <thead>
+                    <tr>
+                        <th>Номер сделки</th>
+                        <th>Статус сделки</th>
+                        <th>Заявка на покупку</th>
+                        <th>Заявка на продажу</th>
+                        <th>Последнее изменение</th>
+                        <th>Время создания</th>
+                        <th>Время закрытия</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="deal : ${deals}">
+                        <td>
+                            <a class="id-link" th:href="@{'/platform/deal/' + ${deal.id}}" th:text="${deal.id}"></a>
+                        </td>
+                        <td th:text="${deal.status.name}"></td>
+                        <td>
+                            <a class="id-link" th:href="@{'/platform/request/' + ${deal.sellRequest.id}}"
+                               th:text="${deal.sellRequest.id}"></a>
+                        </td>
+                        <td>
+                            <a class="id-link" th:href="@{'/platform/request/' + ${deal.buyRequest.id}}"
+                               th:text="${deal.buyRequest.id}"></a>
+                        </td>
+                        <td th:text="${deal.changeLastTime}"></td>
+                        <td th:text="${deal.openDateTime}"></td>
+                        <td th:text="${deal.closeDateTime}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </section>
     </div>
 </main>

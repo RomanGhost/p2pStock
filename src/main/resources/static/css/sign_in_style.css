@@ -1,4 +1,4 @@
-/* Общие стили */
+/* sign_in_styles.css */
 body {
     font-family: 'Arial', sans-serif;
     background-color: #f0f4f8;
@@ -59,7 +59,7 @@ body {
 }
 
 .btn-primary:hover {
-    background-color:#007bff;
+    background-color: #007bff;
 }
 
 .error {
@@ -79,4 +79,79 @@ a, a:visited {
 
 a:hover {
     text-decoration: underline;
+}
+
+/* Медиа-запросы для адаптации под мобильные устройства */
+@media (max-width: 768px) {
+    .card-form {
+        padding: 1.5rem;
+        max-width: 90%;
+    }
+
+    .form-control {
+        padding: 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    .btn-primary {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .label {
+        margin-bottom: 0.4rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .card-form {
+        padding: 1rem;
+        max-width: 90%;
+    }
+
+    .form-control {
+        padding: 0.5rem;
+        font-size: 0.8rem;
+    }
+
+    .btn-primary {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.8rem;
+    }
+
+    .label {
+        margin-bottom: 0.2rem;
+        font-size: 0.8rem;
+    }
+
+    .error {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 320px) {
+    .card-form {
+        padding: 0.5rem;
+        max-width: 100%;
+    }
+
+    .form-control {
+        padding: 0.4rem;
+        font-size: 0.75rem;
+    }
+
+    .btn-primary {
+        padding: 0.4rem 0.7rem;
+        font-size: 0.75rem;
+    }
+
+    .label {
+        margin-bottom: 0.1rem;
+        font-size: 0.75rem;
+    }
+
+    .error {
+        font-size: 0.7rem;
+    }
 }
