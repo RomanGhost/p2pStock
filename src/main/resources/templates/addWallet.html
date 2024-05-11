@@ -23,7 +23,8 @@
                 <label for="cryptocurrency">Криптовалюта:</label>
                 <select class="form-control" id="cryptocurrency" name="cryptocurrency" required
                         th:field="*{cryptocurrency}">
-                    <option th:each="crypto : ${cryptocurrencies}" th:text="${crypto.code + ' - ' + crypto.name}"
+                    <option th:each="crypto : ${cryptocurrencies}"
+                            th:text="${crypto.code + ' - ' + crypto.name}"
                             th:value="${crypto.id}"></option>
                 </select>
             </div>

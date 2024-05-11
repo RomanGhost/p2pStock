@@ -1,4 +1,4 @@
-/* Global styles */
+/* all_request_styles.css */
 
 body {
     font-family: Arial, sans-serif;
@@ -9,29 +9,30 @@ body {
 
 .container {
     max-width: 1200px;
-    margin: 40px auto;
-    padding: 20px;
+    margin: 20px auto; /* Уменьшили отступы */
+    padding: 10px; /* Уменьшили отступы */
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .title {
-    font-size: 24px;
+    font-size: 1.5rem; /* Изменили размер шрифта */
     font-weight: bold;
-    margin-bottom: 20px;
+    margin-bottom: 10px; /* Уменьшили отступы */
     color: #333;
 }
 
 .table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 20px;
+    margin-bottom: 10px; /* Уменьшили отступы */
+    font-size: 0.9rem; /* Уменьшили размер шрифта */
 }
 
 .table th, .table td {
     border: 1px solid #ddd;
-    padding: 10px;
+    padding: 8px; /* Уменьшили отступы */
     text-align: left;
 }
 
@@ -49,8 +50,8 @@ body {
     background-color: #007bff;
     color: white;
     border: none;
-    padding: 10px 20px;
-    font-size: 16px;
+    padding: 8px 16px; /* Уменьшили отступы */
+    font-size: 0.9rem; /* Уменьшили размер шрифта */
     cursor: pointer;
     border-radius: 5px;
     transition: all 0.3s ease;
@@ -58,4 +59,28 @@ body {
 
 .btn-primary:hover {
     background-color: #0056b3;
+}
+
+/* Медиа-запросы для адаптации */
+@media (max-width: 768px) {
+    .table-responsive {
+        overflow-x: auto; /* Добавили горизонтальную прокрутку */
+    }
+
+    .container {
+        margin: 10px; /* Еще уменьшили отступы */
+        padding: 5px;  /* Еще уменьшили отступы */
+    }
+
+    .title {
+        font-size: 1.2rem; /* Еще уменьшили размер шрифта */
+    }
+
+    .table {
+        font-size: 0.8rem; /* Еще уменьшили размер шрифта */
+    }
+
+    .table th, .table td {
+        padding: 6px; /* Еще уменьшили отступы */
+    }
 }

@@ -1,4 +1,6 @@
-/* Reset some default styles */
+/* styles.css */
+
+/* Сброс некоторых стандартных стилей */
 body, h1, h2, p, a {
     margin: 0;
     padding: 0;
@@ -24,12 +26,14 @@ nav {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 nav a {
     color: white;
     text-decoration: none;
     padding: 10px 20px;
+    margin: 5px;
 }
 
 nav a:hover {
@@ -44,6 +48,7 @@ nav a:hover {
     flex-direction: column;
     text-align: center;
     margin-top: 20px;
+    padding: 0 15px;
 }
 
 h1 {
@@ -57,7 +62,6 @@ h2 {
 
 p {
     margin: 20px 0;
-    padding: 0 10%;
     font-size: 1.1rem;
 }
 
@@ -77,4 +81,70 @@ p {
 
 .button:hover {
     background-color: #0056b3;
+}
+
+/* Адаптивность для мобильных устройств */
+@media only screen and (max-width: 768px) {
+    header {
+        padding: 8px 15px;
+    }
+
+    nav a {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    h2 {
+        font-size: 1.25rem;
+        margin-top: 15px;
+    }
+
+    p {
+        font-size: 1rem;
+        margin: 15px 0;
+    }
+
+    .button {
+        font-size: 14px;
+        padding: 8px 15px;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    header {
+        padding: 5px 10px;
+    }
+
+    nav {
+        flex-wrap: nowrap;
+        justify-content: space-around;
+    }
+
+    nav a {
+        padding: 5px 10px;
+        font-size: 0.8rem;
+    }
+
+    h1 {
+        font-size: 1.25rem;
+    }
+
+    h2 {
+        font-size: 1rem;
+        margin-top: 10px;
+    }
+
+    p {
+        font-size: 0.9rem;
+        margin: 10px 0;
+    }
+
+    .button {
+        font-size: 12px;
+        padding: 5px 10px;
+    }
 }

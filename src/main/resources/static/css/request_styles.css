@@ -1,4 +1,4 @@
-/* Общие стили */
+/* request_styles.css */
 body {
     font-family: 'Arial', sans-serif;
     background-color: #f0f4f8;
@@ -8,9 +8,11 @@ body {
 
 .container {
     display: flex;
+    flex-direction: column; /* Изменено на column */
     justify-content: center;
     align-items: center;
     min-height: 80vh;
+    padding: 1rem; /* Добавили отступы для маленьких экранов */
 }
 
 .card-form {
@@ -58,6 +60,7 @@ h2 {
     border-radius: 4px;
     transition: all 0.3s ease;
     text-align: center;
+    margin-bottom: 0.5rem; /* Добавили margin */
 }
 
 .btn-primary:hover {
@@ -113,4 +116,21 @@ h2 {
 .status-pending {
     color: #ffffff;
     background-color: #ffc107;
+}
+
+/* Медиа-запросы для адаптации под мобильные устройства */
+@media (max-width: 768px) {
+    .card-form {
+        padding: 1.5rem;
+    }
+
+    .form-control {
+        font-size: 0.9rem;
+    }
+
+    .btn-primary, .btn-secondary, .btn-danger, .btn-warning {
+        font-size: 0.9rem;
+        display: block; /* Кнопки располагаются друг под другом */
+        width: 100%; /* Кнопки занимают всю ширину */
+    }
 }

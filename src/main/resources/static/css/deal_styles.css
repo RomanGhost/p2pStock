@@ -1,4 +1,4 @@
-/* Общие стили */
+/* deal_styles.css */
 body {
     font-family: 'Arial', sans-serif;
     background-color: #f0f4f7;
@@ -13,7 +13,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 2rem;
+    padding: 1rem; /* Уменьшили отступы */
     flex-grow: 1;
 }
 
@@ -98,4 +98,27 @@ textarea.form-control {
 
 .btn-danger:hover {
     background-color: #b02a37;
+}
+
+/* Медиа-запросы для адаптации */
+@media (max-width: 768px) {
+    .container {
+        padding: 0.5rem; /* Еще уменьшили отступы */
+    }
+
+    .card-form {
+        padding: 1rem; /* Уменьшили отступы */
+    }
+
+    h2, h3 {
+        font-size: 1.2rem;
+    }
+
+    .form-control {
+        font-size: 0.9rem;
+    }
+
+    .btn-primary, .btn-danger {
+        font-size: 0.9rem;
+    }
 }
