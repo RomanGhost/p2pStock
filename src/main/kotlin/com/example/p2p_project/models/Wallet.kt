@@ -17,7 +17,7 @@ data class Wallet(
     @JoinColumn(name = "user_id")
     var user: User = User(),
 
-    @Column(name = "balance", nullable = false, columnDefinition = "default '0.0'")
+    @Column(name = "balance", nullable = false, columnDefinition = "float(2) default '0.0'")
     var balance: Double = 0.0,
 
     @Column(name = "name")

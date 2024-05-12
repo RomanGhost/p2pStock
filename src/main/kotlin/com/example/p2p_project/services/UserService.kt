@@ -29,6 +29,20 @@ class UserService(
         return user
     }
 
+    fun activeUser(userId: Long) {
+        val user = getById(userId)
+        user.isEnabled = true
+
+        userRepository.save(user)
+    }
+
+    fun disableUser(userId: Long) {
+        val user = getById(userId)
+        user.isEnabled = false
+
+        userRepository.save(user)
+    }
+
     fun getByLogin(login:String):User?{
         val user = try{
             userRepository.findByLogin(login)

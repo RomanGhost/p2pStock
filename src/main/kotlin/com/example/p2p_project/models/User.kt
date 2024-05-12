@@ -12,8 +12,8 @@
         @Column(unique = true)
         val login: String="",
 
-        @Column(nullable = false)
-        val isEnabled: Boolean = true,
+        @Column(nullable = false, columnDefinition = "boolean default 'true'")
+        var isEnabled: Boolean = true,
         @Column
         var password: String="",
     )
