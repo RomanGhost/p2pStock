@@ -28,7 +28,7 @@
         </div>
         <div class="form-group">
             <label>Криптовалюта заявки:</label>
-            <span th:text="${request.wallet.cryptocurrency.name}"></span>
+            <span th:text="${request?.wallet?.cryptocurrency?.name ?: 'No cryptocurrency found'}"></span>
         </div>
         <div class="form-group">
             <label>Цена за единицу:</label>
@@ -65,7 +65,7 @@
                         <option th:each="card : ${cards}" th:text="${card.cardName}" th:value="${card.id}"></option>
                     </select>
                 </div>
-                <button class="btn-primary" type="submit">Создать сделку</button>
+                <button class="btn-primary" th:if="${!isUserInitiator}" type="submit">Создать сделку</button>
             </form>
         </div>
 

@@ -89,7 +89,8 @@ class RequestController(
         //если заявка на покупку, то показать кошельки
         if(isBuying) {
             val userWallets = walletService.getByUserId(userId)
-            val wallets: List<Wallet> = userWallets.filter { it.cryptocurrency.id == request.wallet!!.cryptocurrency.id }
+            val wallets: List<Wallet> =
+                userWallets.filter { it.cryptocurrency.id == request.wallet?.cryptocurrency?.id }
             if(wallets.isNotEmpty())
                 model.addAttribute("wallets", wallets)
         }

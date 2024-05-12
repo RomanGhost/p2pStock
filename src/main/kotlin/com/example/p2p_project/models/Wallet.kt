@@ -17,6 +17,9 @@ data class Wallet(
     @JoinColumn(name = "user_id")
     var user: User = User(),
 
+    @Column(name = "balance", nullable = false, columnDefinition = "default '0.0'")
+    var balance: Double = 0.0,
+
     @Column(name = "name")
     val name: String = "",
     @Column(name = "public_key", unique = true)

@@ -28,7 +28,7 @@
             </thead>
             <tbody>
             <tr th:each="deal : ${deals}">
-                <td><a class="id-link" th:href="@{'/platform/deal/' + ${deal.id}}" th:text="${deal.id}"></a></td>
+                <td><a class="id-link" th:href="@{'/manager/deal/' + ${deal.id}}" th:text="${deal.id}"></a></td>
                 <td th:text="${deal.status.name}"></td>
                 <td>
                     <a class="id-link" th:href="@{'/platform/request/' + ${deal.sellRequest.id}}"
