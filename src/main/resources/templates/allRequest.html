@@ -31,7 +31,7 @@
             <tbody>
             <tr th:each="request : ${requests}">
                 <td>
-                    <a sec:authorize="hasAuthority('Пользователь')" th:href="@{'/platform/request/' + ${request.id}}"
+                    <a sec:authorize="!hasAuthority('Менеджер')" th:href="@{'/platform/request/' + ${request.id}}"
                        th:text="${request.id}"></a>
                     <a sec:authorize="hasAuthority('Менеджер')" th:href="@{'/manager/request/' + ${request.id}}"
                        th:text="${request.id}"></a>

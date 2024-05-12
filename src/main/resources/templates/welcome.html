@@ -46,6 +46,8 @@
 
         <section class="section">
             <h3 class="section-title">Кошельки</h3>
+            <label for="total-balance">Общий баланс: </label>
+            <span id="total-balance" th:text="${total_balance}"></span><br>
             <a class="btn btn-primary" href="/platform/wallet/add">Добавить кошелек</a>
             <div class="table-container">
                 <table class="styled-table">
@@ -54,6 +56,7 @@
                         <th>Название</th>
                         <th>Тип криптовалюты</th>
                         <th>Адрес</th>
+                        <th>Баланс</th>
                         <th>Действия</th>
                     </tr>
                     </thead>
@@ -62,6 +65,7 @@
                         <td th:text="${wallet.name}"></td>
                         <td th:text="${wallet.cryptocurrency.code}"></td>
                         <td th:text="${wallet.publicKey}"></td>
+                        <td th:text="${wallet.balance}"></td>
                         <td>
                             <a class="btn btn-secondary"
                                th:href="@{'/platform/wallet/delete/' + ${wallet.id}}">Удалить</a>

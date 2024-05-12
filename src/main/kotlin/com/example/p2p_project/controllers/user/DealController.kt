@@ -30,12 +30,14 @@ class DealController(
         val userDetails = authenticationService.getUserDetails(authentication)
         val authUserId = userDetails.user.id
 
+
         if (!dealService.checkDealAccess(dealId, authUserId)) {
             return "redirect:/platform/account/welcome"
         }
 
         val deal = dealService.getById(dealId)
         model.addAttribute("deal", deal)
+
 
         //Штатные ситуации
         //Подтвердить создание сделки
@@ -172,6 +174,12 @@ class DealController(
         requestService.updateStatusById(deal.sellRequest.id, newStatus)
         requestService.updateStatusById(deal.buyRequest.id, newStatus)
 
+
+        val walletFromId = deal.sellRequest.wallet!!.id
+        val walletToId = deal.buyRequest.wallet!!.id
+        val amount = deal.buyRequest.quantity * deal.buyRequest.pricePerUnit
+
+        walletService.transferBalance(walletFromId, walletToId, amount)
         dealService.updateStatus(dealId, newStatus)
         return "redirect:/platform/deal/${dealId}?confirm"
     }

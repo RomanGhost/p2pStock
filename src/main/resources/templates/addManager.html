@@ -6,7 +6,7 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/header.css" rel="stylesheet" type="text/css">
     <link href="/css/footer.css" rel="stylesheet" type="text/css">
-    <link href="/css/add_manager_styles.css" rel="stylesheet" type="text/css">
+    <link href="/css/user_management_styles.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <header th:replace="~{header.html}"></header>
@@ -19,7 +19,8 @@
             <tr>
                 <th>ID</th>
                 <th>Логин</th>
-                <th>Действие</th>
+                <th>Добавление менеджера</th>
+                <th>Действия с пользователем</th>
             </tr>
             </thead>
             <tbody>
@@ -28,7 +29,12 @@
                 <td th:text="${user.login}"></td>
                 <td>
                     <form method="post" th:action="@{'/admin_panel/add_manager?userId=' + ${user.id}}">
-                        <button class="btn btn-primary btn-sm">Добавить менеджера</button>
+                        <button class="btn btn-primary btn-sm">Добавить</button>
+                    </form>
+                </td>
+                <td>
+                    <form method="post" th:action="@{'/admin_panel/block?userId=' + ${user.id}}">
+                        <button class="btn btn-primary btn-sm">Добавить</button>
                     </form>
                 </td>
             </tr>

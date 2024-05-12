@@ -32,11 +32,14 @@ class UserAccountController(
         val requests = requestService.getByUserId(userId)
         val deals = dealService.getByUserId(userId)
 
+        val totalBalance = wallets.map { it.balance }.sum()
+
         model.addAttribute("login", login)
         model.addAttribute("cards", cards)
         model.addAttribute("wallets", wallets)
         model.addAttribute("requests", requests)
         model.addAttribute("deals", deals)
+        model.addAttribute("total_balance", totalBalance)
 
         return "welcome"
     }

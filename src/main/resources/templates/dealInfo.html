@@ -14,6 +14,12 @@
     <div class="card-form">
         <h2>Информация о сделке</h2>
         <div class="form-group">
+            <b th:text="${deal.buyRequest.user.login}"></b> отправляет <b th:text="${deal.sellRequest.user.login}"></b>
+            : <b th:text="${deal.buyRequest.quantity * deal.buyRequest.pricePerUnit}"></b> рублей
+            получает <b th:text="${deal.buyRequest.quantity}"></b>
+            <span th:text="${deal.buyRequest?.wallet?.cryptocurrency?.name ?: 'No cryptocurrency found'}"></span>
+        </div>
+        <div class="form-group">
             <label>Статус:</label>
             <span th:text="${deal.status.name}"></span>
         </div>
@@ -40,12 +46,6 @@
             </form>
         </div>
 
-        <div class="form-group" th:if="${showRefuseButton}">
-            <form method="post" th:action="@{'/platform/deal/' + ${deal.id} +'/refuse'}">
-                <button class="btn-danger" type="submit">Отменить!</button>
-            </form>
-        </div>
-
         <div class="form-group" th:if="${showConfirmPaymentButton}">
             <form method="post" th:action="@{'/platform/deal/' + ${deal.id} +'/confirm_payment'}">
                 <button class="btn-primary" type="submit">Подтвердить отправку средств!</button>
@@ -67,6 +67,12 @@
         <div class="form-group" th:if="${showTakeInWorkButton}">
             <form method="post" th:action="@{'/manager/deal/' + ${deal.id} +'/take_in_work'}">
                 <button class="btn-primary" type="submit">Взять в работу</button>
+            </form>
+        </div>
+
+        <div class="form-group" th:if="${showRefuseButton}">
+            <form method="post" th:action="@{'/platform/deal/' + ${deal.id} +'/refuse'}">
+                <button class="btn-danger" type="submit">Отменить!</button>
             </form>
         </div>
 
