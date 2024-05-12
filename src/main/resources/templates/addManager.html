@@ -6,7 +6,7 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/header.css" rel="stylesheet" type="text/css">
     <link href="/css/footer.css" rel="stylesheet" type="text/css">
-    <link href="/css/user_management_styles.css" rel="stylesheet" type="text/css">
+    <link href="/css/add_manager_styles.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <header th:replace="~{header.html}"></header>
@@ -33,8 +33,13 @@
                     </form>
                 </td>
                 <td>
-                    <form method="post" th:action="@{'/admin_panel/block?userId=' + ${user.id}}">
-                        <button class="btn btn-primary btn-sm">Добавить</button>
+                    <form method="post" th:action="@{'/admin_panel/block?userId=' + ${user.id}}"
+                          th:if="${user.isEnabled}">
+                        <button class="btn btn-block">Заблокировать</button>
+                    </form>
+                    <form method="post" th:action="@{'/admin_panel/active?userId=' + ${user.id}}"
+                          th:if="${!user.isEnabled}">
+                        <button class="btn btn-active">Разблокировать</button>
                     </form>
                 </td>
             </tr>

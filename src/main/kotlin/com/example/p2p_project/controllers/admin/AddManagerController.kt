@@ -48,8 +48,19 @@ class AddManagerController(
         if (authUserId == userId)
             return "redirect:/admin_panel/user_management"
 
-        val user = userService.getById(userId)
-        userService
+        userService.disableUser(userId)
+
+        return "redirect:/admin_panel/user_management"
+    }
+
+    @PostMapping("/active")
+    fun postActiveUser(@RequestParam userId: Long, authentication: Authentication): String {
+        val userDetails = authentication.principal as MyUserDetails
+        val authUserId = userDetails.user.id
+        if (authUserId == userId)
+            return "redirect:/admin_panel/user_management"
+
+        userService.activeUser(userId)
 
         return "redirect:/admin_panel/user_management"
     }

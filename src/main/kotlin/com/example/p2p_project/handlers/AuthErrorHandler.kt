@@ -17,7 +17,7 @@ class AuthErrorHandler : AuthenticationFailureHandler {
         when(exception){
             is BadCredentialsException -> response.sendRedirect("/auth/sign-in?error")
             is InternalAuthenticationServiceException -> response.sendRedirect("/auth/sign-up?error")
-            else -> println("WTF?")
+            else -> response.sendRedirect("/")
         }
     }
 }
