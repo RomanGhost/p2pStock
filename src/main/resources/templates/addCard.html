@@ -3,24 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Card</title>
+    <title>Добавить карту</title>
+    <link href="/css/header.css" rel="stylesheet" type="text/css">
+    <link href="/css/footer.css" rel="stylesheet" type="text/css">
+    <link href="/css/card_styles.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-<h1>Add Card</h1>
-<form th:action="@{/platform/card/save}" method="post" th:object="${card}">
-    <label for="cardName">Card Name:</label>
-    <input type="text" id="cardName" name="cardName" th:field="*{cardName}" required><br>
+<header th:replace="~{header.html}"></header>
 
-    <label for="cardNumber">Card Number:</label>
-    <input type="number" id="cardNumber" name="cardNumber" th:field="*{cardNumber}" required><br>
-    <span th:if="${errorMessage}" class="error" th:text="${errorMessage}"></span><br>
+<div class="container">
+    <div class="card-form">
+        <h1>Добавление новой карты</h1>
+        <form class="form-card" method="post" th:action="@{/platform/card/save}" th:object="${card}">
+            <div class="form-group">
+                <label for="cardName">Название карты:</label>
+                <input class="form-control" id="cardName" name="cardName" required th:field="*{cardName}" type="text">
+            </div>
 
-    <label for="bank">Bank:</label>
-    <select id="bank" name="bank" th:field="*{bank}" required>
-        <option th:each="bank : ${banks}" th:value="${bank.id}" th:text="${bank.name}"></option>
-    </select><br><br>
+            <div class="form-group">
+                <label for="cardNumber">Номер карты:</label>
+                <input class="form-control" id="cardNumber" name="cardNumber" required th:field="*{cardNumber}"
+                       type="number">
+            </div>
 
-    <input type="submit" value="Add Card">
-</form>
+            <div class="form-group">
+                <label for="bank">Банк эмитент:</label>
+                <select class="form-control" id="bank" name="bank" required th:field="*{bank}">
+                    <option th:each="bank : ${banks}" th:text="${bank.name}" th:value="${bank.id}"></option>
+                </select>
+            </div>
+
+            <button class="btn btn-primary" type="submit">Добавить карту</button>
+        </form>
+        <span class="error" style="color: red;" th:if="${errorMessage}" th:text="${errorMessage}"></span>
+    </div>
+</div>
+
+<footer th:replace="~{footer.html}"></footer>
 </body>
 </html>

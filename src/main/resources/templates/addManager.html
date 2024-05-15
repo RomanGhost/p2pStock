@@ -1,31 +1,57 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Admin panel</title>
+    <title>Панель администратора</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/header.css" rel="stylesheet" type="text/css">
+    <link href="/css/footer.css" rel="stylesheet" type="text/css">
+    <link href="/css/add_manager_styles.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-<h1>User List</h1>
-<table>
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Login</th>
-        <th>Action</th>
-    </tr>
-    </thead>
-    <tbody>
-    <!-- Iterating over the list of users -->
-    <tr th:each="user : ${users}">
-        <td th:text="${user.id}">ID</td>
-        <td th:text="${user.login}">Login</td>
-        <td>
-            <form th:action="@{'/admin_panel/add_manager?userId=' + ${user.id}}" method="post">
-                <input type="submit" value="Add Manager">
-            </form>
-        </td>
-    </tr>
-    </tbody>
-</table>
+<header th:replace="~{header.html}"></header>
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Список пользователей</h1>
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Логин</th>
+                <th>Добавление менеджера</th>
+                <th>Действия с пользователем</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.id}"></td>
+                <td th:text="${user.login}"></td>
+                <td>
+                    <form method="post" th:action="@{'/admin_panel/add_manager?userId=' + ${user.id}}">
+                        <button class="btn btn-primary btn-sm">Добавить</button>
+                    </form>
+                </td>
+                <td>
+                    <form method="post" th:action="@{'/admin_panel/block?userId=' + ${user.id}}"
+                          th:if="${user.isEnabled}">
+                        <button class="btn btn-block">Заблокировать</button>
+                    </form>
+                    <form method="post" th:action="@{'/admin_panel/active?userId=' + ${user.id}}"
+                          th:if="${!user.isEnabled}">
+                        <button class="btn btn-active">Разблокировать</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<footer th:replace="~{footer.html}"></footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

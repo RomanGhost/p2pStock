@@ -1,103 +1,38 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Sign In form</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            width: 50%;
-            margin: 50px auto;
-            background-color: #e0e9f0;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            text-align: center;
-            color: #2a5885;
-        }
-
-        form {
-            max-width: 400px;
-            margin: 0 auto;
-        }
-
-        label {
-            font-weight: bold;
-            color: #2a5885;
-        }
-
-        input[type="text"],
-        input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-
-        input[type="submit"] {
-            width: 100%;
-            background-color: #2a5885;
-            color: #fff;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #1e3a57;
-        }
-
-        a {
-            display: block;
-            text-align: center;
-            color: #2a5885;
-            text-decoration: none;
-            margin-top: 10px;
-        }
-
-        a:hover {
-            color: #1e3a57;
-        }
-
-        .error {
-            color: red;
-            text-align: center;
-            margin-top: 10px;
-        }
-    </style>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"> <!-- Добавлено для адаптивного дизайна -->
+    <title>Войти в систему</title>
+    <link href="/css/header.css" rel="stylesheet" type="text/css">
+    <link href="/css/footer.css" rel="stylesheet" type="text/css">
+    <link href="/css/sign_in_style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+<header th:replace="~{header.html}"></header>
 <div class="container">
-    <h1>Please Log In</h1>
-    <form action="#" th:action="@{/auth/sign-in}" method="post">
-        <label>Login*:</label><br>
-        <input type="text" name="username" placeholder="Username"/><br>
+    <div class="card-form">
+        <h1>Вход</h1>
+        <form action="#" method="post" th:action="@{/auth/sign-in}">
+            <label class="label" for="username">Логин*:</label>
+            <input class="form-control" id="username" name="username" placeholder="Введите логин" type="text"/>
 
-        <label>Password*:</label><br>
-        <input type="password" name="password" placeholder="Password"/>
+            <label class="label" for="password">Пароль*:</label>
+            <input class="form-control" id="password" name="password" placeholder="Введите пароль" type="password"/>
 
-        <input type="submit" value="Enter">
-    </form>
-    <a th:href="@{/auth/sign-up}" style="color: #2a5885; text-decoration: none;">Register</a>
+            <button class="btn-primary" type="submit">Войти</button>
+        </form>
+        <a th:href="@{/auth/sign-up}">Зарегистрироваться</a>
 
-    <div th:if="${param.error}" class="error">
-        Invalid password.
-    </div>
-    <div th:if="${param.logout}" class="error">
-        You have been logged out.
+        <div class="error" th:if="${param.error}">
+            Неправильный логин или пароль.
+        </div>
+        <div class="error" th:if="${param.logout}">
+            Вы вышли из системы.
+        </div>
     </div>
 </div>
+
+<footer th:replace="~{footer.html}"></footer>
 </body>
 </html>

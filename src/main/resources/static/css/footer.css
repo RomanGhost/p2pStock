@@ -1,0 +1,20 @@
+/* footer.css */
+footer {
+    background-color: #f0f8ff; /* Светлый голубой фон для футера */
+    color: #5f6368; /* Цвет текста */
+    text-align: center;
+    padding: 1rem 0;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Тень для создания эффекта "поднятия" футера */
+    font-family: 'Arial', sans-serif; /* Шрифт, если нужно уточнить */
+}
+
+.footer-container {
+    max-width: 1140px; /* Максимальная ширина контейнера внутри футера */
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.footer-container p {
+    margin: 0; /* Убираем отступы у параграфа */
+    font-size: 1rem; /* Размер шрифта текста в футере */
+}

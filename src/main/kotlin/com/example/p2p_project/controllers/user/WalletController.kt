@@ -8,10 +8,7 @@ import com.example.p2p_project.services.dataServices.CryptocurrencyService
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.ModelAttribute
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 @Controller
@@ -21,7 +18,6 @@ class WalletController(
     private val userService: UserService,
     private val cryptocurrencyService: CryptocurrencyService
 ) {
- 
 
     @GetMapping("/add")
     fun getAddNewWallet(model: Model, redirectAttributes: RedirectAttributes) :String{
@@ -35,7 +31,7 @@ class WalletController(
     }
 
     @PostMapping("/save")
-    fun submitNewCard(
+    fun submitNewWallet(
         @ModelAttribute("wallet") wallet: Wallet,
         authentication: Authentication,
         redirectAttributes: RedirectAttributes
@@ -54,6 +50,12 @@ class WalletController(
         wallet.user = userService.getById(userDetails.user.id)
 
         walletService.add(wallet)
+        return "redirect:/platform/account/welcome"
+    }
+
+    @GetMapping("/delete/{walletId}")
+    fun postDeleteWallet(@PathVariable walletId: Long): String {
+        walletService.deleteById(walletId)
         return "redirect:/platform/account/welcome"
     }
 }

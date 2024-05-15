@@ -2,12 +2,16 @@ package com.example.p2p_project.services
 
 import com.example.p2p_project.models.Card
 import com.example.p2p_project.repositories.CardRepository
+import com.example.p2p_project.repositories.RequestRepository
 import jakarta.persistence.EntityNotFoundException
 import org.springframework.orm.jpa.JpaObjectRetrievalFailureException
 import org.springframework.stereotype.Service
 
 @Service
-class CardService(val cardRepository: CardRepository) {
+class CardService(
+    private val cardRepository: CardRepository,
+    private val requestRepository: RequestRepository
+) {
     fun getAll():List<Card>{
         return cardRepository.findAll()
     }
@@ -29,8 +33,19 @@ class CardService(val cardRepository: CardRepository) {
             throw EntityNotFoundException("Card with id: $id not found")
     }
 
-    fun delete(id:Long){
-        return cardRepository.deleteById(id)
+    fun deleteById(cardId:Long){
+        // Найдем все заявки, связанные с этой картой
+        val requestsWithCard = requestRepository.findByCardId(cardId)
+
+        // Уберем ссылку на карту у каждой найденной заявки
+        requestsWithCard.forEach { it.card = null }
+
+        // Сохраняем обновленные заявки
+        requestRepository.saveAll(requestsWithCard)
+
+        // Удаляем карту
+        return cardRepository.deleteById(cardId)
+
     }
 
     fun add(card: Card): Card {

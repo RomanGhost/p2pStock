@@ -15,9 +15,9 @@ data class Request(
     @JoinColumn(name = "request_type_id")
     val requestType: RequestType = RequestType(),
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE])
     @JoinColumn(name = "wallet_id", nullable = true)
-    val wallet: Wallet? = Wallet(),
+    var wallet: Wallet? = null,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -25,11 +25,15 @@ data class Request(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "card_id", nullable = true)
-    val card: Card? = Card(),
+    var card: Card? = null,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "request_status_id")
     var requestStatus: RequestStatus = RequestStatus(),
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "manager_id", nullable = true)
+    var managerId: User? = null,
 
     @Column(name = "price_per_unit")
     val pricePerUnit: Double = 0.0,
@@ -38,7 +42,7 @@ data class Request(
     val quantity: Double= 0.0,
 
     @Column
-    val description: String="",
+    var description: String = "",
 
     @Column(name = "create_date_time")
     var createDateTime: LocalDateTime = LocalDateTime.now(),

@@ -29,7 +29,7 @@ class RestRequestController(val requestService: RequestService) {
 
     @PutMapping("/update")
     fun update(@RequestBody request: Request, @RequestParam id: Long): ResponseEntity<Request> {
-        val updateRequest = requestService.update(request, id)
+        val updateRequest = requestService.update(request)
         return ResponseEntity(updateRequest, HttpStatus.OK)
     }
 

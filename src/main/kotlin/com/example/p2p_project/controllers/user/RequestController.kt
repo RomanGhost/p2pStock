@@ -2,6 +2,7 @@ package com.example.p2p_project.controllers.user
 
 import com.example.p2p_project.config.MyUserDetails
 import com.example.p2p_project.models.Request
+import com.example.p2p_project.models.Wallet
 import com.example.p2p_project.services.CardService
 import com.example.p2p_project.services.RequestService
 import com.example.p2p_project.services.UserService
@@ -47,14 +48,23 @@ class RequestController(
                        authentication: Authentication,
                        redirectAttributes: RedirectAttributes):String{
         if(request.pricePerUnit <= 0.0){
-            redirectAttributes.addFlashAttribute("priceError", "Price can't be negative")
+            redirectAttributes.addFlashAttribute("priceError", "Цена не может быть отрицательной")
             return "redirect:/platform/request/add?error"
         }
         if(request.quantity <= 0.0){
-            redirectAttributes.addFlashAttribute("quantityError", "Quantity can't be negative")
+            redirectAttributes.addFlashAttribute("quantityError", "Количество не может быть отрицательной")
             return "redirect:/platform/request/add?error"
         }
 
+        if(request.wallet == null){
+            redirectAttributes.addFlashAttribute("walletError", "Кошелек не выбран!")
+            return "redirect:/platform/request/add?error"
+        }
+
+        if(request.card == null){
+            redirectAttributes.addFlashAttribute("cardError", "Карта не выбрана!")
+            return "redirect:/platform/request/add?error"
+        }
 
         val userDetails = authentication.principal as MyUserDetails
         val userId = userDetails.user.id
@@ -73,31 +83,36 @@ class RequestController(
         val userId = userDetails.user.id
         model.addAttribute("request", request)
 
-        val isBuying = request.requestType.name == "Покупка"
-        model.addAttribute("isBuying", isBuying)
+        if (request.wallet == null || request.card == null) {
+            requestService.updateStatusById(requestId, "Закрыто: неактуально")
+            return "redirect:/platform/request/all"
+        }
 
-        //если заявка на покупку, то показать кошельки
-        if(isBuying) {
-            val wallets = walletService.getByUserId(userId)
+        val isUserInitiator = request.user.id == userId
+        model.addAttribute("isUserInitiator", isUserInitiator)
+
+        if (!isUserInitiator) {
+            val userWallets = walletService.getByUserId(userId)
+            val wallets: List<Wallet> =
+                userWallets.filter { it.cryptocurrency.id == request.wallet?.cryptocurrency?.id }
             if(wallets.isNotEmpty())
                 model.addAttribute("wallets", wallets)
-        }
-        else{
+
             val cards = cardService.getByUserId(userId)
             if (cards.isNotEmpty())
                 model.addAttribute("cards", cards)
+
+            var isAccess = request.requestStatus.name == "Доступна на платформе"
+            if (cards.isEmpty() || wallets.isEmpty()) {
+                isAccess = false
+            }
+            model.addAttribute("isAccess", isAccess)
         }
 
-        var isAccess = request.requestStatus.name == "Доступна на платформе"
-        if (model.getAttribute("wallets")==null &&
-            model.getAttribute("cards")==null){
-            isAccess = false
-        }
-        if(request.user.id == userId){
-            isAccess = false
-            model.addAttribute("isUserInitiator", isAccess)
-        }
-        model.addAttribute("isAccess", isAccess)
+
+        val requestEditStatus = request.requestStatus.name == "Отправлено на доработку"
+        model.addAttribute("edit", requestEditStatus)
+
         return "requestInfo"
     }
 
@@ -113,5 +128,22 @@ class RequestController(
         model.addAttribute("requests", requests)
 
         return "allRequest"
+    }
+
+    @PostMapping("/{requestId}/update")
+    fun updateRequest(
+        @PathVariable("requestId") requestId: Long,
+        @ModelAttribute request: Request,
+        redirectAttributes: RedirectAttributes
+    ): String {
+        val oldRequest = requestService.getById(requestId)
+        if (oldRequest.description == request.description) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Заявка не имеет изменений")
+            return "redirect:/platform/request/$requestId?error"
+        }
+        oldRequest.description = request.description
+        requestService.update(oldRequest)
+        requestService.updateStatusById(requestId, "Модерация")
+        return "redirect:/platform/request/$requestId"
     }
 }

@@ -1,41 +1,55 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Requests</title>
+    <title>Заявки</title>
+    <link href="/css/header.css" rel="stylesheet" type="text/css">
+    <link href="/css/footer.css" rel="stylesheet" type="text/css">
+    <link href="/css/all_request_styles.css" rel="stylesheet" type="text/css">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
 </head>
 <body>
-<h2>Requests</h2>
-<table>
-    <thead>
-    <tr>
-        <th>Номер заявки</th>
-        <th>Тип заявки</th>
-        <th>Итоговая цена</th>
-        <th>Статус сделки</th>
-        <th>Последнее изменение</th>
-        <th>Цена за единицу</th>
-        <th>Количество</th>
-        <th>Время создания</th>
-        <th>Время закрытия</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="request : ${requests}">
-        <td>
-            <a th:if="${isManager==null}" th:href="@{'/platform/request/' + ${request.id}}" th:text="${request.id}"></a>
-            <a th:if="${isManager}" th:href="@{'/platform/manager/request/' + ${request.id}}" th:text="${request.id}"></a>
-        </td>
-        <td th:text="${request.requestType.name}"></td>
-        <td th:text="${request.quantity * request.pricePerUnit}"></td>
-        <td th:text="${request.requestStatus.name}"></td>
-        <td th:text="${request.lastChangeStatusDateTime}"></td>
-        <td th:text="${request.pricePerUnit}"></td>
-        <td th:text="${request.quantity}"></td>
-        <td th:text="${request.createDateTime}"></td>
-        <td th:text="${request.deadlineDateTime}"></td>
-    </tr>
-    </tbody>
-</table>
+<header th:replace="~{header.html}"></header>
+
+<div class="container">
+    <h2 class="title">Активные заявки</h2>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Номер заявки</th>
+                <th>Тип заявки</th>
+                <th>Итоговая цена</th>
+                <th>Статус сделки</th>
+                <th>Последнее изменение</th>
+                <th>Цена за единицу</th>
+                <th>Количество</th>
+                <th>Время создания</th>
+                <th>Время закрытия</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="request : ${requests}">
+                <td>
+                    <a sec:authorize="!hasAuthority('Менеджер')" th:href="@{'/platform/request/' + ${request.id}}"
+                       th:text="${request.id}"></a>
+                    <a sec:authorize="hasAuthority('Менеджер')" th:href="@{'/manager/request/' + ${request.id}}"
+                       th:text="${request.id}"></a>
+                </td>
+                <td th:text="${request.requestType.name}"></td>
+                <td th:text="${request.quantity * request.pricePerUnit}"></td>
+                <td th:text="${request.requestStatus.name}"></td>
+                <td th:text="${request.lastChangeStatusDateTime}"></td>
+                <td th:text="${request.pricePerUnit}"></td>
+                <td th:text="${request.quantity}"></td>
+                <td th:text="${request.createDateTime}"></td>
+                <td th:text="${request.deadlineDateTime}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<footer th:replace="~{footer.html}"></footer>
 </body>
 </html>

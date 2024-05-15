@@ -1,0 +1,13 @@
+<html>
+<header>
+    <div class="header-container">
+        <div class="header-title">P2P Stock</div>
+        <nav class="navigation">
+            <a href="/platform/account/welcome">Личный кабинет</a>
+            <a href="/platform/request/all">Все заявки</a>
+            <a href="/manager/request/all" sec:authorize="hasAuthority('Менеджер')">Все заявки менеджера</a>
+            <a href="/manager/deal/all" sec:authorize="hasAuthority('Менеджер')">Все сделки</a>
+            <a href="/admin_panel/user_management" sec:authorize="hasAuthority('Администратор')">Все пользователи</a>
+        </nav>
+    </div>
+</header>

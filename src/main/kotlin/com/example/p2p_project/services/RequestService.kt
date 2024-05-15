@@ -1,6 +1,7 @@
 package com.example.p2p_project.services
 
 import com.example.p2p_project.models.Request
+import com.example.p2p_project.models.User
 import com.example.p2p_project.repositories.RequestRepository
 import com.example.p2p_project.repositories.dataTables.RequestStatusRepository
 import jakarta.persistence.EntityNotFoundException
@@ -47,12 +48,11 @@ class RequestService(val requestRepository: RequestRepository, val requestStatus
         return requestRepository.deleteById(id)
     }
 
-    fun update(request: Request, id:Long):Request{
-        request.id = id
-        if (requestRepository.existsById(id))
+    fun update(request: Request): Request {
+        if (requestRepository.existsById(request.id))
             return requestRepository.save(request)
         else
-            throw EntityNotFoundException("Request with id: $id not found")
+            throw EntityNotFoundException("Request with id: ${request.id} not found")
     }
 
     fun updateStatusById(id:Long, requestStatusName:String):Request{
@@ -66,5 +66,11 @@ class RequestService(val requestRepository: RequestRepository, val requestStatus
 
     fun getByUserId(userId:Long): List<Request> {
         return requestRepository.findByUserId(userId)
+    }
+
+    fun addManager(manager: User, requestId: Long): Request {
+        val request = requestRepository.getReferenceById(requestId)
+        request.managerId = manager
+        return requestRepository.save(request)
     }
 }
