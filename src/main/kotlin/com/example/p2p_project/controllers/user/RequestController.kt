@@ -48,11 +48,11 @@ class RequestController(
                        authentication: Authentication,
                        redirectAttributes: RedirectAttributes):String{
         if(request.pricePerUnit <= 0.0){
-            redirectAttributes.addFlashAttribute("priceError", "Price can't be negative")
+            redirectAttributes.addFlashAttribute("priceError", "Цена не может быть отрицательной")
             return "redirect:/platform/request/add?error"
         }
         if(request.quantity <= 0.0){
-            redirectAttributes.addFlashAttribute("quantityError", "Quantity can't be negative")
+            redirectAttributes.addFlashAttribute("quantityError", "Количество не может быть отрицательной")
             return "redirect:/platform/request/add?error"
         }
 
@@ -101,8 +101,8 @@ class RequestController(
         }
 
         var isAccess = request.requestStatus.name == "Доступна на платформе"
-        if (model.getAttribute("wallets")==null ||
-            model.getAttribute("cards")==null){
+        if (model.getAttribute("wallets") == null ||
+            model.getAttribute("cards") == null){
             requestService.updateStatusById(requestId, "Закрыто: неактуально")
             isAccess = false
         }
