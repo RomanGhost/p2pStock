@@ -50,7 +50,7 @@
             </form>
         </div>
 
-        <div th:if="${isAccess?:false && !isUserInitiator?:true}">
+        <div th:if="${isAccess?: false && !(isUserInitiator?: true)}">
             <form action="#" method="post" th:action="@{'/platform/deal/add'}">
                 <input th:name="requestId" th:value="${request.id}" type="hidden"/>
                 <div class="form-group" th:if="${isBuying}">
