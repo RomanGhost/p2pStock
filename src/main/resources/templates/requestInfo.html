@@ -53,13 +53,13 @@
         <div th:if="${isAccess?: false && !(isUserInitiator?: true)}">
             <form action="#" method="post" th:action="@{'/platform/deal/add'}">
                 <input th:name="requestId" th:value="${request.id}" type="hidden"/>
-                <div class="form-group" th:if="${isBuying}">
+                <div class="form-group">
                     <label for="walletId">Кошелек:</label>
                     <select class="form-control" id="walletId" name="walletId">
                         <option th:each="wallet : ${wallets}" th:text="${wallet.name}" th:value="${wallet.id}"></option>
                     </select>
                 </div>
-                <div class="form-group" th:if="${!isBuying}">
+                <div class="form-group">
                     <label for="cardId">Выбранная карта:</label>
                     <select class="form-control" id="cardId" name="cardId">
                         <option th:each="card : ${cards}" th:text="${card.cardName}" th:value="${card.id}"></option>
