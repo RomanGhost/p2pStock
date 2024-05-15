@@ -101,8 +101,9 @@ class RequestController(
         }
 
         var isAccess = request.requestStatus.name == "Доступна на платформе"
-        if (model.getAttribute("wallets")==null &&
+        if (model.getAttribute("wallets")==null ||
             model.getAttribute("cards")==null){
+            requestService.updateStatusById(requestId, "Закрыто: неактуально")
             isAccess = false
         }
         model.addAttribute("isAccess", isAccess)
