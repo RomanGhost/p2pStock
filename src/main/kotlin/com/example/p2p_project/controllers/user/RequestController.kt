@@ -83,33 +83,32 @@ class RequestController(
         val userId = userDetails.user.id
         model.addAttribute("request", request)
 
-        val isBuying = request.requestType.name == "Покупка"
-        model.addAttribute("isBuying", isBuying)
+        if (request.wallet == null || request.card == null) {
+            requestService.updateStatusById(requestId, "Закрыто: неактуально")
+            return "redirect:/platform/request/all"
+        }
 
-        //если заявка на покупку, то показать кошельки
-        if(isBuying) {
+        val isUserInitiator = request.user.id == userId
+        model.addAttribute("isUserInitiator", isUserInitiator)
+
+        if (!isUserInitiator) {
             val userWallets = walletService.getByUserId(userId)
             val wallets: List<Wallet> =
                 userWallets.filter { it.cryptocurrency.id == request.wallet?.cryptocurrency?.id }
             if(wallets.isNotEmpty())
                 model.addAttribute("wallets", wallets)
-        }
-        else{
+
             val cards = cardService.getByUserId(userId)
             if (cards.isNotEmpty())
                 model.addAttribute("cards", cards)
+
+            var isAccess = request.requestStatus.name == "Доступна на платформе"
+            if (cards.isEmpty() || wallets.isEmpty()) {
+                isAccess = false
+            }
+            model.addAttribute("isAccess", isAccess)
         }
 
-        var isAccess = request.requestStatus.name == "Доступна на платформе"
-        if (model.getAttribute("wallets") == null ||
-            model.getAttribute("cards") == null){
-            requestService.updateStatusById(requestId, "Закрыто: неактуально")
-            isAccess = false
-        }
-        model.addAttribute("isAccess", isAccess)
-
-        val isUserInitiator = request.user.id == userId
-        model.addAttribute("isUserInitiator", isUserInitiator)
 
         val requestEditStatus = request.requestStatus.name == "Отправлено на доработку"
         model.addAttribute("edit", requestEditStatus)
