@@ -31,9 +31,10 @@
             <tbody>
             <tr th:each="request : ${requests}">
                 <td>
-                    <a th:if="isManager==null" th:href="@{'/platform/request/' + ${request.id}}"
+                    <!--Зависит от ссылки -->
+                    <a th:if="${isManager==null}" th:href="@{'/platform/request/' + ${request.id}}"
                        th:text="${request.id}"></a>
-                    <a th:if="isManager" th:href="@{'/manager/request/' + ${request.id}}"
+                    <a th:if="${isManager}" th:href="@{'/manager/request/' + ${request.id}}"
                        th:text="${request.id}"></a>
                 </td>
                 <td th:text="${request.requestType.name}"></td>
