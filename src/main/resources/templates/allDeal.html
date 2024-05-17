@@ -13,6 +13,26 @@
 
 <div class="section">
     <h3 class="section-title">Все сделки</h3>
+
+    <div class="sort-controls">
+        <form action="/manager/deal/all" method="get">
+            <label for="deal_status">Cтатус сделки:</label>
+            <select id="deal_status" name="deal_status">
+                <option value="">Все</option>
+                <option th:each="dealStatus : ${dealsStatuses}" th:text="${dealStatus.name}"
+                        th:value="${dealStatus.id}"></option>
+            </select>
+
+            <label for="sort_order">Порядок:</label>
+            <select id="sort_order" name="sort_order">
+                <option value="asc">Возрастание</option>
+                <option value="desc">Убывание</option>
+            </select>
+
+            <button class="btn-primary" type="submit">Применить</button>
+        </form>
+    </div>
+
     <div class="table-responsive">
         <table>
             <thead>

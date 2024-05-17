@@ -34,6 +34,11 @@ class UserAccountController(
 
         val totalBalance = wallets.map { it.balance }.sum()
 
+        cards.sortedBy { it.id }
+        wallets.sortedBy { it.id }
+        requests.sortedBy { it.id }
+        deals.sortedBy { it.id }
+
         model.addAttribute("login", login)
         model.addAttribute("cards", cards)
         model.addAttribute("wallets", wallets)

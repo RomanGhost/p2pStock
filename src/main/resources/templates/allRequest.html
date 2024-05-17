@@ -13,6 +13,66 @@
 
 <div class="container">
     <h2 class="title">Активные заявки</h2>
+
+    <div class="sort-controls">
+        <!-- Заявки для менеджера       -->
+        <form action="/manager/request/all" method="get" sec:authorize="hasAuthority('Менеджер')">
+            <label for="request_type">Тип заявки:</label>
+            <select id="request_type" name="request_type">
+                <option value="">Все</option>
+                <option th:each="requestType : ${requestsTypes}" th:text="${requestType.name}"
+                        th:value="${requestType.id}"></option>
+            </select>
+
+            <label for="request_status">Cтатус заявки:</label>
+            <select id="request_status" name="request_status">
+                <option value="">Все</option>
+                <option th:each="requestStatus : ${requestsStatuses}" th:text="${requestStatus.name}"
+                        th:value="${requestStatus.id}"></option>
+            </select>
+
+            <label for="sort_by">Сортировать по:</label>
+            <select id="sort_by" name="sort_by">
+                <option value="pricePerUnit">Цена за единицу</option>
+                <option value="quantity">Количество</option>
+                <option value="createDateTime">Время создания</option>
+            </select>
+
+            <label for="sort_order">Порядок:</label>
+            <select id="sort_order" name="sort_order">
+                <option value="asc">Возрастание</option>
+                <option value="desc">Убывание</option>
+            </select>
+
+            <button class="btn-primary" type="submit">Применить</button>
+        </form>
+
+        <!-- Заявки для пользователей       -->
+        <form action="/platform/request/all" method="get" sec:authorize="!hasAuthority('Менеджер')">
+            <label for="request_type">Тип заявки:</label>
+            <select id="request_type" name="request_type">
+                <option value="">Все</option>
+                <option th:each="requestType : ${requestsTypes}" th:text="${requestType.name}"
+                        th:value="${requestType.id}"></option>
+            </select>
+
+            <label for="sort_by">Сортировать по:</label>
+            <select id="sort_by" name="sort_by">
+                <option value="pricePerUnit">Цена за единицу</option>
+                <option value="quantity">Количество</option>
+                <option value="createDateTime">Время создания</option>
+            </select>
+
+            <label for="sort_order">Порядок:</label>
+            <select id="sort_order" name="sort_order">
+                <option value="asc">Возрастание</option>
+                <option value="desc">Убывание</option>
+            </select>
+
+            <button class="btn-primary" type="submit">Применить</button>
+        </form>
+    </div>
+
     <div class="table-responsive">
         <table class="table">
             <thead>

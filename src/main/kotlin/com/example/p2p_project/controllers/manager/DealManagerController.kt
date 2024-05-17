@@ -5,6 +5,7 @@ import com.example.p2p_project.models.adjacent.DealAction
 import com.example.p2p_project.services.DealService
 import com.example.p2p_project.services.UserService
 import com.example.p2p_project.services.adjacent.DealActionService
+import com.example.p2p_project.services.dataServices.DealStatusService
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -15,18 +16,32 @@ import org.springframework.web.bind.annotation.*
 class DealManagerController(
     private val dealService: DealService,
     private val dealActionService: DealActionService,
-    private val userService: UserService
+    private val userService: UserService,
+    private val dealStatusService: DealStatusService
 ) {
     @GetMapping("/all")
-    fun getAllDeal(@RequestParam("status_filter", required = false) status: String? = null, model: Model): String {
+    fun getAllDeal(
+        @RequestParam("sort_order", required = false) sortOrder: String? = null,
+        @RequestParam("deal_status", required = false) dealStatus: String? = null,
+        model: Model
+    ): String {
         var deals = dealService.getAll()
-        if (status != null)
-            deals = deals.filter { it.status.name == status }
+
+        if (!dealStatus.isNullOrEmpty()) {
+            deals = deals.filter { it.status.id == dealStatus.toLong() }
+        }
+
+        deals.sortedBy { it.openDateTime }
+        if (sortOrder == "desc") {
+            deals = deals.reversed()
+        }
+
+        val dealsStatuses = dealStatusService.getAll()
+        model.addAttribute("dealsStatuses", dealsStatuses)
         model.addAttribute("deals", deals)
         model.addAttribute("isManager", true)
 
         return "allDeal"
-
     }
 
     @GetMapping("/{dealId}")
