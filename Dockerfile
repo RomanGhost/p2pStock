@@ -1,5 +1,5 @@
 # Stage 1: Build stage
-FROM gradle:7.4.0-jdk17 AS builder
+FROM gradle:7.4.2-jdk17 AS builder
 WORKDIR /app
 COPY . .
 RUN gradle build --no-daemon
