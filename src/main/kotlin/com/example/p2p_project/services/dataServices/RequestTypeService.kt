@@ -14,4 +14,5 @@ class RequestTypeService(private val requestTypeRepository: RequestTypeRepositor
     fun getByName(name:String):RequestType{
         return requestTypeRepository.findByName(name)
     }
+
 }

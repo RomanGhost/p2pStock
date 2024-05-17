@@ -7,6 +7,7 @@ import com.example.p2p_project.services.CardService
 import com.example.p2p_project.services.RequestService
 import com.example.p2p_project.services.UserService
 import com.example.p2p_project.services.WalletService
+import com.example.p2p_project.services.dataServices.RequestStatusService
 import com.example.p2p_project.services.dataServices.RequestTypeService
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Controller
@@ -21,7 +22,8 @@ class RequestController(
     private val cardService: CardService,
     private val requestService: RequestService,
     private val requestTypeService: RequestTypeService,
-    private val userService: UserService
+    private val userService: UserService,
+    private val requestStatusService: RequestStatusService
 ) {
 
 
@@ -95,6 +97,7 @@ class RequestController(
             val userWallets = walletService.getByUserId(userId)
             val wallets: List<Wallet> =
                 userWallets.filter { it.cryptocurrency.id == request.wallet?.cryptocurrency?.id }
+
             if(wallets.isNotEmpty())
                 model.addAttribute("wallets", wallets)
 
@@ -123,8 +126,36 @@ class RequestController(
     }
 
     @GetMapping("/all")
-    fun getAllRequest(model:Model):String{
-        val requests = requestService.getByStatus("Доступна на платформе")
+    fun getAllRequest(
+        @RequestParam("sort_by", required = false) sortBy: String? = null,
+        @RequestParam("sort_order", required = false) sortOrder: String? = null,
+        @RequestParam("request_type", required = false) requestType: String? = null,
+        model: Model
+    ): String {
+        var requests = requestService.getByStatus("Доступна на платформе")
+
+        if (!requestType.isNullOrEmpty()) {
+            requests = requests.filter { it.requestType.id == requestType.toLong() }
+        }
+
+        if (sortBy != null) {
+            requests = when (sortBy) {
+                "pricePerUnit" -> requests.sortedBy { it.pricePerUnit }
+                "quantity" -> requests.sortedBy { it.quantity }
+                "createDateTime" -> requests.sortedBy { it.createDateTime }
+                else -> requests
+            }
+            if (sortOrder == "desc") {
+                requests = requests.reversed()
+            }
+        }
+
+        val requestStatuses = requestStatusService.getAll()
+        model.addAttribute("requestsStatuses", requestStatuses)
+
+        val requestTypes = requestTypeService.getAll()
+        model.addAttribute("requestsTypes", requestTypes)
+
         model.addAttribute("requests", requests)
 
         return "allRequest"
