@@ -38,11 +38,23 @@
             <label>Количество:</label>
             <span th:text="${request.quantity}"></span>
         </div>
+
+        <div class="form-group">
+            <label>Итоговая сумма:</label>
+            <span th:text="${request.quantity * request.pricePerUnit}"></span>
+        </div>
+
+        <div class="form-group" th:if="${request.requestType.name == 'Покупка'}">
+            <label>Номер карты:</label>
+            <span th:text="${request.card.cardNumber}"></span>
+        </div>
+        <span class="error" th:if="${errorMessage}" th:text="${errorMessage}"></span><br>
+
         <div class="form-group">
             <label>Описание:</label>
-            <span th:if="${edit==null || !edit}" th:text="${request.description}"></span>
+            <span th:if="${isEdit==null || !isEdit}" th:text="${request.description}"></span>
             <form method="post" th:action="@{'/platform/request/' + ${request.id} + '/update'}"
-                  th:if="${edit?:false && isUserInitiator}" th:object="${request}">
+                  th:if="${isEdit?:false && isUserInitiator}" th:object="${request}">
                 <textarea class="form-control" cols="50" rows="4" th:field="*{description}"
                           th:text="${request.description}"></textarea>
                 <span class="error" th:if="${errorMessage}" th:text="${errorMessage}"></span><br>
@@ -75,6 +87,8 @@
             </form>
         </div>
 
+
+        <!--        Блок модерации-->
         <div th:if="${isModeration}">
             <h2><b>Внимание!</b></h2>
             <p>Внимательно проверьте поля, заполненные пользователем. Проверьте, есть ли недопустимые слова в

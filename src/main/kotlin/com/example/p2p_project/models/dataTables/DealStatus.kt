@@ -9,7 +9,7 @@ data class DealStatus(
     var id: Long = 0,
 
     @Column
-    val name: String = "",
+    var name: String = "",
 
     @Column
     val priority: Int = -1

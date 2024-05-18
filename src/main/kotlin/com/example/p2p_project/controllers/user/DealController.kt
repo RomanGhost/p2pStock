@@ -6,12 +6,11 @@ import com.example.p2p_project.models.dataTables.RequestType
 import com.example.p2p_project.services.*
 import com.example.p2p_project.services.dataServices.DealStatusService
 import com.example.p2p_project.services.dataServices.RequestTypeService
-import org.springframework.http.HttpStatus
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.server.ResponseStatusException
+import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 @Controller
 @RequestMapping("/platform/deal")
@@ -69,14 +68,30 @@ class DealController(
         @RequestParam("requestId") requestId: Long,
         @RequestParam("walletId", required = false) walletId: Long?,
         @RequestParam("cardId", required = false) cardId: Long?,
-        authentication: Authentication
+        authentication: Authentication,
+        redirectAttributes: RedirectAttributes
     ): String {
         var initialRequest: Request = requestService.getById(requestId)
         val userDetails = authentication.principal as MyUserDetails
         val authUserId = userDetails.user.id
 
         if (initialRequest.user.id == authUserId) {
-            throw ResponseStatusException(HttpStatus.FORBIDDEN, "User cannot be a counterparty to themselves")
+//            throw ResponseStatusException(HttpStatus.FORBIDDEN, "Невозможно создать сделку с самим собой")
+            redirectAttributes.addFlashAttribute("errorMessage", "Невозможно создать сделку с самим собой")
+            return "redirect:/platform/request/$requestId"
+        }
+
+        val wallet: Wallet? = if (walletId != null) walletService.getById(walletId) else null
+        val user: User = userService.getById(authUserId)
+        val card: Card? = if (cardId != null) cardService.getById(cardId) else null
+
+        if (initialRequest.requestType.name == "Покупка") {
+            val balance = initialRequest.quantity
+            val walletBalance = wallet?.balance ?: 0.0
+            if (walletBalance < balance) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Недостаточно вредств")
+                return "redirect:/platform/request/$requestId"
+            }
         }
 
         //Заявка контрагент
@@ -85,9 +100,6 @@ class DealController(
         }else {
             requestTypeService.getByName("Продажа")
         }
-        val wallet:Wallet? = if(walletId!=null) walletService.getById(walletId) else null
-        val user: User = userService.getById(authUserId)
-        val card: Card? = if(cardId!=null) cardService.getById(cardId) else null
 
         var newRequest = Request(
             requestType=requestType,
@@ -102,7 +114,6 @@ class DealController(
 
         val newStatus = "Используется в сделке"
         newRequest = requestService.add(newRequest, newStatus)
-
         initialRequest = requestService.updateStatusById(requestId, newStatus)
 
         //Создание сделки на основе заявок
@@ -177,7 +188,7 @@ class DealController(
 
         val walletFromId = deal.sellRequest.wallet!!.id
         val walletToId = deal.buyRequest.wallet!!.id
-        val amount = deal.buyRequest.quantity * deal.buyRequest.pricePerUnit
+        val amount = deal.buyRequest.quantity
 
         walletService.transferBalance(walletFromId, walletToId, amount)
         dealService.updateStatus(dealId, newStatus)

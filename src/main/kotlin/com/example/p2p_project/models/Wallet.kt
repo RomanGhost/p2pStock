@@ -21,7 +21,7 @@ data class Wallet(
     var balance: Double = 0.0,
 
     @Column(name = "name")
-    val name: String = "",
+    var name: String = "",
     @Column(name = "public_key", unique = true)
     var publicKey: String = "",
     @Column(name = "private_key")
