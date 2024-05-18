@@ -21,3 +21,10 @@ token:
   time:
     life-time: 10800000
 
+global:
+  scrape_interval: 15s
+scrape_configs:
+  - job_name: 'spring'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['spring-app:8080']
