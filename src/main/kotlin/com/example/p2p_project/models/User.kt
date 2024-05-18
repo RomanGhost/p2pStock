@@ -10,7 +10,7 @@
         var id: Long=0,
 
         @Column(unique = true)
-        val login: String="",
+        var login: String = "",
 
         @Column(nullable = false, columnDefinition = "boolean default 'true'")
         var isEnabled: Boolean = true,
