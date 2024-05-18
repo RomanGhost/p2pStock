@@ -9,5 +9,5 @@ data class RequestType(
     var id: Long = 0L,
 
     @Column
-    val name: String? = ""
+    var name: String? = ""
 )

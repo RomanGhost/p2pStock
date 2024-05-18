@@ -13,7 +13,7 @@ data class Request(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "request_type_id")
-    val requestType: RequestType = RequestType(),
+    var requestType: RequestType = RequestType(),
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE])
     @JoinColumn(name = "wallet_id", nullable = true)
@@ -36,10 +36,10 @@ data class Request(
     var managerId: User? = null,
 
     @Column(name = "price_per_unit")
-    val pricePerUnit: Double = 0.0,
+    var pricePerUnit: Double = 0.0,
 
     @Column
-    val quantity: Double= 0.0,
+    var quantity: Double = 0.0,
 
     @Column
     var description: String = "",

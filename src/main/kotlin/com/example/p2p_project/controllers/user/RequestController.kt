@@ -25,7 +25,41 @@ class RequestController(
     private val userService: UserService,
     private val requestStatusService: RequestStatusService
 ) {
+    @GetMapping("/all")
+    fun getAllRequest(
+        @RequestParam("sort_by", required = false) sortBy: String? = null,
+        @RequestParam("sort_order", required = false) sortOrder: String? = null,
+        @RequestParam("request_type", required = false) requestType: String? = null,
+        model: Model
+    ): String {
+        var requests = requestService.getByStatus("Доступна на платформе")
 
+        if (!requestType.isNullOrEmpty()) {
+            requests = requests.filter { it.requestType.id == requestType.toLong() }
+        }
+
+        if (sortBy != null) {
+            requests = when (sortBy) {
+                "pricePerUnit" -> requests.sortedBy { it.pricePerUnit }
+                "quantity" -> requests.sortedBy { it.quantity }
+                "createDateTime" -> requests.sortedBy { it.createDateTime }
+                else -> requests
+            }
+            if (sortOrder == "desc") {
+                requests = requests.reversed()
+            }
+        }
+
+        val requestStatuses = requestStatusService.getAll()
+        model.addAttribute("requestsStatuses", requestStatuses)
+
+        val requestTypes = requestTypeService.getAll()
+        model.addAttribute("requestsTypes", requestTypes)
+
+        model.addAttribute("requests", requests)
+
+        return "allRequest"
+    }
 
     @GetMapping("/add")
     fun getCreateRequest(model: Model, authentication: Authentication, redirectAttributes: RedirectAttributes):String{
@@ -50,11 +84,11 @@ class RequestController(
                        authentication: Authentication,
                        redirectAttributes: RedirectAttributes):String{
         if(request.pricePerUnit <= 0.0){
-            redirectAttributes.addFlashAttribute("priceError", "Цена не может быть отрицательной")
+            redirectAttributes.addFlashAttribute("priceError", "Цена должна юыть больше нуля")
             return "redirect:/platform/request/add?error"
         }
         if(request.quantity <= 0.0){
-            redirectAttributes.addFlashAttribute("quantityError", "Количество не может быть отрицательной")
+            redirectAttributes.addFlashAttribute("quantityError", "Количество должно быть больше нуля")
             return "redirect:/platform/request/add?error"
         }
 
@@ -114,7 +148,7 @@ class RequestController(
 
 
         val requestEditStatus = request.requestStatus.name == "Отправлено на доработку"
-        model.addAttribute("edit", requestEditStatus)
+        model.addAttribute("isEdit", requestEditStatus)
 
         return "requestInfo"
     }
@@ -123,42 +157,6 @@ class RequestController(
     fun postCancelRequest(@PathVariable requestId:Long, model:Model, authentication: Authentication):String {
         requestService.updateStatusById(requestId, "Закрыто: неактуально")
         return "redirect:/platform/request/$requestId"
-    }
-
-    @GetMapping("/all")
-    fun getAllRequest(
-        @RequestParam("sort_by", required = false) sortBy: String? = null,
-        @RequestParam("sort_order", required = false) sortOrder: String? = null,
-        @RequestParam("request_type", required = false) requestType: String? = null,
-        model: Model
-    ): String {
-        var requests = requestService.getByStatus("Доступна на платформе")
-
-        if (!requestType.isNullOrEmpty()) {
-            requests = requests.filter { it.requestType.id == requestType.toLong() }
-        }
-
-        if (sortBy != null) {
-            requests = when (sortBy) {
-                "pricePerUnit" -> requests.sortedBy { it.pricePerUnit }
-                "quantity" -> requests.sortedBy { it.quantity }
-                "createDateTime" -> requests.sortedBy { it.createDateTime }
-                else -> requests
-            }
-            if (sortOrder == "desc") {
-                requests = requests.reversed()
-            }
-        }
-
-        val requestStatuses = requestStatusService.getAll()
-        model.addAttribute("requestsStatuses", requestStatuses)
-
-        val requestTypes = requestTypeService.getAll()
-        model.addAttribute("requestsTypes", requestTypes)
-
-        model.addAttribute("requests", requests)
-
-        return "allRequest"
     }
 
     @PostMapping("/{requestId}/update")
@@ -178,3 +176,6 @@ class RequestController(
         return "redirect:/platform/request/$requestId"
     }
 }
+
+
+
