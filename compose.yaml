@@ -1,4 +1,4 @@
-version: '3.9.0-01'
+version: '3.8'
 services:
   spring-boot-app-blue:
     build:
