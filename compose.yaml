@@ -6,6 +6,11 @@ services:
       - '80:80'
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - pring-boot-app-blue
+      - pring-boot-app-green
+
+
   spring-boot-app-blue:
     build:
       context: .
