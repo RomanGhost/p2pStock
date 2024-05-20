@@ -1,5 +1,4 @@
-version: '3.8'
-
+version: '3.9.0-01'
 services:
   spring-boot-app-blue:
     build:
@@ -11,6 +10,8 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/peer_to_peer
       - SPRING_DATASOURCE_USERNAME=admin
       - SPRING_DATASOURCE_PASSWORD=password_12345
+    depends_on:
+      - postgres
 
   spring-boot-app-green:
     build:
@@ -22,6 +23,8 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/peer_to_peer
       - SPRING_DATASOURCE_USERNAME=admin
       - SPRING_DATASOURCE_PASSWORD=password_12345
+    depends_on:
+      - postgres
 
   postgres:
     image: 'postgres:latest'
@@ -31,6 +34,11 @@ services:
       - 'POSTGRES_USER=admin'
     ports:
       - '5432:5432'
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   nginx:
     image: nginx:latest
