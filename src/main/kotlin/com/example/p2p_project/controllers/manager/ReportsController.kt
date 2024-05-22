@@ -27,7 +27,7 @@ import java.time.format.DateTimeFormatter
 
 @Controller
 @RequestMapping("/manager/reports")
-class ReportController(
+class ReportsController(
     private val dealService: DealService,
     private val userService: UserService,
     private val walletService: WalletService,

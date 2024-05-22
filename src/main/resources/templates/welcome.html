@@ -47,7 +47,11 @@
         <section class="section">
             <h3 class="section-title">Кошельки</h3>
             <label for="total-balance">Общий баланс: </label>
-            <span id="total-balance" th:text="${total_balance}"></span><br>
+            <ul id="total-balance">
+                <li th:each="wallet_balance : ${walletTotalBalance}">
+                    <span th:text="${wallet_balance.key}">Криптовалюта</span>: <span th:text="${wallet_balance.value}">Его общий баланс</span>
+                </li>
+            </ul>
             <a class="btn btn-primary" href="/platform/wallet/add">Добавить кошелек</a>
             <div class="table-container">
                 <table class="styled-table">
