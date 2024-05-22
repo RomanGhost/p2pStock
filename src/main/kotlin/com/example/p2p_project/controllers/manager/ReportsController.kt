@@ -94,7 +94,7 @@ class ReportsController(
         }
 
         val reportCreateTime = LocalDateTime.now()
-        document.add(Paragraph("Report generated on: ${dateTimeFormatter.format(reportCreateTime)}").setFontSize(10f))
+        document.add(Paragraph("Отчет сгенерирован: ${dateTimeFormatter.format(reportCreateTime)}").setFontSize(10f))
 
         document.close()
 
