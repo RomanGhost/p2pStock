@@ -31,6 +31,7 @@ dependencies {
 	implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
+	implementation("com.itextpdf:itext7-core:7.2.1")
 	developmentOnly("org.springframework.boot:spring-boot-docker-compose")
 	implementation("org.postgresql:postgresql")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")

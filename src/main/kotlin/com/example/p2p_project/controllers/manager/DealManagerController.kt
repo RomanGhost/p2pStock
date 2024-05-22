@@ -31,7 +31,7 @@ class DealManagerController(
             deals = deals.filter { it.status.id == dealStatus.toLong() }
         }
 
-        deals.sortedBy { it.openDateTime }
+        deals = deals.sortedBy { it.openDateTime }
         if (sortOrder == "desc") {
             deals = deals.reversed()
         }

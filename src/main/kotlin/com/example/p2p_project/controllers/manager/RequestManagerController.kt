@@ -74,8 +74,6 @@ class RequestManagerController(
         return "allRequest"
     }
 
-
-    //TODO Сделать проверку, сущечтвует ли такая заявка
     @PostMapping("/{requestId}/moderation/accept")
     fun acceptRequestModeration(@PathVariable requestId: Long, authentication: Authentication): String {
         if (!requestService.existById(requestId))

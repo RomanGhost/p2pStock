@@ -40,6 +40,11 @@
             <a th:href="@{'/platform/request/' + ${deal.buyRequest.id}}" th:text="${deal.buyRequest.id}"></a>
         </div>
 
+        <div class="form-group">
+            <a th:href="@{'http://localhost:8080/platform/deal/' +  ${deal.buyRequest.id} + '/document'}">Отчет по
+                сделке</a>
+        </div>
+
         <div class="form-group" th:if="${showAcceptButton}">
             <form method="post" th:action="@{'/platform/deal/' + ${deal.id} +'/accept'}">
                 <button class="btn-primary" type="submit">Принять!</button>

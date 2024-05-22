@@ -27,17 +27,17 @@ class UserAccountController(
         val login = userDetails.username
         val userId = userDetails.user.id
 
-        val cards = cardService.getByUserId(userId)
-        val wallets = walletService.getByUserId(userId)
-        val requests = requestService.getByUserId(userId)
-        val deals = dealService.getByUserId(userId)
+        var cards = cardService.getByUserId(userId)
+        var wallets = walletService.getByUserId(userId)
+        var requests = requestService.getByUserId(userId)
+        var deals = dealService.getByUserId(userId)
 
         val totalBalance = wallets.map { it.balance }.sum()
 
-        cards.sortedBy { it.id }
-        wallets.sortedBy { it.id }
-        requests.sortedBy { it.id }
-        deals.sortedBy { it.id }
+        cards = cards.sortedBy { it.id }
+        wallets = wallets.sortedBy { it.id }
+        requests = requests.sortedBy { it.id }
+        deals = deals.sortedBy { it.id }
 
         model.addAttribute("login", login)
         model.addAttribute("cards", cards)

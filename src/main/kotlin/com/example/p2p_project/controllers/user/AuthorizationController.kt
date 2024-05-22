@@ -10,15 +10,17 @@ import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
-
 @Controller
 @RequestMapping("/auth")
 class AuthorizationController(
     val userService: UserService,
     val userRoleService: UserRoleService,
-    val authenticationService:AuthenticationService
+    val authenticationService: AuthenticationService
 ) {
-
+    @GetMapping("/sign-in")
+    fun showSignIn(model: Model): String {
+        return "signIn"
+    }
 
     @GetMapping("/sign-up")
     fun showSignUp(
@@ -26,7 +28,7 @@ class AuthorizationController(
         redirectAttributes: RedirectAttributes,
         @RequestParam(name = "error", required = false) error: String? = null
     ): String {
-        val user:User = User()
+        val user: User = User()
         if (error != null)
             model.addAttribute("errorMessage", "Пользователь не найден")
         model.addAttribute("user", user)
@@ -34,38 +36,37 @@ class AuthorizationController(
     }
 
     @PostMapping("/sign-up/save")
-    fun signUp(@ModelAttribute("user")newUser:User,
-               result:BindingResult, model: Model,
-               redirectAttributes:RedirectAttributes
-    ):String{
-        //TODO("Добавить второе поле повтор пароля(Не обязательно)")
+    fun signUp(
+        @ModelAttribute("user") newUser: User,
+        @RequestParam("second_password") secondPassword: String,
+        result: BindingResult, model: Model,
+        redirectAttributes: RedirectAttributes
+    ): String {
         val user = userService.getByLogin(newUser.login)
-        // В случае, если пользователь найден, переотправить на sign-in
-        if (user != null){
-            return "redirect:/auth/sign-in"
+        if (user != null) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Пользователь с таким логином уже существует")
+            return "redirect:/auth/sign-up"
         }
 
         if (newUser.password.length < 8) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Password is too short")
-            return "redirect:/auth/sign-up"
-        }
-        if (newUser.login.length < 2) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Login length is too short")
+            redirectAttributes.addFlashAttribute("errorMessage", "Пароль короткий, минимум 8 символов")
             return "redirect:/auth/sign-up"
         }
 
-        val registerUser  = userService.add(newUser)
-        userRoleService.addUserRole(registerUser, "Пользователь")
+        if (newUser.login.trim().length < 2) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Логин слишком короткий, минимум 2 символа")
+            return "redirect:/auth/sign-up"
+        }
 
-        //TODO("Реализовать вход пользователя в личный кабинет без формы входа")
-        authenticationService.authenticateUser(registerUser.login, registerUser.password)
+        if (newUser.password != secondPassword) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Пароли не совпадают")
+            return "redirect:/auth/sign-up"
+        }
+
+        val registeredUser = userService.add(newUser)
+        userRoleService.addUserRole(registeredUser, "Пользователь")
+        authenticationService.authenticateUser(registeredUser.login, registeredUser.password)
 
         return "redirect:/platform/account/welcome"
     }
-
-    @GetMapping("/sign-in")
-    fun showSignIn(model:Model):String{
-        return "signIn"
-    }
-
 }

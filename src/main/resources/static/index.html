@@ -4,17 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Peer-to-Peer Криптовалютная Биржа</title>
-    <link href="/css/styles.css" rel="stylesheet"/>
+    <link href="/css/styles.css" rel="stylesheet" type="text/css">
+    <link href="/css/header.css" rel="stylesheet" type="text/css">
+    <link href="/css/footer.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-<header th:replace="~{header.html}">
-    <h1>Peer-to-Peer Криптовалютная Биржа</h1>
+<header th:replace="~{header_view.html}">
+    <h1>P2P Stock</h1>
+    <nav>
+        <a href="/auth/sign-up">Регистрация</a>
+        <a href="/auth/sign-in">Вход</a>
+    </nav>
 </header>
-
-<nav>
-    <a href="/auth/sign-up">Регистрация</a>
-    <a href="/auth/sign-in">Вход</a>
-</nav>
 
 <div class="container">
     <h2>Добро пожаловать на нашу P2P Криптовалютную биржу</h2>

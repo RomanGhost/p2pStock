@@ -42,11 +42,11 @@ body {
 
 .form-control:focus {
     outline: none;
-    border-color:  #0056b3;
+    border-color: #0056b3;
 }
 
 .btn-primary {
-    background-color:  #0056b3;
+    background-color: #0056b3;
     color: white;
     border: none;
     padding: 0.75rem 1.25rem;
@@ -71,7 +71,7 @@ body {
 }
 
 a, a:visited {
-    color:  #0056b3;
+    color: #0056b3;
     text-decoration: none;
     display: block;
     text-align: center;
@@ -82,7 +82,7 @@ a:hover {
     text-decoration: underline;
 }
 
-/* Медиа-запросы для мобильных устройств */
+/* Media queries for mobile devices */
 @media (max-width: 768px) {
     .card-form {
         padding: 1rem;
@@ -119,10 +119,46 @@ a:hover {
     }
 }
 
-/* Медиа-запросы для очень маленьких устройств */
 @media (max-width: 320px) {
     .card-form {
         padding: 0.5rem;
         max-width: 100%;
     }
+}
+
+header {
+    top: 0;
+    width: 100%;
+    background-color: #2a5885;
+    color: #fff;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+}
+
+.header-title {
+    font-size: 24px;
+}
+
+.navigation {
+    display: flex;
+}
+
+.navigation a {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 20px;
+}
+
+.navigation a:hover {
+    text-decoration: underline;
 }

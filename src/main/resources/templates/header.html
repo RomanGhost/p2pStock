@@ -7,6 +7,7 @@
             <a href="/platform/request/all">Все заявки</a>
             <a href="/manager/request/all" sec:authorize="hasAuthority('Менеджер')">Все заявки менеджера</a>
             <a href="/manager/deal/all" sec:authorize="hasAuthority('Менеджер')">Все сделки</a>
+            <a href="/manager/reports" sec:authorize="hasAuthority('Менеджер')">Отчеты</a>
             <a href="/admin_panel/user_management" sec:authorize="hasAuthority('Администратор')">Все пользователи</a>
         </nav>
     </div>

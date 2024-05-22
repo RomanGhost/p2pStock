@@ -21,8 +21,8 @@ class AddManagerController(
 ) {
     @GetMapping("/user_management")
     fun getAddUserManagement(model: Model): String {
-        val allUsers = userService.getUserWithoutRole("Менеджер")
-        allUsers?.sortedBy { it.id }
+        var allUsers = userService.getUserWithoutRole("Менеджер")
+        allUsers = allUsers?.sortedBy { it.id }
         model.addAttribute("users", allUsers)
 
         return "addManager"

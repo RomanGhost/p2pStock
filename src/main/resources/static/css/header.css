@@ -1,13 +1,11 @@
-/* header.css */
 header {
-    /*position: fixed;*/
     top: 0;
     width: 100%;
     background-color: #2a5885;
     color: #fff;
-    padding: 20px 0;
+    padding: 0; /* Remove padding */
+    margin: 0; /* Remove margin */
     text-align: center;
-    /*padding: 1rem;*/
 }
 
 .header-container {
@@ -16,6 +14,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 20px 0; /* Add padding here if needed */
 }
 
 .header-title {

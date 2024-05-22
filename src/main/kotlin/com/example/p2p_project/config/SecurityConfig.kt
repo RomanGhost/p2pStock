@@ -24,7 +24,6 @@ class SecurityConfig {
 
     @Bean
     fun securityFilterChain(httpSecurity: HttpSecurity): SecurityFilterChain {
-        //TODO "Переключиться на роль менеджера, настроить для него"
         return httpSecurity.csrf{it.disable()}
             .authorizeHttpRequests {
                 it.requestMatchers("/auth/sign-in/**", "/auth/sign-up/**", "/api/**", "/static/css/**").permitAll()

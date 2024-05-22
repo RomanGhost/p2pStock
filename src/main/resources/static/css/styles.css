@@ -1,6 +1,4 @@
-/* styles.css */
-
-/* Сброс некоторых стандартных стилей */
+/* Reset some default styles */
 body, h1, h2, p, a {
     margin: 0;
     padding: 0;
@@ -14,45 +12,37 @@ body {
 }
 
 header {
-    background-color: #007bff;
-    color: white;
+    background-color: #2e5b8e;
     padding: 10px 20px;
-    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
 }
 
-nav {
-    background-color: #0056b3;
-    padding: 10px 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
+header h1 {
+    font-size: 1.5rem;
+    margin: 0;
 }
 
 nav a {
-    color: white;
+    color: #e0c7ff;
     text-decoration: none;
-    padding: 10px 20px;
-    margin: 5px;
+    margin: 0 10px;
 }
 
 nav a:hover {
-    background-color: #004494;
-    border-radius: 5px;
+    color: #ffffff;
 }
 
 .container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
     text-align: center;
-    margin-top: 20px;
-    padding: 0 15px;
-}
-
-h1 {
-    margin-bottom: 0.5rem;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 h2 {
@@ -83,12 +73,18 @@ p {
     background-color: #0056b3;
 }
 
-/* Адаптивность для мобильных устройств */
-@media only screen and (max-width: 768px) {
-    header {
-        padding: 8px 15px;
-    }
+.reports-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
+.report-item {
+    margin-bottom: 15px;
+}
+
+/* Responsive adjustments */
+@media only screen and (max-width: 768px) {
     nav a {
         padding: 8px 15px;
         font-size: 0.9rem;
@@ -112,13 +108,13 @@ p {
         font-size: 14px;
         padding: 8px 15px;
     }
+
+    .container {
+        padding: 15px;
+    }
 }
 
 @media only screen and (max-width: 480px) {
-    header {
-        padding: 5px 10px;
-    }
-
     nav {
         flex-wrap: nowrap;
         justify-content: space-around;
