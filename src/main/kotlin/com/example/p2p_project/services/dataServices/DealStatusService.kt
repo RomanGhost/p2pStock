@@ -9,4 +9,8 @@ class DealStatusService(private val dealStatusRepository: DealStatusRepository) 
     fun getByNameStatus(statusName:String): DealStatus {
         return dealStatusRepository.findByName(statusName)
     }
+
+    fun getAll(): MutableList<DealStatus> {
+        return dealStatusRepository.findAll()
+    }
 }

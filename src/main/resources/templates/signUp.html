@@ -2,34 +2,60 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>User Registration</title>
-    <link href="css/sign_up_styles.css" rel="stylesheet" type="text/css">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Регистрация пользователя</title>
+    <link href="/css/header.css" rel="stylesheet" type="text/css">
+    <link href="/css/footer.css" rel="stylesheet" type="text/css">
+    <link href="/css/sign_styles.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+<header th:replace="~{header_view.html}">
+    <div class="header-container">
+        <div class="header-title">P2P Stock</div>
+        <nav class="navigation">
+            <a href="/auth/sign-up">Зарегистрироваться</a>
+            <a href="/auth/sign-in">Войти</a>
+        </nav>
+    </div>
+</header>
+
 <div class="container">
-    <h2>Форма регистрации пользователя</h2>
-    <form action="#" th:action="@{/auth/sign-up/save}" th:object="${user}" method="post" onsubmit="return validateForm()">
-        <label>Логин*:</label><br>
-        <input type="text" id="login" name="login" th:field="*{login}" required><br>
-        <span class="error" th:errors="*{login}" th:if="${#fields.hasErrors('login')}"></span><br>
+    <div class="card-form">
+        <h2>Форма регистрации пользователя</h2>
+        <form action="#" method="post" onsubmit="return validateForm()" th:action="@{/auth/sign-up/save}"
+              th:object="${user}">
+            <label class="label" for="login">Логин*:</label>
+            <input class="form-control" id="login" name="login" placeholder="Введите логин" required th:field="*{login}"
+                   type="text">
+            <span class="error" th:errors="*{login}" th:if="${#fields.hasErrors('login')}"></span>
 
-        <label>Пароль*:</label><br>
-        <input type="password" id="password" name="password" th:field="*{password}" required><br>
-        <span class="error" th:errors="*{password}" th:if="${#fields.hasErrors('password')}"></span><br>
+            <label class="label" for="password">Пароль*:</label>
+            <input class="form-control" id="password" name="password" placeholder="Введите пароль" required
+                   th:field="*{password}" type="password">
+            <span class="error" th:errors="*{password}" th:if="${#fields.hasErrors('password')}"></span>
 
-        <input type="submit" value="Зарегистрироваться">
-    </form>
-    <a class="signInLink" th:href="@{/auth/sign-in}">Войти</a>
+            <label class="label" for="second_password">Повтор пароля*:</label>
+            <input class="form-control" id="second_password" name="second_password" placeholder="Введите пароль еще раз"
+                   required type="password">
+            <span class="error" id="secondPasswordError" th:if="${errorMessage}" th:text="${errorMessage}"></span>
+
+            <button class="btn-primary" type="submit">Зарегистрироваться</button>
+        </form>
+        <a class="registration" th:href="@{/auth/sign-in}">Войти</a>
+    </div>
 </div>
 
 <script>
     function validateForm() {
         var login = document.getElementById('login').value;
         var password = document.getElementById('password').value;
+        var secondPassword = document.getElementById('second_password').value;
         var loginError = document.querySelector('#login + .error');
         var passwordError = document.querySelector('#password + .error');
+        var secondPasswordError = document.querySelector('#second_password + .error');
         loginError.textContent = '';
         passwordError.textContent = '';
+        secondPasswordError.textContent = '';
 
         if (login.length < 2) {
             loginError.textContent = 'Логин должен содержать не менее 2 символов';
@@ -41,8 +67,15 @@
             return false;
         }
 
+        if (password !== secondPassword) {
+            secondPasswordError.textContent = 'Пароли не совпадают';
+            return false;
+        }
+
         return true;
     }
 </script>
+
+<footer th:replace="~{footer.html}"></footer>
 </body>
 </html>

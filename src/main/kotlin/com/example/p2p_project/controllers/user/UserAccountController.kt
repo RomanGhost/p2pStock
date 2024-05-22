@@ -27,18 +27,33 @@ class UserAccountController(
         val login = userDetails.username
         val userId = userDetails.user.id
 
-        val cards = cardService.getByUserId(userId)
-        val wallets = walletService.getByUserId(userId)
-        val requests = requestService.getByUserId(userId)
-        val deals = dealService.getByUserId(userId)
+        var cards = cardService.getByUserId(userId)
+        var wallets = walletService.getByUserId(userId)
+        var requests = requestService.getByUserId(userId)
+        var deals = dealService.getByUserId(userId)
+
+//        val totalBalance = wallets.map { it.balance }.sum()
+
+        cards = cards.sortedBy { it.id }
+        wallets = wallets.sortedBy { it.id }
+        requests = requests.sortedBy { it.id }
+        deals = deals.sortedBy { it.id }
+
+        val walletTotalBalance: HashMap<String, Double> = hashMapOf()
+        for (wallet in wallets) {
+            val crypto: String = wallet.cryptocurrency.name
+            walletTotalBalance[crypto] =
+                (walletTotalBalance[crypto] ?: 0.0) + wallet.balance
+        }
 
         model.addAttribute("login", login)
         model.addAttribute("cards", cards)
+        model.addAttribute("walletTotalBalance", walletTotalBalance)
         model.addAttribute("wallets", wallets)
         model.addAttribute("requests", requests)
         model.addAttribute("deals", deals)
+//        model.addAttribute("total_balance", totalBalance)
 
-        println(authentication.authorities)
         return "welcome"
     }
 

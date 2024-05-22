@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Сделки</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link href="/css/header.css" rel="stylesheet" type="text/css">
+    <link href="/css/footer.css" rel="stylesheet" type="text/css">
+    <link href="/css/all_deals_styles.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<header th:replace="~{header.html}"></header>
+
+<div class="section">
+    <h3 class="section-title">Все сделки</h3>
+
+    <div class="sort-controls">
+        <form action="/manager/deal/all" method="get">
+            <label for="deal_status">Cтатус сделки:</label>
+            <select id="deal_status" name="deal_status">
+                <option value="">Все</option>
+                <option th:each="dealStatus : ${dealsStatuses}" th:text="${dealStatus.name}"
+                        th:value="${dealStatus.id}"></option>
+            </select>
+
+            <label for="sort_order">Порядок:</label>
+            <select id="sort_order" name="sort_order">
+                <option value="asc">Возрастание</option>
+                <option value="desc">Убывание</option>
+            </select>
+
+            <button class="btn-primary" type="submit">Применить</button>
+        </form>
+    </div>
+
+    <div class="table-responsive">
+        <table>
+            <thead>
+            <tr>
+                <th>Номер сделки</th>
+                <th>Статус сделки</th>
+                <th>Заявка на покупку</th>
+                <th>Заявка на продажу</th>
+                <th>Последнее изменение</th>
+                <th>Время создания</th>
+                <th>Время закрытия</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="deal : ${deals}">
+                <td><a class="id-link" th:href="@{'/manager/deal/' + ${deal.id}}" th:text="${deal.id}"></a></td>
+                <td th:text="${deal.status.name}"></td>
+                <td>
+                    <a class="id-link" th:href="@{'/platform/request/' + ${deal.sellRequest.id}}"
+                       th:text="${deal.sellRequest.id}"></a>
+                </td>
+                <td>
+                    <a class="id-link" th:href="@{'/platform/request/' + ${deal.buyRequest.id}}"
+                       th:text="${deal.buyRequest.id}"></a>
+                </td>
+                <td th:text="${deal.changeLastTime}"></td>
+                <td th:text="${deal.openDateTime}"></td>
+                <td th:text="${deal.closeDateTime}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<footer th:replace="~{footer.html}"></footer>
+</body>
+</html>

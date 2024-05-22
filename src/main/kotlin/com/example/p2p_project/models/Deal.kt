@@ -23,15 +23,15 @@ data class Deal(
     @Column(name = "change_last_time")
     var changeLastTime: LocalDateTime = LocalDateTime.now(),
 
-    val isBuyCreated: Boolean?=null,
+    var isBuyCreated: Boolean? = null,
 
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE])
 
     @JoinColumn(name = "sell_request_id")
-    val sellRequest: Request = Request(),
+    var sellRequest: Request = Request(),
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE])
     @JoinColumn(name = "buy_request_id")
-    val buyRequest:Request = Request()
+    var buyRequest: Request = Request()
 )

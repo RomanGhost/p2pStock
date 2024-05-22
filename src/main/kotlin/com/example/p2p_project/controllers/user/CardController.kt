@@ -20,7 +20,7 @@ class CardController(
 ) {
  
     @GetMapping("/add")
-    fun getAddNewCard(model:Model, redirectAttributes: RedirectAttributes):String {
+    fun getAddNewCard(model: Model): String {
         val banks = bankService.getAll()
 
         model.addAttribute("banks", banks)

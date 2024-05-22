@@ -1,31 +1,45 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Новый кошелек</title>
-    <link href="css/add_wallet_styles.css" rel="stylesheet" type="text/css">
+    <title>Добавить кошелек</title>
+    <link href="/css/header.css" rel="stylesheet" type="text/css">
+    <link href="/css/footer.css" rel="stylesheet" type="text/css">
+    <link href="/css/add_wallet_styles.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+<header th:replace="~{header.html}"></header>
+
 <div class="container">
-    <h1>Добавить кошелек</h1>
-    <form method="post" th:action="@{/platform/wallet/save}" th:object="${wallet}">
-        <label for="walletName">Название кошелька:</label>
-        <input id="walletName" name="walletName" required th:field="*{name}" type="text"><br>
-        <span class="error" th:if="${errorMessage}" th:text="${errorMessage}"></span><br>
+    <div class="card-form">
+        <h1>Добавить кошелек</h1>
+        <form method="post" th:action="@{/platform/wallet/save}" th:object="${wallet}">
+            <div class="form-group">
+                <label for="walletName">Название кошелька:</label>
+                <input class="form-control" id="walletName" name="walletName" required th:field="*{name}" type="text">
+            </div>
+            <div class="form-group">
+                <label for="cryptocurrency">Криптовалюта:</label>
+                <select class="form-control" id="cryptocurrency" name="cryptocurrency" required
+                        th:field="*{cryptocurrency}">
+                    <option th:each="crypto : ${cryptocurrencies}"
+                            th:text="${crypto.code + ' - ' + crypto.name}"
+                            th:value="${crypto.id}"></option>
+                </select>
+            </div>
 
-        <label for="cryptocurrency">Криптовалюта:</label>
-        <select id="cryptocurrency" name="cryptocurrency" required th:field="*{cryptocurrency}">
-            <option th:each="cryptocurrency : ${cryptocurrencies}" th:value="${cryptocurrency.id}">
-                <div class="crypto-option">
-                    <span class="crypto-code" th:text="${cryptocurrency.code}"></span>
-                    <span th:text="${cryptocurrency.name}"></span>
-                </div>
-            </option>
-        </select><br><br>
+            <div class="form-group">
+                <span class="error" th:if="${errorMessage}" th:text="${errorMessage}"></span>
+            </div>
 
-        <input type="submit" value="Добавить">
-    </form>
+            <div class="form-group">
+                <input class="btn-primary" type="submit" value="Добавить">
+            </div>
+        </form>
+    </div>
 </div>
+
+<footer th:replace="~{footer.html}"></footer>
 </body>
 </html>

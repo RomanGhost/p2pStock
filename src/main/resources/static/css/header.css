@@ -1,0 +1,36 @@
+header {
+    top: 0;
+    width: 100%;
+    background-color: #2a5885;
+    color: #fff;
+    padding: 0; /* Remove padding */
+    margin: 0; /* Remove margin */
+    text-align: center;
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0; /* Add padding here if needed */
+}
+
+.header-title {
+    font-size: 24px;
+}
+
+.navigation {
+    display: flex;
+}
+
+.navigation a {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 20px;
+}
+
+.navigation a:hover {
+    text-decoration: underline;
+}

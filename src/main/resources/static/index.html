@@ -1,81 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Peer-to-Peer Cryptocurrency Exchange</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f7fc;
-            color: #333;
-            margin: 0;
-            padding: 0;
-        }
-        header {
-            background-color: #007bff;
-            color: #fff;
-            padding: 20px;
-            text-align: left; /* Aligning header text to the left */
-        }
-        nav {
-            background-color: #0056b3;
-            padding: 10px 0;
-            text-align: right;
-        }
-        nav a {
-            color: #fff;
-            text-decoration: none;
-            padding: 10px 20px;
-            margin-right: 20px;
-        }
-        nav a:hover {
-            background-color: #0056b3;
-            color: #fff;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 0 20px;
-            text-align: center;
-        }
-        h1 {
-            margin-top: 0;
-            margin-left: 20px; /* Adding margin to the left */
-        }
-        p {
-            margin-bottom: 20px;
-        }
-        .button {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin-bottom: 20px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        .button:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    <title>Peer-to-Peer Криптовалютная Биржа</title>
+    <link href="/css/styles.css" rel="stylesheet" type="text/css">
+    <link href="/css/header.css" rel="stylesheet" type="text/css">
+    <link href="/css/footer.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-<header>
-    <h1>Peer-to-Peer Cryptocurrency Exchange</h1>
+<header th:replace="~{header_view.html}">
+    <h1>P2P Stock</h1>
+    <nav>
+        <a href="/auth/sign-up">Регистрация</a>
+        <a href="/auth/sign-in">Вход</a>
+    </nav>
 </header>
-<nav>
-    <a href="/auth/sign-up">Sign Up</a>
-    <a href="/auth/sign-in">Sign In</a>
-</nav>
+
 <div class="container">
-    <h2>Welcome to our P2P Cryptocurrency Exchange</h2>
-    <p>Trade cryptocurrencies directly with other users securely and anonymously.</p>
-    <a href="/auth/sign-up" class="button">Get Started</a>
+    <h2>Добро пожаловать на нашу P2P Криптовалютную биржу</h2>
+    <p>Торгуйте криптовалютами напрямую с другими пользователями безопасно и анонимно.</p>
+    <a class="button" href="/platform/account/welcome">Начать торговлю</a>
 </div>
+
+<footer th:replace="~{footer.html}"></footer>
 </body>
 </html>

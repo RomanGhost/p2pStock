@@ -7,6 +7,7 @@ import com.example.p2p_project.services.CardService
 import com.example.p2p_project.services.RequestService
 import com.example.p2p_project.services.UserService
 import com.example.p2p_project.services.WalletService
+import com.example.p2p_project.services.dataServices.RequestStatusService
 import com.example.p2p_project.services.dataServices.RequestTypeService
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Controller
@@ -21,9 +22,44 @@ class RequestController(
     private val cardService: CardService,
     private val requestService: RequestService,
     private val requestTypeService: RequestTypeService,
-    private val userService: UserService
+    private val userService: UserService,
+    private val requestStatusService: RequestStatusService
 ) {
+    @GetMapping("/all")
+    fun getAllRequest(
+        @RequestParam("sort_by", required = false) sortBy: String? = null,
+        @RequestParam("sort_order", required = false) sortOrder: String? = null,
+        @RequestParam("request_type", required = false) requestType: String? = null,
+        model: Model
+    ): String {
+        var requests = requestService.getByStatus("Доступна на платформе")
 
+        if (!requestType.isNullOrEmpty()) {
+            requests = requests.filter { it.requestType.id == requestType.toLong() }
+        }
+
+        if (sortBy != null) {
+            requests = when (sortBy) {
+                "pricePerUnit" -> requests.sortedBy { it.pricePerUnit }
+                "quantity" -> requests.sortedBy { it.quantity }
+                "createDateTime" -> requests.sortedBy { it.createDateTime }
+                else -> requests
+            }
+            if (sortOrder == "desc") {
+                requests = requests.reversed()
+            }
+        }
+
+        val requestStatuses = requestStatusService.getAll()
+        model.addAttribute("requestsStatuses", requestStatuses)
+
+        val requestTypes = requestTypeService.getAll()
+        model.addAttribute("requestsTypes", requestTypes)
+
+        model.addAttribute("requests", requests)
+
+        return "allRequest"
+    }
 
     @GetMapping("/add")
     fun getCreateRequest(model: Model, authentication: Authentication, redirectAttributes: RedirectAttributes):String{
@@ -48,11 +84,11 @@ class RequestController(
                        authentication: Authentication,
                        redirectAttributes: RedirectAttributes):String{
         if(request.pricePerUnit <= 0.0){
-            redirectAttributes.addFlashAttribute("priceError", "Price can't be negative")
+            redirectAttributes.addFlashAttribute("priceError", "Цена должна юыть больше нуля")
             return "redirect:/platform/request/add?error"
         }
         if(request.quantity <= 0.0){
-            redirectAttributes.addFlashAttribute("quantityError", "Quantity can't be negative")
+            redirectAttributes.addFlashAttribute("quantityError", "Количество должно быть больше нуля")
             return "redirect:/platform/request/add?error"
         }
 
@@ -83,34 +119,36 @@ class RequestController(
         val userId = userDetails.user.id
         model.addAttribute("request", request)
 
-        val isBuying = request.requestType.name == "Покупка"
-        model.addAttribute("isBuying", isBuying)
-
-        //если заявка на покупку, то показать кошельки
-        if(isBuying) {
-            val userWallets = walletService.getByUserId(userId)
-            val wallets: List<Wallet> = userWallets.filter { it.cryptocurrency.id == request.wallet!!.cryptocurrency.id }
-            if(wallets.isNotEmpty())
-                model.addAttribute("wallets", wallets)
+        if (request.wallet == null || request.card == null) {
+            requestService.updateStatusById(requestId, "Закрыто: неактуально")
+            return "redirect:/platform/request/all"
         }
-        else{
-            val cards = cardService.getByUserId(userId)
-            if (cards.isNotEmpty())
-                model.addAttribute("cards", cards)
-        }
-
-        var isAccess = request.requestStatus.name == "Доступна на платформе"
-        if (model.getAttribute("wallets")==null &&
-            model.getAttribute("cards")==null){
-            isAccess = false
-        }
-        model.addAttribute("isAccess", isAccess)
 
         val isUserInitiator = request.user.id == userId
         model.addAttribute("isUserInitiator", isUserInitiator)
 
+        if (!isUserInitiator) {
+            val userWallets = walletService.getByUserId(userId)
+            val wallets: List<Wallet> =
+                userWallets.filter { it.cryptocurrency.id == request.wallet?.cryptocurrency?.id }
+
+            if(wallets.isNotEmpty())
+                model.addAttribute("wallets", wallets)
+
+            val cards = cardService.getByUserId(userId)
+            if (cards.isNotEmpty())
+                model.addAttribute("cards", cards)
+
+            var isAccess = request.requestStatus.name == "Доступна на платформе"
+            if (cards.isEmpty() || wallets.isEmpty()) {
+                isAccess = false
+            }
+            model.addAttribute("isAccess", isAccess)
+        }
+
+
         val requestEditStatus = request.requestStatus.name == "Отправлено на доработку"
-        model.addAttribute("edit", requestEditStatus)
+        model.addAttribute("isEdit", requestEditStatus)
 
         return "requestInfo"
     }
@@ -119,14 +157,6 @@ class RequestController(
     fun postCancelRequest(@PathVariable requestId:Long, model:Model, authentication: Authentication):String {
         requestService.updateStatusById(requestId, "Закрыто: неактуально")
         return "redirect:/platform/request/$requestId"
-    }
-
-    @GetMapping("/all")
-    fun getAllRequest(model:Model):String{
-        val requests = requestService.getByStatus("Доступна на платформе")
-        model.addAttribute("requests", requests)
-
-        return "allRequest"
     }
 
     @PostMapping("/{requestId}/update")
@@ -146,3 +176,6 @@ class RequestController(
         return "redirect:/platform/request/$requestId"
     }
 }
+
+
+

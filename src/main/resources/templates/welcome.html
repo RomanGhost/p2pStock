@@ -4,136 +4,160 @@
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Welcome</title>
-    <link href="css/welcome_styles.css" rel="stylesheet" type="text/css">
+    <link href="/css/header.css" rel="stylesheet" type="text/css">
+    <link href="/css/footer.css" rel="stylesheet" type="text/css">
+    <link href="/css/welcome_styles.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-<div class="section">
-    <h2 class="section-title">Welcome</h2>
-    <p>Логин:<span th:text="${login}"></span>!</p>
-</div>
+<header th:replace="~{header.html}"></header>
 
+<main>
+    <div class="container">
+        <section class="section">
+            <h2 class="section-title">Добро пожаловать, <span th:text="${login}"></span>!</h2>
+        </section>
 
-<div class="section">
-    <b>Карты</b>
-    <a class="btn" href="/platform/card/add">Добавить карту</a>
-    <table>
-        <thead>
-        <tr>
-            <th>Название</th>
-            <th>Номер карты</th>
-            <th>Банк</th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="card : ${cards}">
-            <td th:text="${card.cardName}"></td>
-            <td th:text="${card.cardNumber}"></td>
-            <td th:text="${card.bank.name}"></td>
-            <td><a class="btn" th:href="@{'/platform/card/delete/' + ${card.id}}">Удалить</a></td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+        <section class="section">
+            <h3 class="section-title">Карты</h3>
+            <a class="btn btn-primary" href="/platform/card/add">Добавить карту</a>
+            <div class="table-container">
+                <table class="styled-table">
+                    <thead>
+                    <tr>
+                        <th>Название</th>
+                        <th>Номер карты</th>
+                        <th>Банк</th>
+                        <th>Действия</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="card : ${cards}">
+                        <td th:text="${card.cardName}"></td>
+                        <td th:text="${card.cardNumber}"></td>
+                        <td th:text="${card.bank.name}"></td>
+                        <td>
+                            <a class="btn btn-secondary" th:href="@{'/platform/card/delete/' + ${card.id}}">Удалить</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
 
-<div class="section">
-    <b>Кошельки</b>
-    <a class="btn" href="/platform/wallet/add">Добавить кошелек</a>
-    <table>
-        <thead>
-        <tr>
-            <th>Название</th>
-            <th>Тип криптовалюты</th>
-            <th>Адресс</th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="wallet : ${wallets}">
-            <td th:text="${wallet.name}"></td>
-            <td th:text="${wallet.cryptocurrency.code}"></td>
-            <td th:text="${wallet.publicKey}"></td>
-            <td><a class="btn" th:href="@{'/platform/wallet/delete/' + ${wallet.id}}">Удалить</a></td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+        <section class="section">
+            <h3 class="section-title">Кошельки</h3>
+            <label for="total-balance">Общий баланс: </label>
+            <ul id="total-balance">
+                <li th:each="wallet_balance : ${walletTotalBalance}">
+                    <span th:text="${wallet_balance.key}">Криптовалюта</span>: <span th:text="${wallet_balance.value}">Его общий баланс</span>
+                </li>
+            </ul>
+            <a class="btn btn-primary" href="/platform/wallet/add">Добавить кошелек</a>
+            <div class="table-container">
+                <table class="styled-table">
+                    <thead>
+                    <tr>
+                        <th>Название</th>
+                        <th>Тип криптовалюты</th>
+                        <th>Адрес</th>
+                        <th>Баланс</th>
+                        <th>Действия</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="wallet : ${wallets}">
+                        <td th:text="${wallet.name}"></td>
+                        <td th:text="${wallet.cryptocurrency.code}"></td>
+                        <td th:text="${wallet.publicKey}"></td>
+                        <td th:text="${wallet.balance}"></td>
+                        <td>
+                            <a class="btn btn-secondary"
+                               th:href="@{'/platform/wallet/delete/' + ${wallet.id}}">Удалить</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
 
-<div class="section">
-    <b class="section-title">Заявки пользователя</b>
-    <a class="btn" href="/platform/request/add">Создать заявку</a>
-    <table>
-        <thead>
-        <tr>
-            <th>Номер заявки</th>
-            <th>Тип заявки</th>
-            <th>Итоговая цена</th>
-            <th>Статус заявки</th>
-            <th>Последнее изменение</th>
-            <th>Цена за единицу</th>
-            <th>Количество</th>
-            <th>Время создания</th>
-            <th>Время закрытия</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="request : ${requests}">
-            <td><a class="id-link" th:href="@{'/platform/request/' + ${request.id}}" th:text="${request.id}"></a></td>
-            <td th:text="${request.requestType.name}"></td>
-            <td th:text="${request.quantity * request.pricePerUnit}"></td>
-            <td th:text="${request.requestStatus.name}"></td>
-            <td th:text="${request.lastChangeStatusDateTime}"></td>
-            <td th:text="${request.pricePerUnit}"></td>
-            <td th:text="${request.quantity}"></td>
-            <td th:text="${request.createDateTime}"></td>
-            <td th:text="${request.deadlineDateTime}"></td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+        <section class="section">
+            <h3 class="section-title">Заявки пользователя</h3>
+            <a class="btn btn-primary" href="/platform/request/add">Создать заявку</a>
+            <div class="table-container">
+                <table class="styled-table">
+                    <thead>
+                    <tr>
+                        <th>Номер заявки</th>
+                        <th>Тип заявки</th>
+                        <th>Итоговая цена</th>
+                        <th>Статус заявки</th>
+                        <th>Последнее изменение</th>
+                        <th>Цена за единицу</th>
+                        <th>Количество</th>
+                        <th>Время создания</th>
+                        <th>Время закрытия</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="request : ${requests}">
+                        <td>
+                            <a class="id-link" th:href="@{'/platform/request/' + ${request.id}}"
+                               th:text="${request.id}"></a>
+                        </td>
+                        <td th:text="${request.requestType.name}"></td>
+                        <td th:text="${request.quantity * request.pricePerUnit}"></td>
+                        <td th:text="${request.requestStatus.name}"></td>
+                        <td th:text="${request.lastChangeStatusDateTime}"></td>
+                        <td th:text="${request.pricePerUnit}"></td>
+                        <td th:text="${request.quantity}"></td>
+                        <td th:text="${request.createDateTime}"></td>
+                        <td th:text="${request.deadlineDateTime}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
 
-<div class="section">
-    <h3 class="section-title">Сделки пользователя</h3>
-    <table>
-        <thead>
-        <tr>
-            <th>Номер сделки</th>
-            <th>Статус сделки</th>
-            <th>Заявка на покупку</th>
-            <th>Заявка на продажу</th>
-            <th>Последнее изменение</th>
-            <th>Время создания</th>
-            <th>Время закрытия</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="deal : ${deals}">
-            <td><a class="id-link" th:href="@{'/platform/deal/' + ${deal.id}}" th:text="${deal.id}"></a></td>
-            <td th:text="${deal.status.name}"></td>
+        <section class="section">
+            <h3 class="section-title">Сделки пользователя</h3>
+            <div class="table-container">
+                <table class="styled-table">
+                    <thead>
+                    <tr>
+                        <th>Номер сделки</th>
+                        <th>Статус сделки</th>
+                        <th>Заявка на покупку</th>
+                        <th>Заявка на продажу</th>
+                        <th>Последнее изменение</th>
+                        <th>Время создания</th>
+                        <th>Время закрытия</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="deal : ${deals}">
+                        <td>
+                            <a class="id-link" th:href="@{'/platform/deal/' + ${deal.id}}" th:text="${deal.id}"></a>
+                        </td>
+                        <td th:text="${deal.status.name}"></td>
+                        <td>
+                            <a class="id-link" th:href="@{'/platform/request/' + ${deal.sellRequest.id}}"
+                               th:text="${deal.sellRequest.id}"></a>
+                        </td>
+                        <td>
+                            <a class="id-link" th:href="@{'/platform/request/' + ${deal.buyRequest.id}}"
+                               th:text="${deal.buyRequest.id}"></a>
+                        </td>
+                        <td th:text="${deal.changeLastTime}"></td>
+                        <td th:text="${deal.openDateTime}"></td>
+                        <td th:text="${deal.closeDateTime}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+</main>
 
-            <td>
-                <b th:if="${deal.isBuyCreated}">
-                    <a class="id-link" th:href="@{'/platform/request/' + ${deal.sellRequest.id}}"
-                       th:text="${deal.sellRequest.id}"></a>
-                </b>
-                <a class="id-link" th:href="@{'/platform/request/' + ${deal.sellRequest.id}}"
-                   th:if="${!deal.isBuyCreated}" th:text="${deal.sellRequest.id}"></a>
-            </td>
-
-            <td>
-                <b th:if="${!deal.isBuyCreated}">
-                    <a class="id-link" th:href="@{'/platform/request/' + ${deal.buyRequest.id}}"
-                       th:text="${deal.buyRequest.id}"></a>
-                </b>
-                <a class="id-link" th:href="@{'/platform/request/' + ${deal.buyRequest.id}}"
-                   th:if="${deal.isBuyCreated}" th:text="${deal.buyRequest.id}"></a>
-            </td>
-            <td th:text="${deal.changeLastTime}"></td>
-            <td th:text="${deal.openDateTime}"></td>
-            <td th:text="${deal.closeDateTime}"></td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+<footer th:replace="~{footer.html}"></footer>
 </body>
 </html>
