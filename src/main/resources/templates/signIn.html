@@ -22,14 +22,13 @@
 
             <button class="btn-primary" type="submit">Войти</button>
         </form>
-        <a th:href="@{/auth/sign-up}">Зарегистрироваться</a>
-
         <div class="error" th:if="${param.error}">
             Неправильный логин или пароль.
         </div>
         <div class="error" th:if="${param.logout}">
             Вы вышли из системы.
         </div>
+        <a th:href="@{/auth/sign-up}">Зарегистрироваться</a>
     </div>
 </div>
 
