@@ -24,7 +24,7 @@ services:
     depends_on:
       - postgres
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8080/actuator/health || exit 1"]
+      test: ["CMD-SHELL", "curl -s -o /dev/null -w "%{http_code}" htpp://localhost:8081 || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -43,7 +43,7 @@ services:
     depends_on:
       - postgres
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8080/actuator/health || exit 1"]
+      test: ["CMD-SHELL", "curl -s -o /dev/null -w "%{http_code}" htpp://localhost:8082 || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
