@@ -2,10 +2,15 @@ global:
   scrape_interval: 15s
 
 scrape_configs:
-  - job_name: 'spring-boot-app'
+  - job_name: 'p2pstock-spring-boot-app-blue-1'
     metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: ['spring-boot-app:8080']
+      - targets: ['p2pstock-spring-boot-app-blue-1:8080']
+
+  - job_name: 'p2pstock-spring-boot-app-green-1'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['p2pstock-spring-boot-app-green-1:8080']
 
   - job_name: 'node-exporter'
     static_configs:
