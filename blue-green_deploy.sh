@@ -4,7 +4,7 @@ set -e
 
 REPO_URL="https://github.com/RomanGhost/p2pStock.git"
 REPO_DIR="p2pStock"
-DOCKER_IMAGE="mydockerhubusername/spring-boot-app"
+DOCKER_IMAGE="mydocker/spring-boot-app"
 DOCKER_COMPOSE_FILE="compose.yaml"
 NGINX_CONF_FILE="nginx.conf"
 
@@ -16,11 +16,10 @@ else
     cd "$REPO_DIR"
 fi
 echo "Checking out deploy branch..."
+git checkout master --force
+git pull
 git checkout deploy
-git pull origin master --no-rebase --no-edit
-
-echo "Cleaning Docker system..."
-#docker system prune -a -f
+git merge master -m "merge branches"
 
 echo "Building Docker image..."
 docker build -t $DOCKER_IMAGE .
@@ -40,7 +39,8 @@ docker-compose -f $DOCKER_COMPOSE_FILE up -d spring-boot-app-blue
 
 # Restart nginx container if it exists, otherwise start nginx container
 if [ $(docker ps -aq -f name=nginx | wc -l) -ne 0 ]; then
-    docker-compose -f $DOCKER_COMPOSE_FILE restart nginx
+#    docker-compose -f $DOCKER_COMPOSE_FILE restart nginx
+    echo "Nginx - healthy"
 else
     docker-compose -f $DOCKER_COMPOSE_FILE up -d nginx
 fi
@@ -53,10 +53,6 @@ while ! docker inspect --format '{{.State.Health.Status}}' $(docker ps -q -f nam
 done
 echo "Blue application is ready."
 
-echo "Switching to Blue..."
-sed -i 's/#server spring-boot-app-green:8080;/server spring-boot-app-blue:8080;/' $NGINX_CONF_FILE
-sed -i 's/server spring-boot-app-blue:8080;/server spring-boot-app-blue:8080 backup;/' $NGINX_CONF_FILE
-
 echo "Deploying Green application..."
 docker-compose -f $DOCKER_COMPOSE_FILE up -d spring-boot-app-green
 
@@ -68,15 +64,16 @@ while ! docker inspect --format '{{.State.Health.Status}}' $(docker ps -q -f nam
 done
 echo "Green application is ready."
 
-echo "Switching to Green..."
-sed -i 's/#server spring-boot-app-blue:8080;/server spring-boot-app-blue:8080;/' $NGINX_CONF_FILE
-sed -i 's/server spring-boot-app-green:8080;/#server spring-boot-app-green:8080;/' $NGINX_CONF_FILE
-
 # Restart nginx container if it exists, otherwise start nginx container
 if [ $(docker ps -aq -f name=nginx | wc -l) -ne 0 ]; then
-    docker-compose -f $DOCKER_COMPOSE_FILE restart nginx
+#    docker-compose -f $DOCKER_COMPOSE_FILE restart nginx
+    echo "nginx health"
 else
     docker-compose -f $DOCKER_COMPOSE_FILE up -d nginx
 fi
+
+#echo "clear docker builds"
+#cd ..
+#sh clear-docker.sh
 
 echo "Deployment completed successfully"
