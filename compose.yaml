@@ -70,7 +70,8 @@ services:
     ports:
       - '9090:9090'
     depends_on:
-      - spring-boot-app
+      - spring-boot-app-blue
+      - spring-boot-app-green
       - node-exporter
       
   grafana:
