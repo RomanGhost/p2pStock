@@ -11,8 +11,8 @@
 ## Получение данных мониторинга
 (Из файла compose.yaml)
 - Доступ к самому проекту(сайт): _http://localhost_
-- Доступ к grafana: _http://loccalhost:3000_
-- Доступ к prometheus: _http://loccalhost:9090_
+- Доступ к grafana: _http://localhost:3000_
+- Доступ к prometheus: _http://localhost:9090_
 
 ## Настройка проекта
 Кпоирование проектв
