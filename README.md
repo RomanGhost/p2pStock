@@ -27,7 +27,7 @@ git checkout monitoring
 ### Запуск проекта в **docker**
 Сборка контейнеров 
 ``` shell
-docker-compose bild
+docker-compose build
 ```
 Запуск проектов в фоне
 ``` shell
