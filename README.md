@@ -19,6 +19,10 @@
 ``` shell
 git clone https://github.com/RomanGhost/p2pStock.git
 ```
+Перейти в проект 
+``` shell
+cd p2pStock
+```
 Переключение на ветку **monitoring**
 ``` shell
 git checkout monitoring
