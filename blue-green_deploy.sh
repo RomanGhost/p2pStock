@@ -21,9 +21,6 @@ git pull
 git checkout deploy
 git merge master -m "merge branches"
 git checkout --theirs README.md
-git add README.md
-git commit -m "Merge master into deploy, resolving README.md conflict"
-
 
 
 echo "Building Docker image..."
