@@ -49,7 +49,7 @@ class ReportsController(
         val document = Document(pdfDocument)
 
         // Load DejaVu Sans font
-        val fontPath = "src/main/resources/fonts/DejaVuSans.ttf"
+        val fontPath = "./src/main/resources/fonts/DejaVuSans.ttf"
         val font: PdfFont = PdfFontFactory.createFont(fontPath, PdfEncodings.IDENTITY_H)
 
         document.setFont(font)
@@ -114,7 +114,7 @@ class ReportsController(
         val document = Document(pdfDocument)
 
         // Load DejaVu Sans font
-        val fontPath = "src/main/resources/fonts/DejaVuSans.ttf"
+        val fontPath = "./src/main/resources/fonts/DejaVuSans.ttf"
         val font: PdfFont = PdfFontFactory.createFont(fontPath, PdfEncodings.IDENTITY_H)
 
         document.setFont(font)
@@ -163,7 +163,7 @@ class ReportsController(
         val document = Document(pdfDocument)
 
         // Load DejaVu Sans font
-        val fontPath = "src/main/resources/fonts/DejaVuSans.ttf"
+        val fontPath = "./src/main/resources/fonts/DejaVuSans.ttf"
         val font: PdfFont = PdfFontFactory.createFont(fontPath, PdfEncodings.IDENTITY_H)
 
         document.setFont(font)
@@ -218,7 +218,7 @@ class ReportsController(
         val document = Document(pdfDocument)
 
         // Load DejaVu Sans font
-        val fontPath = "src/main/resources/fonts/DejaVuSans.ttf"
+        val fontPath = "./src/main/resources/fonts/DejaVuSans.ttf"
         val font: PdfFont = PdfFontFactory.createFont(fontPath, PdfEncodings.IDENTITY_H)
 
         document.setFont(font)
