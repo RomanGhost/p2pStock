@@ -1,0 +1,30 @@
+/* Стили для навигации */
+.navbar {
+    display: flex;
+    justify-content: center;       /* Центрируем ссылки по горизонтали */
+    gap: 20px;                     /* Промежуток между ссылками */
+    background-color: #333;        /* Цвет фона */
+    padding: 15px;                 /* Внутренние отступы */
+    border-radius: 8px;            /* Скругление углов */
+  }
+  
+  /* Стили для ссылок */
+  .nav-link {
+    color: white;                  /* Цвет текста */
+    text-decoration: none;         /* Убираем подчеркивание */
+    padding: 10px 20px;            /* Внутренние отступы */
+    border-radius: 5px;            /* Скругленные края */
+    background-color: #555;        /* Цвет фона кнопки */
+    transition: background 0.3s;   /* Анимация при наведении */
+  }
+  
+  /* Эффект наведения */
+  .nav-link:hover {
+    background-color: #777;        /* Более светлый цвет при наведении */
+  }
+  
+  /* Стили для активной ссылки */
+  .nav-link.active {
+    background-color: #007bff;     /* Активный цвет ссылки */
+  }
+  
