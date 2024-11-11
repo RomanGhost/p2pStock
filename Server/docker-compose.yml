@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  database:
+    image: 'postgres:latest'
+    environment:
+      - 'POSTGRES_DB=${DB_NAME}'
+      - 'POSTGRES_PASSWORD=${DB_PASSWORD}' # изменить пароль для подключения
+      - 'POSTGRES_USER=${DB_USER}' # изменить пользователя
+    # При проксировании можно не открывать порты
+    ports:
+       - '${DB_PORT}:5432' #порт для отладки и подключения
