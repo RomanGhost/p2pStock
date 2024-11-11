@@ -40,3 +40,4 @@ out/
 .kotlin
 
 node_modules/
+.env

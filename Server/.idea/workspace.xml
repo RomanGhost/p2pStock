@@ -5,7 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7f6c57df-79d4-46c7-a0e9-9d2e1218ccea" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../Client" beforeDir="false" afterPath="$PROJECT_DIR$/../Client" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/src/app/app.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/app/app.routes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/src/app/login/login.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/app/login/login.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.10.2/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.10.2/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,7 +79,7 @@
     "Kotlin.P2pStockApplicationKt.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "rest__full",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "D:/Programming/IntelljIDE/p2p_project/Server/src/main/kotlin/com/example/p2p_stock/models",
     "project.structure.last.edited": "Libraries",

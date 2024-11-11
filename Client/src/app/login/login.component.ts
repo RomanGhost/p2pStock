@@ -2,7 +2,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { LoginUser } from '../models/login-user';
 import { AuthService } from '../auth.service';
 
@@ -11,12 +11,12 @@ import { AuthService } from '../auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, RouterLink, RouterOutlet]
+  imports: [ReactiveFormsModule, CommonModule, RouterLink]
 })
 export class LoginComponent {
   loginForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
@@ -32,6 +32,7 @@ export class LoginComponent {
                 console.log('Login successful');
                 // Сохраняем JWT токен
                 this.authService.saveToken(response.token);
+                this.router.navigate(['/account']);
             },
             error: error => {
                 console.error('Login error:', error);
