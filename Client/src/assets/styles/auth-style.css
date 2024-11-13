@@ -1,0 +1,82 @@
+.auth-container {
+    max-width: 400px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: #f8f9fb;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 1rem;
+  }
+  
+  /* Стили для полей ввода */
+  input[type="username"],  
+  input[type="email"],
+  input[type="password"],
+  input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+  }
+  
+  input[type="email"]:focus,
+  input[type="password"]:focus,
+  input[type="text"]:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  /* Кнопка */
+  .btn-primary {
+    width: 100%;
+    padding: 10px 0;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-primary:disabled {
+    background-color: #b3d7ff;
+    cursor: not-allowed;
+  }
+  
+  .btn-primary:hover:not(:disabled) {
+    background-color: #0056b3;
+  }
+  
+  /* Стили для ошибок */
+  .error-message {
+    color: #d9534f;
+    font-size: 14px;
+    margin-top: 5px;
+  }
+  
+  /* Ссылка на регистрацию */
+  .redirect-message {
+    margin-top: 1rem;
+    font-size: 14px;
+  }
+  
+  .redirect-message .link {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+  }
+  
+  .redirect-message .link:hover {
+    color: #0056b3;
+  }

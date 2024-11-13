@@ -1,30 +1,46 @@
 /* Стили для навигации */
 .navbar {
-    display: flex;
-    justify-content: center;       /* Центрируем ссылки по горизонтали */
-    gap: 20px;                     /* Промежуток между ссылками */
-    background-color: #333;        /* Цвет фона */
-    padding: 15px;                 /* Внутренние отступы */
-    border-radius: 8px;            /* Скругление углов */
+  display: flex;
+  justify-content: center;       /* Центрируем ссылки по горизонтали */
+  gap: 20px;                     /* Промежуток между ссылками */
+  background: linear-gradient(45deg, #0091ff, #00b0ff); /* Градиент синих оттенков */
+  padding: 15px 30px;            /* Внутренние отступы */
+  border-radius: 20px;           /* Скругление углов */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Легкая тень */
+}
+
+/* Стили для ссылок */
+.nav-link {
+  color: white;                  /* Цвет текста */
+  text-decoration: none;         /* Убираем подчеркивание */
+  padding: 10px 20px;            /* Внутренние отступы */
+  border-radius: 10px;           /* Скругленные края */
+  background-color: #1e73b7;     /* Синий фон для кнопки */
+  font-weight: bold;             /* Полужирный текст */
+  text-transform: uppercase;     /* Преобразование текста в верхний регистр */
+  transition: background-color 0.3s, transform 0.2s; /* Плавное изменение фона и эффекта наведения */
+}
+
+/* Эффект наведения */
+.nav-link:hover {
+  background-color: #0091ff;     /* Светлый синий цвет при наведении */
+  transform: translateY(-3px);   /* Легкий подъем при наведении */
+}
+
+/* Стили для активной ссылки */
+.nav-link.active {
+  background-color: #007bff;     /* Цвет для активной ссылки */
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.5); /* Легкая тень для активной ссылки */
+}
+
+/* Мобильная версия */
+@media (max-width: 768px) {
+  .navbar {
+      flex-direction: column;     /* Переключаем на вертикальное расположение на мобильных устройствах */
+      align-items: center;        /* Центрируем элементы */
   }
-  
-  /* Стили для ссылок */
+
   .nav-link {
-    color: white;                  /* Цвет текста */
-    text-decoration: none;         /* Убираем подчеркивание */
-    padding: 10px 20px;            /* Внутренние отступы */
-    border-radius: 5px;            /* Скругленные края */
-    background-color: #555;        /* Цвет фона кнопки */
-    transition: background 0.3s;   /* Анимация при наведении */
+      margin-bottom: 10px;        /* Добавляем промежутки между ссылками */
   }
-  
-  /* Эффект наведения */
-  .nav-link:hover {
-    background-color: #777;        /* Более светлый цвет при наведении */
-  }
-  
-  /* Стили для активной ссылки */
-  .nav-link.active {
-    background-color: #007bff;     /* Активный цвет ссылки */
-  }
-  
+}

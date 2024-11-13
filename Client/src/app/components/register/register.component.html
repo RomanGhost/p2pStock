@@ -1,0 +1,30 @@
+<section class="auth-container">
+  <h2>Регистрация</h2>
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="auth-form">
+    <div class="form-group">
+      <label for="username">Имя пользователя:</label>
+      <input id="username" formControlName="username" type="username" placeholder="Введите ваше имя">
+      <div *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched" class="error-message">
+        Имя пользователя обязательно
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input id="email" formControlName="email" type="email" placeholder="Введите ваш email">
+      <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="error-message">
+        Email обязателен и должен быть корректным
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Пароль:</label>
+      <input id="password" formControlName="password" type="password" placeholder="Введите ваш пароль">
+      <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="error-message">
+        Пароль обязателен
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="registerForm.invalid" class="btn-primary">Зарегистрироваться</button>
+  </form>
+</section>

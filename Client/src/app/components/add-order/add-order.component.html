@@ -1,0 +1,47 @@
+<div class="container mt-5">
+  <form [formGroup]="orderForm" (ngSubmit)="onSubmit()" class="order-form">
+    <h1 class="text-center mb-4">Создание заказа</h1>
+
+    <div class="form-group">
+      <label for="orderType">Тип заказа:</label>
+      <select class="form-control" id="orderType" formControlName="orderType">
+        <option *ngFor="let type of types$ | async" [value]="type.code">{{ type.name }}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="wallet">Кошелек:</label>
+      <select class="form-control" id="wallet" formControlName="wallet">
+        <option *ngFor="let wallet of wallets" [value]="wallet.id">{{ wallet.name }}</option>
+      </select>
+      <div *ngIf="walletError" class="text-danger">{{ walletError }}</div>
+    </div>
+
+    <div class="form-group">
+      <label for="card">Карта:</label>
+      <select class="form-control" id="card" formControlName="card">
+        <option *ngFor="let card of cards" [value]="card.id">{{ card.cardName }}</option>
+      </select>
+      <div *ngIf="cardError" class="text-danger">{{ cardError }}</div>
+    </div>
+
+    <div class="form-group">
+      <label for="pricePerUnit">Цена за единицу:</label>
+      <input class="form-control" id="pricePerUnit" formControlName="pricePerUnit" type="number" step="0.1" required>
+      <div *ngIf="priceError" class="text-danger">{{ priceError }}</div>
+    </div>
+
+    <div class="form-group">
+      <label for="quantity">Количество:</label>
+      <input class="form-control" id="quantity" formControlName="quantity" type="number" step="0.01" required>
+      <div *ngIf="quantityError" class="text-danger">{{ quantityError }}</div>
+    </div>
+
+    <div class="form-group">
+      <label for="description">Описание:</label>
+      <textarea class="form-control" id="description" formControlName="description" rows="4"></textarea>
+    </div>
+
+    <button class="btn btn-primary btn-block" type="submit" [disabled]="orderForm.invalid">Создать заказ</button>
+  </form>
+</div>

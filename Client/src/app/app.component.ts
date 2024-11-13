@@ -14,13 +14,13 @@ export class AppComponent {
   showNavbar = true;
 
   constructor(private router: Router) {
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        console.log('Navigated to:', event.urlAfterRedirects); // Лог текущего маршрута
-        const hiddenNavbarRoutes = ['/register', '/login'];
-        this.showNavbar = !hiddenNavbarRoutes.includes(event.urlAfterRedirects);
-        console.log('Show Navbar:', this.showNavbar); // Лог состояния навигации
-      }
-    });    
+    // this.router.events.subscribe((event) => {
+    //   if (event instanceof NavigationEnd) {
+    //     console.log('Navigated to:', event.urlAfterRedirects); // Лог текущего маршрута
+    //     const hiddenNavbarRoutes = ['/register', '/login'];
+    //     this.showNavbar = !hiddenNavbarRoutes.includes(event.urlAfterRedirects);
+    //     console.log('Show Navbar:', this.showNavbar); // Лог состояния навигации
+    //   }
+    // });    
   }
 }
