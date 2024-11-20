@@ -11,7 +11,7 @@ data class User(
     val id: Long=0,
 
     @Column(nullable = false, unique = true, length = 128)
-    val username: String = "",
+    val login: String = "",
 
     @Column(nullable = false, length = 256)
     val password: String = "",

@@ -7,7 +7,8 @@ import jakarta.persistence.*
 data class Bank(
     @Id
     @Column(length = 32)
-    val name: String = ""
+    val name: String = "",
+
 )
 
 @Entity
@@ -15,16 +16,19 @@ data class Bank(
 data class Card(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long,
+    val id: Long=0,
 
-    @Column(name = "card_number", length = 16, nullable = false)
+    @Column(name = "card_name", length = 256, nullable = false)
+    val cardName: String = "",
+
+    @Column(name = "card_number", length = 16, nullable = false, unique = true)
     val cardNumber: String = "",
 
     @ManyToOne
     @JoinColumn(name = "bank_id", nullable = false)
-    val bank: Bank,
+    val bank: Bank?=null,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    val user: User
+    val user: User?=null
 )

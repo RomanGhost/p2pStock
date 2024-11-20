@@ -1,0 +1,117 @@
+.filters-row {
+  gap: 20px; /* Отступы между фильтрами */
+}
+
+.filter-item {
+  flex: 1; /* Каждый фильтр занимает одинаковую ширину */
+  min-width: 150px; /* Минимальная ширина */
+}
+
+.filter-item .form-select,
+.filter-item .btn {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .filters-row {
+    flex-wrap: wrap; /* Столбцы на мобильных устройствах */
+    justify-content: space-between;
+  }
+  .filter-item {
+    flex: none;
+    width: 100%; /* Фильтры в одну колонку на маленьких экранах */
+    margin-bottom: 10px;
+  }
+}
+
+
+/* Контейнер */
+.orders-container {
+  padding: 0 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Сетка карточек */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+/* Стиль карточки */
+.card-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: linear-gradient(145deg, #f0f8ff, #d9e9f7);
+  border: 2px solid #007bff;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  transition: background-color 0.3s, box-shadow 0.3s, border 0.3s;
+}
+
+.card-item:hover {
+  background: #e6f7ff;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  border: 2px solid #0056b3;
+}
+
+.card-details h3 span {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #0056b3;
+}
+.card-details p.text-muted {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+
+/* Основной текст */
+.card-details p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+}
+
+/* Статусы */
+.status-approved {
+  color: #28a745; /* Зеленый */
+  font-weight: bold;
+}
+
+.status-pending {
+  color: #ffc107; /* Желтый */
+  font-weight: bold;
+}
+
+.status-rejected {
+  color: #dc3545; /* Красный */
+  font-weight: bold;
+}
+
+/* Дата */
+.card-details p.text-muted {
+  font-size: 0.85rem;
+  color: #777;
+  margin-top: 5px;
+}
+
+/* Кнопки пагинации */
+.pagination-section button {
+  border-radius: 5px;
+  padding: 5px 15px;
+  font-size: 1rem;
+}
+
+.pagination-section button:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+/* Выбор размера страницы */
+.pagination-options select {
+  margin-left: 10px;
+  max-width: 150px;
+}

@@ -1,7 +1,7 @@
 package com.example.p2p_stock.controllers
 
 import com.example.p2p_stock.dataclasses.UserInfo
-import com.example.p2p_stock.errors.UserNotFoundException
+import com.example.p2p_stock.errors.UserException
 import com.example.p2p_stock.services.UserService
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.security.core.userdetails.UserDetails
@@ -20,12 +20,12 @@ class UserController(
         val username = userDetails.username
 
         // Получаем пользователя из базы данных по username
-        val user = userService.findByEmail(username) ?: throw UserNotFoundException("Пользователь не найден")
+        val user = userService.findByEmail(username) ?: throw UserException("Пользователь не найден")
 
         // Возвращаем информацию о пользователе
         return UserInfo(
             id = user.id,
-            username = user.username,
+            username = user.login,
             email = user.email,
             roleName = user.role!!.name
         )

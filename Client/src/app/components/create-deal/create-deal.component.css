@@ -1,0 +1,12 @@
+
+button:disabled {
+  color: aliceblue;
+  background-color: gray;
+  opacity: 0.5;
+  cursor: not-allowed;
+  }
+  
+  .btn-success {
+    color: whitesmoke;
+    background-color: #21af5f;
+  }

@@ -1,0 +1,26 @@
+<div class="modal-overlay" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <h3>Создание сделки по заказу #{{ selectedOrder?.id }}</h3>
+      <form [formGroup]="dealForm" (ngSubmit)="createDeal()">
+        <div class="form-group">
+          <label for="walletSelect">Выберите кошелек:</label>
+          <select id="walletSelect" formControlName="wallet" class="form-select">
+            <option value="" disabled>Выберите кошелек</option>
+            <option *ngFor="let wallet of wallets" [value]="wallet.id">{{ wallet.walletName }}</option>
+          </select>
+        </div>
+        <div class="form-group mt-3">
+          <label for="cardSelect">Выбор карты:</label>
+          <select id="cardSelect" formControlName="card" class="form-select">
+            <option value="" disabled>Выберите карту</option>
+            <option *ngFor="let card of cards" [value]="card.id">{{ card.cardName }}</option>
+          </select>
+        </div>
+        <div class="mt-4 text-right">
+          <button type="button" class="btn btn-secondary mr-2" (click)="closeModal()">Отмена</button>
+          <button type="submit" class="btn btn-success" [disabled]="dealForm.invalid">Создать сделку</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  

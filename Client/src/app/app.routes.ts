@@ -5,6 +5,7 @@ import { AuthGuard } from './auth.guard';
 import { AccountComponent } from './components/account/account.component';
 import { LoginComponent } from './components/login/login.component';
 import { AddOrderComponent } from './components/add-order/add-order.component';
+import { AllOrdersComponent } from './components/all-orders/all-orders.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -12,7 +13,8 @@ export const routes: Routes = [
     { path: 'register', component: RegisterComponent },
     { path: 'home', component: HomeComponent },
     { path: 'account', component: AccountComponent, canActivate: [AuthGuard] },
-    { path: 'add-order', component: AddOrderComponent, canActivate: [AuthGuard] },
+    { path: 'orders/add', component: AddOrderComponent, canActivate: [AuthGuard] },
+    { path: 'orders', component: AllOrdersComponent , canActivate: [AuthGuard] },
   ];
 
   

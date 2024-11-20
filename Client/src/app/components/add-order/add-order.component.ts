@@ -6,6 +6,9 @@ import { CommonModule } from '@angular/common';
 import { DataService } from '../../services/data.service';
 import { Data } from '../../models/data';
 import { map, Observable } from 'rxjs';
+import { CardService } from '../../services/card.service';
+import { WalletService } from '../../services/wallet.service';
+import { CreateOrderInfo, OrderInfo } from '../../models/order';
 
 @Component({
   selector: 'app-add-order',
@@ -17,63 +20,97 @@ import { map, Observable } from 'rxjs';
 
 export class AddOrderComponent implements OnInit {
   orderForm: FormGroup;
-  types$: Observable<Data[]> | undefined;; // Типы заказов
-  wallets: any[] = []; // Кошельки
-  cards: any[] = []; // Карты
+  types$: Observable<Data[]> | undefined;
+  wallets: any[] = [];
+  cards: any[] = [];
   walletError: string | null = null;
   cardError: string | null = null;
   priceError: string | null = null;
   quantityError: string | null = null;
+  serverError: string | null = null;
 
   constructor(
     private fb: FormBuilder,
-    private orderService: OrderService,  // Сервис для работы с заказами
+    private orderService: OrderService,
     private router: Router,
     private dataService: DataService,
+    private cardService: CardService,
+    private walletService: WalletService
   ) {
-    // Инициализация формы в конструкторе
     this.orderForm = this.fb.group({
       orderType: ['', Validators.required],
       wallet: ['', Validators.required],
       card: ['', Validators.required],
-      pricePerUnit: ['', [Validators.required, Validators.min(0)]],
-      quantity: ['', [Validators.required, Validators.min(0)]],
+      pricePerUnit: ['', [Validators.required, Validators.min(0.1)]],
+      quantity: ['', [Validators.required, Validators.min(1)]],
       description: ['']
     });
   }
 
   ngOnInit(): void {
-    // Загрузка данных (например, типы заказов, кошельки, карты) с сервера
     this.loadData();
   }
 
   loadData(): void {
-    // Пример загрузки данных
-    // Здесь вы можете использовать ваш сервис для загрузки типов, кошельков и карт.
-    this.types$ = this.dataService.getOrderTypes().pipe(
-      map((getTypes: Data[]) => getTypes.sort((a, b) => a.name.localeCompare(b.name)))
-    );
-    
-    this.wallets = [{id: 1, name: 'Кошелек 1'}, {id: 2, name: 'Кошелек 2'}];  // Заглушка
-    this.cards = [{id: 1, cardName: 'Карта 1'}, {id: 2, cardName: 'Карта 2'}];  // Заглушка
+    this.types$ = this.dataService.getOrderTypes();
+    this.loadUserWallets();
+    this.loadUserCards();
+  }
+
+  loadUserWallets(): void {
+    this.walletService.getUserWallets().subscribe({
+      next: (wallets) => {
+        this.wallets = wallets;
+        if (wallets.length > 0) {
+          this.orderForm.patchValue({ wallet: wallets[0].id });
+        }
+      },
+      error: () => {
+        this.walletError = 'Ошибка загрузки кошельков';
+      }
+    });
+  }
+
+  loadUserCards(): void {
+    this.cardService.getUserCards().subscribe({
+      next: (cards) => {
+        this.cards = cards;
+        if (cards.length > 0) {
+          this.orderForm.patchValue({ card: cards[0].id });
+        }
+      },
+      error: () => {
+        this.cardError = 'Ошибка загрузки карт';
+      }
+    });
   }
 
   onSubmit(): void {
+    // console.log(this.orderForm.value);
+    // console.log(orderForm);
     if (this.orderForm.invalid) {
       return;
     }
+    const valueOrderForm = this.orderForm.value;
+    const orderInfo:CreateOrderInfo = {
+      walletId:valueOrderForm.wallet,
+      cardId:valueOrderForm.card,
+      typeName:valueOrderForm.orderType,
+      statusName:"",
+      unitPrice:valueOrderForm.pricePerUnit,
+      quantity:valueOrderForm.quantity,
+      description:valueOrderForm.description,
+    };
 
-    const formData = this.orderForm.value;
+    console.log(orderInfo);
 
-    // Пример обращения к API для сохранения данных
-    this.orderService.saveOrder(formData).subscribe(
-      (response) => {
-        this.router.navigate(['/orders']);  // Переход на страницу заказов
+    this.orderService.addOrder(orderInfo).subscribe({
+      next: () => {
+        this.router.navigate(['/orders']); // Переход на страницу заказов
       },
-      (error) => {
-        // Обработка ошибок
-        console.error(error);
+      error: (error) => {
+        this.serverError = `Ошибка создания заказа: ${error.message}`;
       }
-    );
+    });
   }
 }

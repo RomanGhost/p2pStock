@@ -2,9 +2,9 @@
   <h2>Регистрация</h2>
   <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="auth-form">
     <div class="form-group">
-      <label for="username">Имя пользователя:</label>
-      <input id="username" formControlName="username" type="username" placeholder="Введите ваше имя">
-      <div *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched" class="error-message">
+      <label for="login">Имя пользователя:</label>
+      <input id="login" formControlName="login" type="login" placeholder="Введите ваше имя">
+      <div *ngIf="registerForm.get('login')?.invalid && registerForm.get('login')?.touched" class="error-message">
         Имя пользователя обязательно
       </div>
     </div>

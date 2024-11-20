@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { RegisterUser } from '../models/register-user';
@@ -44,5 +44,10 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('jwt_token'); // Удаляем токен при выходе
+  }
+
+  getHeaders(): HttpHeaders {
+    const token = this.getToken();
+    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
   }
 }

@@ -1,24 +1,49 @@
-<!-- src/app/components/account/account.component.html -->
 <div class="app-container">
-  <!-- Боковое меню -->
-  <nav class="sidebar" [class.sidebar--open]="isSidebarOpen">
-    <button class="sidebar-toggle" (click)="toggleSidebar()">☰</button>
-    <div class="sidebar-links">
-      <a routerLink="/home" routerLinkActive="active" class="nav-link">Главная</a>
-      <a routerLink="/login" routerLinkActive="active" class="nav-link">Вход</a>
-      <a routerLink="/register" routerLinkActive="active" class="nav-link">Регистрация</a>
-    </div>
-  </nav>
-
   <!-- Основной контент -->
   <main class="content">
     <div *ngIf="user$ | async as user; else loading">
-      <h1>Добро пожаловать, {{ user.username }}</h1>
+      <h1>👋 Добро пожаловать, {{ user.username }}</h1>
       <div class="button-group">
-        <button (click)="showAddCardModal()" class="btn btn-primary">Добавить карту</button>
-        <button (click)="showAddWalletModal()" class="btn btn-primary">Добавить кошелек</button>
-        <button (click)="logout()" class="btn btn-secondary">Выйти</button>
+        <button (click)="showAddCardModal()" class="btn btn-primary">➕ Добавить карту</button>
+        <button (click)="showAddWalletModal()" class="btn btn-primary">➕ Добавить кошелек</button>
+        <button (click)="logout()" class="btn btn-secondary">🚪 Выйти</button>
       </div>
+
+      <!-- Список карт -->
+      <section class="cards-section">
+        <h2>💳 Ваши карты</h2>
+        <div *ngIf="cards.length > 0; else noCards" class="cards-grid">
+          <div *ngFor="let card of cards" class="card-item">
+            <div class="card-details">
+              <strong>{{ card.cardName }}</strong>
+              <p>{{ card.bankName }}</p>
+              <small>**** {{ card.cardNumber.slice(-4) }}</small>
+            </div>
+            <button class="btn-delete" (click)="deleteCard(card)">Удалить</button>
+          </div>
+        </div>
+        <ng-template #noCards>
+          <p>У вас пока нет добавленных карт.</p>
+        </ng-template>
+      </section>
+
+      <!-- Список кошельков -->
+      <section class="wallets-section">
+        <h2>🪙 Ваши кошельки</h2>
+        <div *ngIf="wallets.length > 0; else noWallets" class="wallets-grid">
+          <div *ngFor="let wallet of wallets" class="wallet-item">
+            <div class="wallet-details">
+              <strong>{{ wallet.walletName }}</strong>
+              <p>{{ wallet.cryptocurrencyCode }}</p>
+              <small>Баланс: {{ wallet.balance | number:'1.2-2' }}</small>
+            </div>
+            <button class="btn-delete" (click)="deleteWallet(wallet)">Удалить</button>
+          </div>
+        </div>
+        <ng-template #noWallets>
+          <p>У вас пока нет добавленных кошельков.</p>
+        </ng-template>
+      </section>
     </div>
     <ng-template #loading>
       <p>Загрузка...</p>

@@ -25,38 +25,42 @@ data class OrderStatus(
 data class Order(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long,
+    val id: Long=0,
 
     @ManyToOne
     @JoinColumn(name = "wallet_id", nullable = false)
-    val wallet: Wallet,
+    var wallet: Wallet?=null,
+
+    @ManyToOne
+    @JoinColumn(name = "card_id", nullable = false)
+    var card: Card?=null,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    val user: User,
+    val user: User?=null,
 
     @ManyToOne
     @JoinColumn(name = "order_type_id", nullable = false)
-    val type: OrderType,
+    var type: OrderType?=null,
 
     @ManyToOne
     @JoinColumn(name = "order_status_id", nullable = false)
-    val status: OrderStatus,
+    var status: OrderStatus?=null,
 
     @Column(name = "unit_price", nullable = false, precision = 10, scale = 2)
-    val unitPrice: BigDecimal,
+    var unitPrice: BigDecimal=BigDecimal(0),
 
     @Column(nullable = false)
-    val quantity: Double,
+    var quantity: Double=0.0,
 
     @Column(length = 1024)
-    val description: String = "",
+    var description: String = "",
 
     @Column(name = "created_at", updatable = false)
     val createdAt: LocalDateTime = LocalDateTime.now(),
 
     @Column(name = "expiry_at")
-    val expiryAt: LocalDateTime? = null,
+    val expiryAt: LocalDateTime? = LocalDateTime.now(),
 
     @Column(name = "last_status_change")
     var lastStatusChange: LocalDateTime? = null

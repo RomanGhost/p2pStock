@@ -14,6 +14,12 @@
     animation: fadeIn 0.3s forwards;
   }
   
+.error-message {
+  color: #d9534f;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
   @keyframes fadeIn {
     to {
       opacity: 1;

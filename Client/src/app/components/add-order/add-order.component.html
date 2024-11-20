@@ -5,14 +5,14 @@
     <div class="form-group">
       <label for="orderType">Тип заказа:</label>
       <select class="form-control" id="orderType" formControlName="orderType">
-        <option *ngFor="let type of types$ | async" [value]="type.code">{{ type.name }}</option>
+        <option *ngFor="let type of types$ | async" [value]="type.name">{{ type.name }}</option>
       </select>
     </div>
 
     <div class="form-group">
       <label for="wallet">Кошелек:</label>
       <select class="form-control" id="wallet" formControlName="wallet">
-        <option *ngFor="let wallet of wallets" [value]="wallet.id">{{ wallet.name }}</option>
+        <option *ngFor="let wallet of wallets" [value]="wallet.id">{{ wallet.walletName }}</option>
       </select>
       <div *ngIf="walletError" class="text-danger">{{ walletError }}</div>
     </div>
@@ -41,7 +41,7 @@
       <label for="description">Описание:</label>
       <textarea class="form-control" id="description" formControlName="description" rows="4"></textarea>
     </div>
-
+    <div *ngIf="serverError" class="text-danger">{{ serverError }}</div>
     <button class="btn btn-primary btn-block" type="submit" [disabled]="orderForm.invalid">Создать заказ</button>
   </form>
 </div>

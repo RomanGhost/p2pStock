@@ -16,14 +16,14 @@ class UserService(
 
     fun findById(id: Long): User? = userRepository.findById(id).orElse(null)
 
-    fun findByUsername(username: String): User? = userRepository.findByUsername(username).orElse(null)
+    fun findByUsername(login: String): User? = userRepository.findByLogin(login).orElse(null)
 
     fun save(user: User): User = userRepository.save(user)
 
 
     fun register(registerUser: RegisterUser):User{
         // Проверка на наличие существующего пользователя
-        if (userRepository.existsByUsername(registerUser.username)) {
+        if (userRepository.existsByLogin(registerUser.login)) {
             throw IllegalArgumentException("Username is already taken")
         }
 
@@ -41,7 +41,7 @@ class UserService(
 
         // Создание нового пользователя
         val newUser = User(
-            username = registerUser.username,
+            login = registerUser.login,
             email = registerUser.email,
             password = encodedPassword,
             role = userRole
