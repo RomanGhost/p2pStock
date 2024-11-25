@@ -5,37 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7f6c57df-79d4-46c7-a0e9-9d2e1218ccea" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/controllers/CardController.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/controllers/DealController.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/controllers/OrderController.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/controllers/WalletController.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/dataclasses/CardInfo.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/dataclasses/OrderInfo.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/dataclasses/WalletInfo.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/errors/CardException.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/errors/OrderException.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/errors/WalletException.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/specifications/OrderSpecifications.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/.angular/cache/18.2.11/my-angular-app/.tsbuildinfo" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/.angular/cache/18.2.11/my-angular-app/.tsbuildinfo" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/src/app/app.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/app/app.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/src/app/app.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/app/app.routes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/src/app/components/account/account.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/app/components/account/account.component.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/dataclasses/DealInfo.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/errors/DealException.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/specifications/DealSpecifications.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Client/src/app/components/account/account.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/app/components/account/account.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Client/src/app/components/account/account.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/app/components/account/account.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/src/app/components/add-card/add-card.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/app/components/add-card/add-card.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/src/app/components/add-card/add-card.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/app/components/add-card/add-card.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/src/app/components/add-order/add-order.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/app/components/add-order/add-order.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/src/app/components/add-order/add-order.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/app/components/add-order/add-order.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/src/app/components/add-wallet/add-wallet.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/app/components/add-wallet/add-wallet.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/src/app/components/add-wallet/add-wallet.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/app/components/add-wallet/add-wallet.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/src/app/components/register/register.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/app/components/register/register.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/src/app/components/register/register.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/app/components/register/register.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/src/app/models/register-user.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/app/models/register-user.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/src/app/services/auth.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/app/services/auth.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/src/app/services/card.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/app/services/card.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/src/app/components/all-orders/all-orders.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/app/components/all-orders/all-orders.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/src/app/models/order.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/app/models/order.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Client/src/app/services/data.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/app/services/data.service.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Client/src/app/services/order.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/app/services/order.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/src/assets/styles/modal-style.css" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/assets/styles/modal-style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.10.2/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.10.2/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.10.2/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.10.2/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.10.2/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.10.2/fileHashes/fileHashes.bin" afterDir="false" />
@@ -44,24 +23,11 @@
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/com/example/p2p_stock/dataclasses/JwtToken.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/com/example/p2p_stock/dataclasses/JwtToken.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/com/example/p2p_stock/dataclasses/LoginUser.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/com/example/p2p_stock/dataclasses/LoginUser.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/com/example/p2p_stock/dataclasses/RegisterUser.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/com/example/p2p_stock/dataclasses/RegisterUser.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/com/example/p2p_stock/models/Bank.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/com/example/p2p_stock/models/Bank.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/com/example/p2p_stock/models/Card.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/com/example/p2p_stock/models/Card.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/com/example/p2p_stock/models/Order.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/com/example/p2p_stock/models/Order.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/com/example/p2p_stock/models/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/com/example/p2p_stock/models/User.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/com/example/p2p_stock/models/Wallet.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/com/example/p2p_stock/models/Wallet.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/com/example/p2p_stock/models/WalletCryptocurrencyBalance.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/com/example/p2p_stock/repositories/UserRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/com/example/p2p_stock/repositories/UserRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/com/example/p2p_stock/repositories/WalletCryptocurrencyBalanceRepository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/com/example/p2p_stock/services/BankService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/com/example/p2p_stock/services/BankService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/com/example/p2p_stock/services/CardService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/com/example/p2p_stock/services/CardService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/com/example/p2p_stock/models/Deal.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/com/example/p2p_stock/models/Deal.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/com/example/p2p_stock/repositories/DealRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/com/example/p2p_stock/repositories/DealRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/com/example/p2p_stock/services/DealService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/com/example/p2p_stock/services/DealService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/com/example/p2p_stock/services/DealStatusService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/com/example/p2p_stock/services/DealStatusService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/com/example/p2p_stock/services/OrderService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/com/example/p2p_stock/services/OrderService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/com/example/p2p_stock/services/OrderStatusService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/com/example/p2p_stock/services/OrderStatusService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/com/example/p2p_stock/services/OrderTypeService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/com/example/p2p_stock/services/OrderTypeService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/com/example/p2p_stock/services/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/com/example/p2p_stock/services/UserService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/com/example/p2p_stock/services/WalletService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/com/example/p2p_stock/services/WalletService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/cacheable/caches-jvm/inputs/source-to-output.tab" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/cacheable/caches-jvm/inputs/source-to-output.tab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.keystream" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.keystream" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.keystream.len" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.keystream.len" afterDir="false" />
@@ -132,27 +98,17 @@
       <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/cacheable/last-build.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/cacheable/last-build.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/classpath-snapshot/shrunk-classpath-snapshot.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/classpath-snapshot/shrunk-classpath-snapshot.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/local-state/build-history.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/local-state/build-history.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/controllers/DataController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/controllers/DataController.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/controllers/DealController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/controllers/DealController.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/controllers/GlobalExceptionHandler.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/controllers/GlobalExceptionHandler.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/controllers/UserController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/controllers/UserController.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/dataclasses/AuthUser.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/dataclasses/AuthUser.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/errors/UserNotFoundException.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/errors/UserException.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/models/Card.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/models/Card.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/models/Order.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/models/Order.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/models/User.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/models/User.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/models/Wallet.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/models/Wallet.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/models/WalletCryptocurrencyBalance.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/repositories/OrderRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/repositories/OrderRepository.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/repositories/UserRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/repositories/UserRepository.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/repositories/WalletCryptocurrencyBalanceRepository.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/services/BankService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/services/BankService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/services/CardService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/services/CardService.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/controllers/OrderController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/controllers/OrderController.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/dataclasses/OrderInfo.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/dataclasses/OrderInfo.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/errors/UserException.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/errors/UserException.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/models/Deal.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/models/Deal.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/repositories/DealRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/repositories/DealRepository.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/services/DealService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/services/DealService.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/services/DealStatusService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/services/DealStatusService.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/services/OrderService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/services/OrderService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/services/OrderStatusService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/services/OrderStatusService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/services/OrderTypeService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/services/OrderTypeService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/services/UserService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/services/UserService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/services/WalletService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/example/p2p_stock/services/WalletService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -201,7 +157,7 @@
     <setting file="file://$PROJECT_DIR$/src/main/resources/application.properties" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="ProjectErrors" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -223,7 +179,7 @@
     &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;rest__full&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Programming/IntelljIDE/p2p_project/Server/src/main/kotlin/com/example/p2p_stock/models&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Programming/IntelljIDE/p2p_project/Server/src/main/kotlin/com/example/p2p_stock/errors&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
@@ -233,9 +189,11 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Programming\IntelljIDE\p2p_project\Server\src\main\kotlin\com\example\p2p_stock\errors" />
       <recent name="D:\Programming\IntelljIDE\p2p_project\Server\src\main\kotlin\com\example\p2p_stock\config" />
     </key>
     <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
+      <recent name="com.example.p2p_stock.specifications" />
       <recent name="com.example.p2p_stock.services" />
       <recent name="com.example.p2p_stock.repositories" />
     </key>

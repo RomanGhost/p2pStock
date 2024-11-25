@@ -1,0 +1,51 @@
+.requests-container {
+    margin-top: 20px;
+  }
+  
+  .loading {
+    text-align: center;
+    font-size: 1.2em;
+    margin: 20px 0;
+  }
+  
+  .deal-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .deal-item {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .deal-item:hover {
+    background-color: #f1f1f1;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  .pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+  }
+  
+  .btn {
+    padding: 8px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+  }
+  
+  .btn[disabled] {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  

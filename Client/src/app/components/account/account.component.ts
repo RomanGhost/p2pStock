@@ -11,13 +11,14 @@ import { CardService } from '../../services/card.service';
 import { WalletService } from '../../services/wallet.service';
 import { Card } from '../../models/card';
 import { Wallet } from '../../models/wallet';
+import { DealRequestsComponent } from '../deal-requests/deal-requests.component';
 
 @Component({
   selector: 'app-account',
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.css'],
   standalone: true,
-  imports: [CommonModule, AddCardComponent, AddWalletComponent]
+  imports: [CommonModule, AddCardComponent, AddWalletComponent, DealRequestsComponent]
 })
 export class AccountComponent implements OnInit {
   user$: Observable<UserInfo | undefined>;

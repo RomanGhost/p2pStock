@@ -16,49 +16,49 @@ export class DataService {
 
   // Получение всех банков
   getBanks(): Observable<Data[]> {
-    return this.http.get<Data[]>(`${this.apiUrl}/all_banks`, {
+    return this.http.get<Data[]>(`${this.apiUrl}get/all/banks`, {
       headers: this.authService.getHeaders()
     });
   }
 
   // Получение всех криптовалют
   getCryptocurrencies(): Observable<Data[]> {
-    return this.http.get<Data[]>(`${this.apiUrl}/all_crypto`, {
+    return this.http.get<Data[]>(`${this.apiUrl}get/all/crypto`, {
       headers: this.authService.getHeaders()
     });
   }
 
   // Получение всех статусов сделок
   getDealStatuses(): Observable<Data[]> {
-    return this.http.get<Data[]>(`${this.apiUrl}/all_deal_statuses`, {
+    return this.http.get<Data[]>(`${this.apiUrl}get/all/deal_statuses`, {
       headers: this.authService.getHeaders()
     });
   }
 
   // Получение всех типов заказов
   getOrderTypes(): Observable<Data[]> {
-    return this.http.get<Data[]>(`${this.apiUrl}/all_order_types`, {
+    return this.http.get<Data[]>(`${this.apiUrl}get/all/order_types`, {
       headers: this.authService.getHeaders()
     });
   }
 
   // Получение всех статусов заказов
   getOrderStatuses(): Observable<Data[]> {
-    return this.http.get<Data[]>(`${this.apiUrl}/all_order_statuses`, {
+    return this.http.get<Data[]>(`${this.apiUrl}get/all/order_statuses`, {
       headers: this.authService.getHeaders()
     });
   }
 
   // Получение всех приоритетов
   getPriorities(): Observable<Data[]> {
-    return this.http.get<Data[]>(`${this.apiUrl}/all_priorities`, {
+    return this.http.get<Data[]>(`${this.apiUrl}get/all/priorities`, {
       headers: this.authService.getHeaders()
     });
   }
 
   // Получение всех ролей
   getRoles(): Observable<Data[]> {
-    return this.http.get<Data[]>(`${this.apiUrl}/all_roles`, {
+    return this.http.get<Data[]>(`${this.apiUrl}get/all/roles`, {
       headers: this.authService.getHeaders()
     });
   }

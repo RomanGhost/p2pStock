@@ -4,7 +4,8 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { API_CONFIG } from '../configs/api-config';
 import { AuthService } from './auth.service';
-import { CreateOrderInfo, OrderInfo, OrderListResponse } from '../models/order';
+import { CreateOrderInfo, OrderInfo } from '../models/order';
+import { PaginationResponse } from '../models/pagination';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +19,7 @@ export class OrderService {
    * Получение всех заказов
    */
   getAllOrders(): Observable<OrderInfo[]> {
-    return this.http.get<OrderInfo[]>(`${this.apiUrl}/get_all`, {
+    return this.http.get<OrderInfo[]>(`${this.apiUrl}/get/all`, {
       headers: this.authService.getHeaders(),
     }).pipe(catchError(this.handleError));
   }
@@ -49,7 +50,7 @@ export class OrderService {
     page: number = 0,
     size: number = 10,
     sortOrder: string = 'asc'
-  ): Observable<OrderListResponse> {
+  ): Observable<PaginationResponse<OrderInfo>> {
     // Создаём объект с параметрами запроса
     const params: any = {
       status,
@@ -67,7 +68,7 @@ export class OrderService {
       }
     });
   
-    return this.http.get<OrderListResponse>(`${this.apiUrl}/get/filter`, {
+    return this.http.get<PaginationResponse<OrderInfo>>(`${this.apiUrl}/get/filter`, {
       headers: this.authService.getHeaders(),
       params,
     }).pipe(catchError(this.handleError));

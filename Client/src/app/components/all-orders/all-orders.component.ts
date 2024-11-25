@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { OrderService } from '../../services/order.service';
-import { OrderInfo, OrderListResponse } from '../../models/order';
+import { OrderInfo } from '../../models/order';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { DataService } from '../../services/data.service';
 import { Data } from '../../models/data';
 import { CreateDealComponent } from '../create-deal/create-deal.component';
+import { PaginationResponse } from '../../models/pagination';
 
 @Component({
   selector: 'app-all-orders',
@@ -64,11 +65,11 @@ export class AllOrdersComponent implements OnInit {
     const { type, cryptoCode, sortOrder } = this.filterForm.value;
     this.orderService.getFilteredOrders(this.selectedStatus, type, cryptoCode, this.page, this.size, sortOrder)
       .subscribe({
-        next: (response: OrderListResponse) => {
+        next: (response: PaginationResponse<OrderInfo>) => {
           this.orders = response.content;
           this.filteredOrders = response.content;
-          this.totalPages = response.totalPages;
-          this.totalElements = response.totalElements;
+          this.totalPages = response.page.totalPages;
+          this.totalElements = response.page.totalElements;
           this.loading = false;
         },
         error: (err) => {

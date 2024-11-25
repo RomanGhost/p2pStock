@@ -22,37 +22,37 @@ class DataController(
         return items.map(mapper)
     }
 
-    @GetMapping("/all_banks")
+    @GetMapping("/get/all/banks")
     fun getAllBanks(): List<DataInfo> {
         return toDataResponse(bankService.findAll()) { DataInfo(it.name) }
     }
 
-    @GetMapping("/all_crypto")
+    @GetMapping("/get/all/crypto")
     fun getAllCrypto(): List<DataInfo> {
         return toDataResponse(cryptocurrencyService.findAll()) { DataInfo(it.name, it.code) }
     }
 
-    @GetMapping("/all_deal_statuses")
+    @GetMapping("/get/all/deal_statuses")
     fun getAllDealStatuses(): List<DataInfo> {
         return toDataResponse(dealStatusService.findAll()) { DataInfo(it.name) }
     }
 
-    @GetMapping("/all_order_types")
+    @GetMapping("/get/all/order_types")
     fun getAllOrderTypes(): List<DataInfo> {
         return toDataResponse(orderTypeService.findAll()) { DataInfo(it.name) }
     }
 
-    @GetMapping("/all_order_statuses")
+    @GetMapping("/get/all/order_statuses")
     fun getAllOrderStatuses(): List<DataInfo> {
         return toDataResponse(orderStatusService.findAll()) { DataInfo(it.name) }
     }
 
-    @GetMapping("/all_priorities")
+    @GetMapping("/get/all/priorities")
     fun getAllPriorities(): List<DataInfo> {
         return toDataResponse(priorityService.findAll()) { DataInfo(it.name) }
     }
 
-    @GetMapping("/all_roles")
+    @GetMapping("/get/all/roles")
     fun getAllRoles(): List<DataInfo> {
         return toDataResponse(roleService.findAll()) { DataInfo(it.name) }
     }

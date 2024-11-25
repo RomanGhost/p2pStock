@@ -3,7 +3,9 @@ package com.example.p2p_stock.services
 import com.example.p2p_stock.dataclasses.CreateOrderInfo
 import com.example.p2p_stock.dataclasses.OrderInfo
 import com.example.p2p_stock.errors.NotFoundOrderException
+import com.example.p2p_stock.errors.OwnershipException
 import com.example.p2p_stock.models.Order
+import com.example.p2p_stock.models.OrderType
 import com.example.p2p_stock.models.User
 import com.example.p2p_stock.repositories.OrderRepository
 import org.springframework.data.domain.Page
@@ -13,6 +15,8 @@ import org.springframework.data.domain.Sort
 import org.springframework.data.jpa.domain.Specification
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
+import java.time.LocalDateTime
+import java.time.format.DateTimeParseException
 
 @Service
 class OrderService(
@@ -36,9 +40,21 @@ class OrderService(
         return order
     }
 
-    fun findByFilters(filters: MutableMap<String, String?>, pageable: Pageable): Page<Order> {
-        // Получаем параметр сортировки из фильтров, если есть
-        val sortOrder = filters["sortOrder"] ?: "asc"  // По умолчанию сортировка по возрастанию
+    fun findByFilters(status:String?, type:String?, cryptoCode:String?, createdAfter:String?, pageable: Pageable, sortOrder:String?="asc"): Page<Order> {
+        // Парсинг даты
+        val createdAfterDate = try {
+            createdAfter?.let { LocalDateTime.parse(it) }
+        } catch (ex: DateTimeParseException) {
+            throw IllegalArgumentException("Invalid date format for 'createdAfter': $createdAfter")
+        }
+
+        // Построение спецификаций
+        val filters = mutableMapOf(
+            "status" to status,
+            "type" to type,
+            "cryptoCode" to cryptoCode,
+            "createdAfter" to createdAfterDate?.toString(),
+        )
 
         // Сортировка по дате
         val sort = if (sortOrder == "desc") {
@@ -46,7 +62,6 @@ class OrderService(
         } else {
             Sort.by(Sort.Order.asc("createdAt"))   // Сортировка по дате в возрастающем порядке
         }
-        filters.remove("sortOrder")
 
         // Построение спецификаций
         val spec = buildSpecifications(filters) ?: Specification.where(null)
@@ -58,8 +73,6 @@ class OrderService(
         // Пагинированный запрос с сортировкой
         return orderRepository.findAll(spec, pageableWithSort)
     }
-
-
 
     fun save(order: Order): Order = orderRepository.save(order)
 
@@ -73,12 +86,12 @@ class OrderService(
 
         val wallet = walletService.findById(orderInfo.walletId)
         if (wallet.user?.id != user.id) {
-//            throw OwnershipException("Wallet with id ${wallet.id} does not belong to user ${user.id}")
+            throw OwnershipException("Wallet with id ${wallet.id} does not belong to user ${user.id}")
         }
 
         val card = cardService.findById(orderInfo.cardId)
         if (card.user?.id != user.id) {
-//            throw OwnershipException("Card with id ${card.id} does not belong to user ${user.id}")
+            throw OwnershipException("Card with id ${card.id} does not belong to user ${user.id}")
         }
 
         val type = orderTypeService.findById(orderInfo.typeName)
@@ -118,6 +131,24 @@ class OrderService(
         return save(order)
     }
 
+    fun updateStatus(order:Order, newStatusName:String): Order {
+        val newStatus = orderStatusService.findById(newStatusName)
+        order.status = newStatus
+        order.lastStatusChange = LocalDateTime.now()
+
+        return save(order)
+    }
+
+    fun oppositeType(order: Order): OrderType {
+        val type = if (order.status!!.name == "Покупка"){
+            orderTypeService.findById("Продажа")
+        } else{
+            orderTypeService.findById("Покупка")
+        }
+
+        return type
+    }
+
     private fun buildSpecifications(filters: Map<String, String?>): Specification<Order>? {
         val specifications = filters.entries
             .filter { it.value != null }
@@ -138,5 +169,22 @@ class OrderService(
         require(orderInfo.cardId > 0) { "Card ID must be greater than zero" }
         require(orderInfo.unitPrice > BigDecimal.ZERO) { "Unit price must be greater than zero" }
         require(orderInfo.quantity > 0) { "Quantity must be greater than zero" }
+    }
+
+    fun orderToOrderInfo(order: Order): OrderInfo {
+        return OrderInfo(
+            id = order.id,
+            userLogin = order.user!!.login,
+            walletId = order.wallet!!.id,
+            cryptocurrencyCode = order.wallet?.cryptocurrency?.code?:"",
+            cardId = order.card!!.id,
+            typeName = order.type!!.name,
+            statusName = order.status!!.name,
+            unitPrice = order.unitPrice,
+            quantity = order.quantity,
+            description = order.description,
+            createdAt = order.createdAt.toString(),
+            lastStatusChange = (order.lastStatusChange ?: order.createdAt).toString(),
+        )
     }
 }

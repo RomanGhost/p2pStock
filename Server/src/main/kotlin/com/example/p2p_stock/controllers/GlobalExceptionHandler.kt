@@ -15,10 +15,26 @@ class GlobalExceptionHandler {
         return ResponseEntity(ex.message, HttpStatus.NOT_FOUND)
     }
 
+    @ExceptionHandler(OwnershipException::class)
+    fun handleOwnershipException(ex: OwnershipException): ResponseEntity<String> {
+        return ResponseEntity(ex.message, HttpStatus.NOT_ACCEPTABLE)
+    }
+
     @ExceptionHandler(NotFoundOrderException::class)
     fun handleOrderNotFoundException(ex: NotFoundOrderException): ResponseEntity<String> {
         // Возвращаем ответ с кодом 404 и сообщением
         return ResponseEntity(ex.message, HttpStatus.NOT_FOUND)
+    }
+
+    @ExceptionHandler(NotFoundDealException::class)
+    fun handleNotFoundDealException(ex: NotFoundDealException): ResponseEntity<String> {
+        // Возвращаем ответ с кодом 404 и сообщением
+        return ResponseEntity(ex.message, HttpStatus.NOT_FOUND)
+    }
+
+    @ExceptionHandler(DealUserSameException::class)
+    fun handleDealUserSameException(ex: DealUserSameException): ResponseEntity<String> {
+        return ResponseEntity(ex.message, HttpStatus.CONFLICT)
     }
 
     @ExceptionHandler(NotFoundWalletException::class)

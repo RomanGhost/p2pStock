@@ -16,19 +16,19 @@ data class DealStatus(
 data class Deal(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long,
+    val id: Long=0,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "buy_order_id", nullable = false)
-    val buyOrder: Order,
+    val buyOrder: Order?=null,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sell_order_id", nullable = false)
-    val sellOrder: Order,
+    val sellOrder: Order?=null,
 
     @ManyToOne
     @JoinColumn(name = "status_id", nullable = false)
-    val status: DealStatus,
+    val status: DealStatus?=null,
 
     @Column(name = "created_at", updatable = false)
     val createdAt: LocalDateTime = LocalDateTime.now(),
@@ -37,5 +37,5 @@ data class Deal(
     var closedAt: LocalDateTime? = null,
 
     @Column(name = "last_status_change")
-    var lastStatusChange: LocalDateTime? = null
+    var lastStatusChange: LocalDateTime = LocalDateTime.now()
 )

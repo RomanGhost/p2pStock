@@ -1,0 +1,30 @@
+<div class="requests-container">
+    <h2>📄 Ваши сделки</h2>
+  
+    <div *ngIf="isLoading" class="loading">Загрузка...</div>
+  
+    <div *ngIf="!isLoading && deals.length > 0; else noDeals">
+      <ul class="deal-list">
+        <li *ngFor="let deal of deals" class="deal-item">
+          <div class="deal-details">
+            <strong>Сделка #{{ deal.id }}</strong>
+            <p>Статус: {{ deal.statusName }}</p>
+            <p>Создано: {{ deal.createdAt | date:'short' }}</p>
+            <p>Последнее изменение: {{ deal.lastStatusChange | date:'short' }}</p>
+          </div>
+        </li>
+      </ul>
+  
+      <!-- Навигация по страницам -->
+      <div class="pagination">
+        <button (click)="prevPage()" [disabled]="currentPage === 0" class="btn">⬅️ Назад</button>
+        <span>Страница {{ currentPage + 1 }} из {{ totalPages }}</span>
+        <button (click)="nextPage()" [disabled]="currentPage === totalPages - 1" class="btn">Вперед ➡️</button>
+      </div>
+    </div>
+  
+    <ng-template #noDeals>
+      <p>У вас пока нет сделок.</p>
+    </ng-template>
+  </div>
+  

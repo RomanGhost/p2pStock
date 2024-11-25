@@ -1,8 +1,6 @@
 package com.example.p2p_stock.dataclasses
 
-import com.example.p2p_stock.models.Cryptocurrency
 import java.math.BigDecimal
-import java.time.LocalDateTime
 
 data class OrderInfo(
     val id:Long,
