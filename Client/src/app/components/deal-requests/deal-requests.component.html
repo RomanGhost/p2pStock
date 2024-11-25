@@ -9,8 +9,8 @@
           <div class="deal-details">
             <strong>Сделка #{{ deal.id }}</strong>
             <p>Статус: {{ deal.statusName }}</p>
-            <p>Создано: {{ deal.createdAt | date:'short' }}</p>
-            <p>Последнее изменение: {{ deal.lastStatusChange | date:'short' }}</p>
+            <p>Создано: {{ deal.createdAt | date:'dd/MM/yyyy HH:mm' }}</p>
+            <p>Последнее изменение: {{ deal.lastStatusChange | date:'dd/MM/yyyy HH:mm' }}</p>
           </div>
         </li>
       </ul>

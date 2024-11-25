@@ -8,42 +8,11 @@
         <button (click)="showAddWalletModal()" class="btn btn-primary">➕ Добавить кошелек</button>
         <button (click)="logout()" class="btn btn-secondary">🚪 Выйти</button>
       </div>
+      <app-cards-list></app-cards-list>
+      <app-wallets-list></app-wallets-list>
+      
+      <app-deal-requests></app-deal-requests>
 
-      <!-- Список карт -->
-      <section class="cards-section">
-        <h2>💳 Ваши карты</h2>
-        <div *ngIf="cards.length > 0; else noCards" class="cards-grid">
-          <div *ngFor="let card of cards" class="card-item">
-            <div class="card-details">
-              <strong>{{ card.cardName }}</strong>
-              <p>{{ card.bankName }}</p>
-              <small>**** {{ card.cardNumber.slice(-4) }}</small>
-            </div>
-            <button class="btn-delete" (click)="deleteCard(card)">Удалить</button>
-          </div>
-        </div>
-        <ng-template #noCards>
-          <p>У вас пока нет добавленных карт.</p>
-        </ng-template>
-      </section>
-
-      <!-- Список кошельков -->
-      <section class="wallets-section">
-        <h2>🪙 Ваши кошельки</h2>
-        <div *ngIf="wallets.length > 0; else noWallets" class="wallets-grid">
-          <div *ngFor="let wallet of wallets" class="wallet-item">
-            <div class="wallet-details">
-              <strong>{{ wallet.walletName }}</strong>
-              <p>{{ wallet.cryptocurrencyCode }}</p>
-              <small>Баланс: {{ wallet.balance | number:'1.2-2' }}</small>
-            </div>
-            <button class="btn-delete" (click)="deleteWallet(wallet)">Удалить</button>
-          </div>
-        </div>
-        <ng-template #noWallets>
-          <p>У вас пока нет добавленных кошельков.</p>
-        </ng-template>
-      </section>
     </div>
     <ng-template #loading>
       <p>Загрузка...</p>
@@ -55,7 +24,5 @@
 
   <!-- Модальное окно для добавления кошелька -->
   <app-add-wallet *ngIf="isAddWalletModalVisible" (closeModal)="closeAddWalletModal()"></app-add-wallet>
-
-  <app-deal-requests></app-deal-requests>
 
 </div>
