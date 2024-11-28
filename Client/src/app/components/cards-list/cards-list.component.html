@@ -1,0 +1,31 @@
+<section class="cards-section">
+    <h2>💳 Ваши карты</h2>
+    <button class="btn-toggle" (click)="toggleListVisibility()">
+        {{ isListVisible ? 'Скрыть карты' : 'Показать карты' }}
+      </button>
+    
+    <!-- Загрузка -->
+    <div *ngIf="isLoading">
+      <p>Загрузка...</p>
+    </div>
+  
+    <!-- Список карт -->
+    <div *ngIf="isListVisible" class="list-container">
+    <div *ngIf="!isLoading && cards.length > 0; else noCards" class="cards-grid">
+      <div *ngFor="let card of cards" class="card-item">
+        <div class="card-details">
+          <strong>{{ card.cardName }}</strong>
+          <p>{{ card.bankName }}</p>
+          <small>**** {{ card.cardNumber.slice(-4) }}</small>
+        </div>
+        <button class="btn-delete" (click)="deleteCard(card)">Удалить</button>
+      </div>
+    </div>
+    </div>
+  
+    <!-- Нет карт -->
+    <ng-template #noCards>
+      <p>У вас пока нет добавленных карт.</p>
+    </ng-template>
+  </section>
+  

@@ -2,7 +2,7 @@
     <h1 class="text-center mb-4">📋 Список заказов</h1>
   
     <!-- Загрузка -->
-    <div *ngIf="loading" class="text-center">
+    <div *ngIf="isLoading" class="text-center">
       <p>Загрузка заказов...</p>
     </div>
   
@@ -39,7 +39,7 @@
     </div>    
   
     <!-- Список карточек -->
-    <section class="cards-section" *ngIf="!loading && !errorMessage">
+    <section class="cards-section" *ngIf="!isLoading && !errorMessage">
       <div class="cards-grid">
           <div *ngFor="let order of filteredOrders" class="card-item" (click)="openCreateDealModal(order)">
           <div class="card-details">
@@ -52,12 +52,6 @@
             </div>
             <p class="text-muted mb-2"><strong>Тип:</strong> {{ order.typeName }}</p>
             <p class="mb-2"><strong>Пользователь:</strong> {{ order.userLogin }}</p>
-            <p class="mb-2">
-              <strong>Статус:</strong>
-              <span [ngClass]="{'status-approved': order.statusName === 'Одобрено', 'status-pending': order.statusName === 'Модерация', 'status-rejected': order.statusName === 'Отклонено'}">
-                {{ order.statusName }}
-              </span>
-            </p>
             <div class="d-flex justify-content-between align-items-center mt-3">
               <p class="mb-1"><strong>Цена за единицу:</strong> {{ order.unitPrice | number: '1.2-2' }}</p>
               <p class="mb-1"><strong>Кол-во:</strong> {{ order.quantity }}</p>

@@ -1,6 +1,5 @@
 package com.example.p2p_stock.configs
 
-import com.example.p2p_stock.models.User
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
@@ -9,7 +8,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.stereotype.Service
 import java.util.*
 import javax.crypto.SecretKey
-import javax.crypto.spec.SecretKeySpec
 
 
 @Service

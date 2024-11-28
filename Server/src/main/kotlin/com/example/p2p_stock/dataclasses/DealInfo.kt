@@ -1,7 +1,5 @@
 package com.example.p2p_stock.dataclasses
 
-import com.example.p2p_stock.models.Order
-
 data class CreateDealInfo (
     val walletId: Long,
     val cardId: Long,

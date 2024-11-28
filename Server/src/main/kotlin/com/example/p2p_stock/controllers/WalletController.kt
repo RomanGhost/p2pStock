@@ -1,9 +1,7 @@
 package com.example.p2p_stock.controllers
 
-import com.example.p2p_stock.dataclasses.CardInfo
 import com.example.p2p_stock.dataclasses.WalletInfo
 import com.example.p2p_stock.errors.UserException
-import com.example.p2p_stock.models.Cryptocurrency
 import com.example.p2p_stock.services.CryptocurrencyService
 import com.example.p2p_stock.services.UserService
 import com.example.p2p_stock.services.WalletService

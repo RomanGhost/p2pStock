@@ -1,4 +1,7 @@
-import com.example.p2p_stock.models.*
+import com.example.p2p_stock.models.Deal
+import com.example.p2p_stock.models.DealStatus
+import com.example.p2p_stock.models.Order
+import com.example.p2p_stock.models.User
 import org.springframework.data.jpa.domain.Specification
 import java.time.LocalDateTime
 

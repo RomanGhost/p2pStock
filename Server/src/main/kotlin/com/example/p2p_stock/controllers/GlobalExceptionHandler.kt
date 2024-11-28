@@ -26,6 +26,11 @@ class GlobalExceptionHandler {
         return ResponseEntity(ex.message, HttpStatus.NOT_FOUND)
     }
 
+    @ExceptionHandler(IllegalActionOrderException::class)
+    fun handleIllegalActionOrderException(ex: IllegalActionOrderException): ResponseEntity<String> {
+        return ResponseEntity(ex.message, HttpStatus.NOT_ACCEPTABLE)
+    }
+
     @ExceptionHandler(NotFoundDealException::class)
     fun handleNotFoundDealException(ex: NotFoundDealException): ResponseEntity<String> {
         // Возвращаем ответ с кодом 404 и сообщением

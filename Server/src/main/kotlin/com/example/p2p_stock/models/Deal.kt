@@ -20,19 +20,20 @@ data class Deal(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "buy_order_id", nullable = false)
-    val buyOrder: Order?=null,
+    var buyOrder: Order?=null,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sell_order_id", nullable = false)
-    val sellOrder: Order?=null,
+    var sellOrder: Order?=null,
 
     @ManyToOne
     @JoinColumn(name = "status_id", nullable = false)
-    val status: DealStatus?=null,
+    var status: DealStatus?=null,
 
     @Column(name = "created_at", updatable = false)
     val createdAt: LocalDateTime = LocalDateTime.now(),
 
+    //TODO(Убрать и так понятно когда будет закрыто)
     @Column(name = "closed_at")
     var closedAt: LocalDateTime? = null,
 

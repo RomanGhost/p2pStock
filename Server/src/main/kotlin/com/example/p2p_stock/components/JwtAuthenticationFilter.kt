@@ -36,8 +36,6 @@ class JwtAuthenticationFilter(
             } catch (e: ExpiredJwtException) {
                 println("JWT Token has expired")
             }
-        } else {
-            logger.warn("JWT Token does not begin with Bearer String")
         }
 
         if (username != null && SecurityContextHolder.getContext().authentication == null) {

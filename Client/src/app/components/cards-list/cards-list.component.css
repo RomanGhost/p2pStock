@@ -1,0 +1,18 @@
+.card-number {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #000000;
+  }
+  
+  .card-bank {
+    font-size: 0.95rem;
+    color: #777777;
+  }
+  
+  .card-footer {
+    font-size: 0.85rem;
+    color: #888888;
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+  }
+  

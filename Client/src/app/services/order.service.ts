@@ -86,6 +86,31 @@ export class OrderService {
   }
 
   /**
+   * Изменение статуса заказа: Подтвердить публикацию на платформе
+   */
+  acceptModeration(orderId:number): Observable<OrderInfo> {
+    return this.http.patch<OrderInfo>(`${this.apiUrl}/moderation/accept/${orderId}`, 
+      {},
+      {
+      headers: this.authService.getHeaders()
+    }).pipe(catchError(this.handleError));
+  }
+
+
+  /**
+   * Изменение статуса заказа: убрать заявку
+   */
+  rejectModeration(orderId:number): Observable<OrderInfo> {
+    console.log(`Service: edit status for order ${orderId}`);
+    return this.http.patch<OrderInfo>(`${this.apiUrl}/moderation/reject/${orderId}`, 
+    {},
+      {
+      headers: this.authService.getHeaders()
+    }).pipe(catchError(this.handleError));
+  }
+
+
+  /**
    * Обработчик ошибок
    */
   private handleError(error: HttpErrorResponse): Observable<never> {

@@ -4,7 +4,6 @@ import com.example.p2p_stock.models.User
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 import java.util.*
-import javax.swing.text.StyledEditorKit.BoldAction
 
 
 @Repository

@@ -1,30 +1,84 @@
 <div class="requests-container">
-    <h2>📄 Ваши сделки</h2>
-  
-    <div *ngIf="isLoading" class="loading">Загрузка...</div>
-  
-    <div *ngIf="!isLoading && deals.length > 0; else noDeals">
-      <ul class="deal-list">
-        <li *ngFor="let deal of deals" class="deal-item">
-          <div class="deal-details">
-            <strong>Сделка #{{ deal.id }}</strong>
-            <p>Статус: {{ deal.statusName }}</p>
-            <p>Создано: {{ deal.createdAt | date:'dd/MM/yyyy HH:mm' }}</p>
-            <p>Последнее изменение: {{ deal.lastStatusChange | date:'dd/MM/yyyy HH:mm' }}</p>
-          </div>
-        </li>
-      </ul>
-  
-      <!-- Навигация по страницам -->
-      <div class="pagination">
-        <button (click)="prevPage()" [disabled]="currentPage === 0" class="btn">⬅️ Назад</button>
-        <span>Страница {{ currentPage + 1 }} из {{ totalPages }}</span>
-        <button (click)="nextPage()" [disabled]="currentPage === totalPages - 1" class="btn">Вперед ➡️</button>
-      </div>
-    </div>
-  
-    <ng-template #noDeals>
-      <p>У вас пока нет сделок.</p>
-    </ng-template>
+  <h2>📄 Ваши сделки</h2>
+
+  <!-- Фильтры -->
+  <div class="filters">
+    <label>
+      Дата изменения после:
+      <input type="date" [(ngModel)]="filters.changedAfter" (change)="applyFilters()" />
+    </label>
+
+    <label>
+      Сортировка:
+      <select [(ngModel)]="filters.sortOrder" (change)="applyFilters()">
+        <option value="asc">По возрастанию</option>
+        <option value="desc">По убыванию</option>
+      </select>
+    </label>
   </div>
-  
+
+  <div *ngIf="isLoading" class="loading">Загрузка...</div>
+
+  <div *ngIf="!isLoading && deals.length > 0; else noDeals">
+    <ul class="deal-list">
+      <li *ngFor="let deal of deals" class="deal-item">
+        <div class="deal-details">
+          <strong>Сделка #{{ deal.id }}</strong>
+          <p>Статус: {{ deal.statusName }}</p>
+          <p>Создано: {{ deal.createdAt | date: 'dd/MM/yyyy HH:mm' }}</p>
+          <p>Последнее изменение: {{ deal.lastStatusChange | date: 'dd/MM/yyyy HH:mm' }}</p>
+        </div>
+
+        <div class="deal-actions">
+          <button 
+            *ngIf="isAssociatedWithDeal(deal) && deal.statusName === 'Подтверждение сделки' && wasCreatedEarlier(deal)"
+            (click)="confirmDeal(deal.id)"
+            class="btn confirm">
+            ✅ Подтвердить сделку
+          </button>
+          <button 
+            *ngIf="isAssociatedWithDeal(deal) && deal.statusName === 'Ожидание перевода' && deal.buyOrder.userLogin === user?.login"
+            (click)="confirmDeal(deal.id)"
+            class="btn confirm">
+            ✅ Подтвердить перевод
+          </button>
+          <button 
+            *ngIf="isAssociatedWithDeal(deal) && deal.statusName === 'Ожидание подтверждения перевода' && deal.sellOrder.userLogin === user?.login"
+            (click)="confirmDeal(deal.id)"
+            class="btn confirm">
+            ✅ Подтвердить получение
+          </button>
+          <button 
+            *ngIf="isAssociatedWithDeal(deal) && deal.statusName === 'Подтверждение сделки'"
+            (click)="cancelDeal(deal.id)"
+            class="btn cancel">
+            ❌ Отмена сделки
+          </button>
+          <button 
+            *ngIf="isAssociatedWithDeal(deal) && deal.statusName === 'Ожидание перевода' && deal.buyOrder.userLogin === user?.login"
+            (click)="cancelDeal(deal.id)"
+            class="btn cancel">
+            ⚠️ Проблема с отправкой
+          </button>
+          <button 
+            *ngIf="isAssociatedWithDeal(deal) && deal.statusName === 'Ожидание подтверждения перевода' && deal.sellOrder.userLogin === user?.login"
+            (click)="cancelDeal(deal.id)"
+            class="btn cancel">
+            ⚠️ Перевод не получен
+          </button>
+        </div>        
+      </li>
+    </ul>
+
+    <!-- Навигация по страницам -->
+    <div class="pagination">
+      <button (click)="prevPage()" [disabled]="currentPage === 0" class="btn">⬅️ Назад</button>
+      <span>Страница {{ currentPage + 1 }} из {{ totalPages }}</span>
+      <button (click)="nextPage()" [disabled]="currentPage === totalPages - 1" class="btn">Вперед ➡️</button>
+    </div>
+  </div>
+
+  <ng-template #noDeals>
+    <p>У вас пока нет сделок.</p>
+  </ng-template>
+</div>

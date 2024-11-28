@@ -1,13 +1,17 @@
 package com.example.p2p_stock.services
 
+import OrderSpecifications
 import com.example.p2p_stock.dataclasses.CreateOrderInfo
 import com.example.p2p_stock.dataclasses.OrderInfo
+import com.example.p2p_stock.errors.IllegalActionOrderException
 import com.example.p2p_stock.errors.NotFoundOrderException
 import com.example.p2p_stock.errors.OwnershipException
 import com.example.p2p_stock.models.Order
 import com.example.p2p_stock.models.OrderType
 import com.example.p2p_stock.models.User
 import com.example.p2p_stock.repositories.OrderRepository
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
@@ -26,7 +30,9 @@ class OrderService(
     private val orderTypeService: OrderTypeService,
     private val orderStatusService: OrderStatusService,
 ) {
+    private val logger: Logger = LoggerFactory.getLogger(OrderService::class.java)
 
+    // Основные операции над заказами
     fun findAll(): List<Order> =
         orderRepository.findAll().filter { it.user != null }
 
@@ -40,40 +46,6 @@ class OrderService(
         return order
     }
 
-    fun findByFilters(status:String?, type:String?, cryptoCode:String?, createdAfter:String?, pageable: Pageable, sortOrder:String?="asc"): Page<Order> {
-        // Парсинг даты
-        val createdAfterDate = try {
-            createdAfter?.let { LocalDateTime.parse(it) }
-        } catch (ex: DateTimeParseException) {
-            throw IllegalArgumentException("Invalid date format for 'createdAfter': $createdAfter")
-        }
-
-        // Построение спецификаций
-        val filters = mutableMapOf(
-            "status" to status,
-            "type" to type,
-            "cryptoCode" to cryptoCode,
-            "createdAfter" to createdAfterDate?.toString(),
-        )
-
-        // Сортировка по дате
-        val sort = if (sortOrder == "desc") {
-            Sort.by(Sort.Order.desc("createdAt"))  // Сортировка по дате в убывающем порядке
-        } else {
-            Sort.by(Sort.Order.asc("createdAt"))   // Сортировка по дате в возрастающем порядке
-        }
-
-        // Построение спецификаций
-        val spec = buildSpecifications(filters) ?: Specification.where(null)
-
-
-        // Создаем новый pageable с сортировкой
-        val pageableWithSort = PageRequest.of(pageable.pageNumber, pageable.pageSize, sort)
-
-        // Пагинированный запрос с сортировкой
-        return orderRepository.findAll(spec, pageableWithSort)
-    }
-
     fun save(order: Order): Order = orderRepository.save(order)
 
     fun delete(orderId: Long) {
@@ -81,25 +53,39 @@ class OrderService(
         orderRepository.delete(order)
     }
 
+    // Работа с фильтрами
+    fun findByFilters(
+        status: String?,
+        type: String?,
+        cryptoCode: String?,
+        createdAfter: String?,
+        pageable: Pageable,
+        sortOrder: String? = "asc"
+    ): Page<Order> {
+        val createdAfterDate = parseDate(createdAfter, "Invalid date format for 'createdAfter': $createdAfter")
+
+        val filters = mapOf(
+            "status" to status,
+            "type" to type,
+            "cryptoCode" to cryptoCode,
+            "createdAfter" to createdAfterDate?.toString()
+        )
+
+        val sort = Sort.by(if (sortOrder == "desc") Sort.Order.desc("createdAt") else Sort.Order.asc("createdAt"))
+        val spec = buildSpecifications(filters) ?: Specification.where(null)
+        val pageableWithSort = PageRequest.of(pageable.pageNumber, pageable.pageSize, sort)
+
+        return orderRepository.findAll(spec, pageableWithSort)
+    }
+
+    // Создание и обновление заказов
     fun addNewOrder(orderInfo: CreateOrderInfo, user: User): Order {
         validateCreateOrderInfo(orderInfo)
 
-        val wallet = walletService.findById(orderInfo.walletId)
-        if (wallet.user?.id != user.id) {
-            throw OwnershipException("Wallet with id ${wallet.id} does not belong to user ${user.id}")
-        }
-
-        val card = cardService.findById(orderInfo.cardId)
-        if (card.user?.id != user.id) {
-            throw OwnershipException("Card with id ${card.id} does not belong to user ${user.id}")
-        }
-
+        val wallet = validateWalletOwnership(orderInfo.walletId, user)
+        val card = validateCardOwnership(orderInfo.cardId, user)
         val type = orderTypeService.findById(orderInfo.typeName)
-        val status = if (orderInfo.statusName.isBlank()) {
-            orderStatusService.getDefaultStatus()
-        } else {
-            orderStatusService.findById(orderInfo.statusName)
-        }
+        val status = resolveOrderStatus(orderInfo)
 
         val order = Order(
             user = user,
@@ -131,7 +117,8 @@ class OrderService(
         return save(order)
     }
 
-    fun updateStatus(order:Order, newStatusName:String): Order {
+    // Обновление статуса заказа
+    private fun updateStatus(order: Order, newStatusName: String): Order {
         val newStatus = orderStatusService.findById(newStatusName)
         order.status = newStatus
         order.lastStatusChange = LocalDateTime.now()
@@ -139,31 +126,67 @@ class OrderService(
         return save(order)
     }
 
-    fun oppositeType(order: Order): OrderType {
-        val type = if (order.status!!.name == "Покупка"){
-            orderTypeService.findById("Продажа")
-        } else{
-            orderTypeService.findById("Покупка")
+    // Специальные операции с заказами
+    fun acceptModerationOrder(order: Order): Order {
+        validateStatus(order, "модерация")
+        return updateStatus(order, "Доступна на платформе")
+    }
+
+    fun rejectModerationOrder(order: Order): Order {
+        validateStatus(order, "модерация")
+        return updateStatus(order, "Закрыто: проблема")
+    }
+
+    fun takeInDealOrder(order: Order): Order {
+        validateStatus(order, "доступна на платформе")
+        return updateStatus(order, "Используется в сделке")
+    }
+
+    fun closeSuccessOrder(order: Order): Order {
+        validateStatus(order, "используется в сделке")
+        return updateStatus(order, "Закрыто: успешно")
+    }
+
+    fun returnToPlatformOrder(order: Order): Order {
+        validateStatus(order, "используется в сделке")
+        return updateStatus(order, "Доступна на платформе")
+    }
+
+    fun closeIrrelevantOrderInDeal(order: Order): Order {
+        validateStatus(order, "используется в сделке")
+        return updateStatus(order, "Закрыто: неактуально")
+    }
+
+    fun closeIrrelevantOrder(order: Order): Order {
+        val validStatuses = listOf("Модерация", "Отправлено на доработку", "Доступна на платформе")
+        if (order.status!!.name in validStatuses) {
+            return updateStatus(order, "Закрыто: неактуально")
         }
-
-        return type
+        throw IllegalActionOrderException("Illegal status for action: ${order.status!!.name}")
     }
 
-    private fun buildSpecifications(filters: Map<String, String?>): Specification<Order>? {
-        val specifications = filters.entries
-            .filter { it.value != null }
-            .map { (key, value) ->
-                when (key) {
-                    "status" -> OrderSpecifications.hasStatus(value!!)
-                    "type" -> OrderSpecifications.hasType(value!!)
-                    "cryptoCode" -> OrderSpecifications.hasCryptocurrencyCode(value!!)
-                    else -> throw IllegalArgumentException("Unknown filter parameter: $key")
-                }
-            }
+    fun isBuying(order: Order): Boolean = order.type!!.name == "Покупка"
 
-        return specifications.reduceOrNull { spec1, spec2 -> spec1.and(spec2) }
-    }
+    fun oppositeType(order: Order): OrderType =
+        if (isBuying(order)) orderTypeService.findById("Продажа") else orderTypeService.findById("Покупка")
 
+    // Преобразование сущностей
+    fun orderToOrderInfo(order: Order): OrderInfo = OrderInfo(
+        id = order.id,
+        userLogin = order.user!!.login,
+        walletId = order.wallet!!.id,
+        cryptocurrencyCode = order.wallet?.cryptocurrency?.code ?: "",
+        cardId = order.card!!.id,
+        typeName = order.type!!.name,
+        statusName = order.status!!.name,
+        unitPrice = order.unitPrice,
+        quantity = order.quantity,
+        description = order.description,
+        createdAt = order.createdAt.toString(),
+        lastStatusChange = (order.lastStatusChange ?: order.createdAt).toString(),
+    )
+
+    // Вспомогательные методы
     private fun validateCreateOrderInfo(orderInfo: CreateOrderInfo) {
         require(orderInfo.walletId > 0) { "Wallet ID must be greater than zero" }
         require(orderInfo.cardId > 0) { "Card ID must be greater than zero" }
@@ -171,20 +194,40 @@ class OrderService(
         require(orderInfo.quantity > 0) { "Quantity must be greater than zero" }
     }
 
-    fun orderToOrderInfo(order: Order): OrderInfo {
-        return OrderInfo(
-            id = order.id,
-            userLogin = order.user!!.login,
-            walletId = order.wallet!!.id,
-            cryptocurrencyCode = order.wallet?.cryptocurrency?.code?:"",
-            cardId = order.card!!.id,
-            typeName = order.type!!.name,
-            statusName = order.status!!.name,
-            unitPrice = order.unitPrice,
-            quantity = order.quantity,
-            description = order.description,
-            createdAt = order.createdAt.toString(),
-            lastStatusChange = (order.lastStatusChange ?: order.createdAt).toString(),
-        )
+    private fun validateStatus(order: Order, expectedStatus: String) {
+        if (order.status!!.name.lowercase() != expectedStatus.lowercase()) {
+            throw IllegalActionOrderException("Illegal status for action: ${order.status!!.name}")
+        }
     }
+
+    private fun validateWalletOwnership(walletId: Long, user: User) =
+        walletService.findById(walletId).also {
+            if (it.user?.id != user.id) throw OwnershipException("Wallet with id ${it.id} does not belong to user ${user.id}")
+        }
+
+    private fun validateCardOwnership(cardId: Long, user: User) =
+        cardService.findById(cardId).also {
+            if (it.user?.id != user.id) throw OwnershipException("Card with id ${it.id} does not belong to user ${user.id}")
+        }
+
+    private fun resolveOrderStatus(orderInfo: CreateOrderInfo) =
+        if (orderInfo.statusName.isBlank()) orderStatusService.getDefaultStatus()
+        else orderStatusService.findById(orderInfo.statusName)
+
+    private fun buildSpecifications(filters: Map<String, String?>): Specification<Order>? =
+        filters.entries.filter { it.value != null }.map { (key, value) ->
+            when (key) {
+                "status" -> OrderSpecifications.hasStatus(value!!)
+                "type" -> OrderSpecifications.hasType(value!!)
+                "cryptoCode" -> OrderSpecifications.hasCryptocurrencyCode(value!!)
+                else -> throw IllegalArgumentException("Unknown filter parameter: $key")
+            }
+        }.reduceOrNull { spec1, spec2 -> spec1.and(spec2) }
+
+    private fun parseDate(dateString: String?, errorMessage: String): LocalDateTime? =
+        try {
+            dateString?.let { LocalDateTime.parse(it) }
+        } catch (e: DateTimeParseException) {
+            throw IllegalArgumentException(errorMessage)
+        }
 }

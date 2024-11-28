@@ -1,0 +1,49 @@
+<div class="orders-container">
+    <h2>🛠️ Управление сделками</h2>
+  
+    <div *ngIf="isLoading" class="loading">Загрузка...</div>
+  
+    <div *ngIf="!isLoading && orders.length > 0; else noOrders">
+      <div class="order-grid">
+        <div *ngFor="let order of orders" class="order-card">
+          <div class="order-header">
+            <span class="order-id">Сделка #{{ order.id }}</span>
+            <span class="order-status" [class]="order.statusName.toLowerCase()">
+              {{ order.statusName }}
+            </span>
+          </div>
+  
+          <div class="order-meta">
+            <small>Создано: {{ order.createdAt | date: 'dd/MM/yyyy HH:mm' }}</small>
+            <small>Изменено: {{ order.lastStatusChange | date: 'dd/MM/yyyy HH:mm' }}</small>
+          </div>
+  
+          <div class="order-details">
+            <p><strong>Пользователь:</strong> {{ order.userLogin }}</p>
+            <p><strong>Тип:</strong> {{ order.typeName }}</p>
+            <p><strong>Общая сумма:</strong> {{ order.unitPrice * order.quantity | currency }}</p>
+            <p><strong>Количество:</strong> {{ order.quantity }}</p>
+            <p><strong>Цена за единицу:</strong> {{ order.unitPrice | currency }}</p>
+            <p><strong>Описание:</strong> {{ order.description || 'Нет комментария' }}</p>
+          </div>
+  
+          <div class="order-actions">
+            <button class="btn confirm" (click)="confirmOrder(order)">✔️ Подтвердить</button>
+            <button class="btn reject" (click)="rejectOrder(order)">❌ Отказать</button>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Пагинация -->
+      <div class="pagination">
+        <button class="btn page-btn" (click)="prevPage()" [disabled]="page === 0">⬅️ Предыдущая</button>
+        <span class="page-info">Страница {{ page + 1 }} из {{ totalPages }}</span>
+        <button class="btn page-btn" (click)="nextPage()" [disabled]="page >= totalPages - 1">➡️ Следующая</button>
+      </div>
+    </div>
+  
+    <ng-template #noOrders>
+      <p>Сделки отсутствуют.</p>
+    </ng-template>
+  </div>
+  

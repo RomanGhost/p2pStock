@@ -6,6 +6,8 @@ import { CardService } from '../../services/card.service';
 import { WalletService } from '../../services/wallet.service';
 import { Wallet } from '../../models/wallet';
 import { Card } from '../../models/card';
+import { DealService } from '../../services/deal.service';
+import { CreateDealInfo, DealInfo } from '../../models/deal';
 
 type NewType = Wallet;
 
@@ -28,6 +30,7 @@ cards: Card[] = [];
 
   constructor(
     private fb: FormBuilder, 
+    private dealService: DealService,
     private cardService: CardService,
     private walletService: WalletService,
   ) {
@@ -36,8 +39,8 @@ cards: Card[] = [];
   ngOnInit(){
     // console. log(`Order: ${this.selectedOrder?.cryptocurrencyCode}`)
     this.dealForm = this.fb.group({
-      wallet: ['', Validators.required], 
-      card: ['', Validators.required]
+      wallet: [-1, Validators.required], 
+      card: [-1, Validators.required]
     });
 
     this.loadUserWallets();
@@ -50,8 +53,25 @@ cards: Card[] = [];
 
   createDeal() {
     if (this.dealForm.valid) {
-      // Выполнить логику создания сделки
-      console.log(this.selectedOrder)
+      const valueDealForm = this.dealForm.value;
+
+      const walletId = Number(valueDealForm.wallet);
+      const cardId = Number(valueDealForm.card);
+
+      var newDeal: CreateDealInfo = {
+        walletId: walletId,
+        cardId: cardId,
+        counterpartyOrderId: this.selectedOrder!!.id
+      };
+
+      this.dealService.addDeal(newDeal).subscribe({
+        next: (response: DealInfo)=>{
+          console.log(`CreateDealComponent: Создана новая сделка: ${response.id}`);
+        },
+        error: (err) => {
+          console.log(`CreateDealComponent: ${err}`);
+        }
+      });
 
       this.closeModal(); // Закрыть модальное окно
     }

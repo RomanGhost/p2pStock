@@ -1,8 +1,11 @@
 package com.example.p2p_stock.controllers
 
-import com.example.p2p_stock.dataclasses.*
+import com.example.p2p_stock.dataclasses.DataInfo
 import com.example.p2p_stock.services.*
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.CrossOrigin
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 
 @CrossOrigin
 @RestController

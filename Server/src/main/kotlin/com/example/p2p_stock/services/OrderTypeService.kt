@@ -1,6 +1,5 @@
 package com.example.p2p_stock.services
 
-import com.example.p2p_stock.models.OrderStatus
 import com.example.p2p_stock.models.OrderType
 import com.example.p2p_stock.repositories.OrderTypeRepository
 import org.springframework.stereotype.Service

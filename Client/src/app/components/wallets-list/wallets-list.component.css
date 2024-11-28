@@ -1,0 +1,15 @@
+.wallet-balance {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #4caf50; /* Зеленый для положительного баланса */
+  }
+  
+  .wallet-balance.negative {
+    color: #f44336; /* Красный для отрицательного баланса */
+  }
+  
+  .wallet-code {
+    font-size: 0.95rem;
+    color: #555555;
+  }
+  

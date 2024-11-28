@@ -2,7 +2,7 @@
   <!-- Основной контент -->
   <main class="content">
     <div *ngIf="user$ | async as user; else loading">
-      <h1>👋 Добро пожаловать, {{ user.username }}</h1>
+      <h1>👋 Добро пожаловать, {{ user.login }}</h1>
       <div class="button-group">
         <button (click)="showAddCardModal()" class="btn btn-primary">➕ Добавить карту</button>
         <button (click)="showAddWalletModal()" class="btn btn-primary">➕ Добавить кошелек</button>

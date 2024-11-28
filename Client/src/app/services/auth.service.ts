@@ -43,11 +43,13 @@ export class AuthService {
   }
 
   logout() {
-    localStorage.removeItem('jwt_token'); // Удаляем токен при выходе
+    // localStorage.removeItem('jwt_token'); // Удаляем токен при выходе
+    localStorage.clear();
   }
 
   getHeaders(): HttpHeaders {
     const token = this.getToken();
+    // console.log(`JWT TOKEN!!!!: Bearer ${token}`);
     return new HttpHeaders().set('Authorization', `Bearer ${token}`);
   }
 }

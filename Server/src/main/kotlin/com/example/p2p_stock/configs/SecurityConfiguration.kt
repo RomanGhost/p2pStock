@@ -16,7 +16,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 class SecurityConfiguration(
     private val authenticationProvider: AuthenticationProvider,
     private val jwtAuthenticationFilter: JwtAuthenticationFilter,
-    @Value("\${application.info.apiLink}") private val apiLink: String
+    @Value("\${application.info.apiLink}") private val apiLink: String,
+    @Value("\${application.info.websocket.link}") private val socketLink: String
 ) {
     @Bean
     fun securityFilterChain(http: HttpSecurity) : SecurityFilterChain {
@@ -25,6 +26,8 @@ class SecurityConfiguration(
             .cors{it}
             .authorizeHttpRequests {
                 it.requestMatchers("$apiLink/auth/**").permitAll()
+                it.requestMatchers("$socketLink/**").permitAll()
+                it.requestMatchers("$apiLink/moderation/**").hasRole("MANAGER")
                 it.anyRequest().authenticated()// Все остальные запросы требуют аутентификации
             }
             .sessionManagement {

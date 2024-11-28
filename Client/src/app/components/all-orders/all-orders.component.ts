@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { OrderService } from '../../services/order.service';
 import { OrderInfo } from '../../models/order';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -7,6 +7,7 @@ import { DataService } from '../../services/data.service';
 import { Data } from '../../models/data';
 import { CreateDealComponent } from '../create-deal/create-deal.component';
 import { PaginationResponse } from '../../models/pagination';
+import { WebSocketService } from '../../socket-services/web-socket.service';
 
 @Component({
   selector: 'app-all-orders',
@@ -24,9 +25,9 @@ export class AllOrdersComponent implements OnInit {
   filterForm!: FormGroup;
   isCreateDealModalOpen = false;
 
-  selectedStatus: string = 'Модерация';//'Доступна на платформе';
+  selectedStatus: string = 'Доступна на платформе';
 
-  loading = true;
+  isLoading = true;
   errorMessage: string | null = null;
   page: number = 0;
   size: number = 10;  // Размер страницы по умолчанию
@@ -38,7 +39,9 @@ export class AllOrdersComponent implements OnInit {
   constructor(
     private orderService: OrderService,
     private dataService:DataService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private webSocketServiceOrder: WebSocketService,
+    private zone: NgZone
   ) {
     this.size = this.availablePageSizes[0];
   }
@@ -48,6 +51,23 @@ export class AllOrdersComponent implements OnInit {
     this.loadOrders();
     this.loadOrderStatuses();
     this.loadCryptocurrancy();
+    this.connectSocket();
+  }
+
+  connectSocket():void{
+    if (!this.webSocketServiceOrder.socket || this.webSocketServiceOrder.socket.readyState === WebSocket.CLOSED) {
+      this.webSocketServiceOrder.connect();
+    }
+
+    this.webSocketServiceOrder.subscribeToMessages((updatedDeal: OrderInfo) => {
+      this.zone.run(() => {
+        this.handleOrderUpdate(updatedDeal);
+      });
+    });
+  }
+
+  ngOnDestroy(): void{
+    this.webSocketServiceOrder.disconnect();
   }
 
   // Инициализация формы
@@ -61,7 +81,7 @@ export class AllOrdersComponent implements OnInit {
 
   // Загружаем заказы с фильтрами
   loadOrders(): void {
-    this.loading = true;
+    this.isLoading = true;
     const { type, cryptoCode, sortOrder } = this.filterForm.value;
     this.orderService.getFilteredOrders(this.selectedStatus, type, cryptoCode, this.page, this.size, sortOrder)
       .subscribe({
@@ -70,11 +90,11 @@ export class AllOrdersComponent implements OnInit {
           this.filteredOrders = response.content;
           this.totalPages = response.page.totalPages;
           this.totalElements = response.page.totalElements;
-          this.loading = false;
+          this.isLoading = false;
         },
         error: (err) => {
           this.errorMessage = 'Ошибка загрузки заказов.';
-          this.loading = false;
+          this.isLoading = false;
         }
       });
   }
@@ -145,5 +165,34 @@ export class AllOrdersComponent implements OnInit {
     this.selectedOrder = null;
   }
 
+
+
+  /**
+   * Обработка обновления сделки через WebSocket
+   */
+  private handleOrderUpdate(updatedOrder: OrderInfo): void {
+    const orderIndex = this.orders.findIndex((order) => order.id === updatedOrder.id);
+    
+     if (this.isOrderMatchingFilters(updatedOrder)) {
+      if (orderIndex !== -1) {
+        // Если заказ существует, обновляем его
+        this.orders[orderIndex] = updatedOrder;
+      } else {
+        this.orders.push(updatedOrder);
+      }
+    } else {
+      // Если заказ не проходит по фильтрам, удаляем его
+      this.orders.splice(orderIndex, 1);
+    }
+  
+    console.log('Обновление заказа через WebSocket:', updatedOrder);
+  }
+  
+
+  private isOrderMatchingFilters(order:OrderInfo): boolean{
+    const filterFormValues = this.filterForm.value;
+
+    return (order.statusName === this.selectedStatus && order.typeName === filterFormValues.type && order.cryptocurrencyCode === filterFormValues.cryptoCode);
+  }
 
 }

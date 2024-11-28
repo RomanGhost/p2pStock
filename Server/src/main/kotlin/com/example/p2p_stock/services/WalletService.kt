@@ -3,11 +3,13 @@ package com.example.p2p_stock.services
 import com.example.p2p_stock.dataclasses.WalletInfo
 import com.example.p2p_stock.errors.DuplicateWalletException
 import com.example.p2p_stock.errors.NotFoundWalletException
-import com.example.p2p_stock.models.Wallet
+import com.example.p2p_stock.errors.OwnershipException
 import com.example.p2p_stock.models.User
+import com.example.p2p_stock.models.Wallet
 import com.example.p2p_stock.repositories.WalletRepository
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.stereotype.Service
+import kotlin.jvm.optionals.getOrNull
 
 @Service
 class WalletService(
@@ -44,6 +46,16 @@ class WalletService(
         } catch (e: DataIntegrityViolationException) {
             throw DuplicateWalletException("Кошелек уже существует")
         }
+    }
+
+    fun validateOwnership(walletId: Long, user:User): Wallet {
+        val wallet = walletRepository.findById(walletId).getOrNull()
+
+        if (wallet?.user?.id != user.id) {
+            throw OwnershipException("Wallet with id ${walletId} does not belong to user ${user.id}")
+        }
+
+        return wallet
     }
     
     fun delete(walletId: Long, userId: Long) {

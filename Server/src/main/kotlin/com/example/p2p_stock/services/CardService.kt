@@ -3,13 +3,13 @@ package com.example.p2p_stock.services
 import com.example.p2p_stock.dataclasses.CardInfo
 import com.example.p2p_stock.errors.DuplicateCardException
 import com.example.p2p_stock.errors.NotFoundCardException
-import com.example.p2p_stock.errors.NotFoundOrderException
+import com.example.p2p_stock.errors.OwnershipException
 import com.example.p2p_stock.models.Card
 import com.example.p2p_stock.models.User
 import com.example.p2p_stock.repositories.CardRepository
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.stereotype.Service
-import java.util.*
+import kotlin.jvm.optionals.getOrNull
 
 @Service
 class CardService(
@@ -46,6 +46,18 @@ class CardService(
             throw DuplicateCardException("Карта уже существует")
         }
     }
+
+
+    fun validateOwnership(cardId: Long, user:User): Card {
+        val card = cardRepository.findById(cardId).getOrNull()
+
+        if (card?.user?.id != user.id) {
+            throw OwnershipException("Wallet with id $cardId does not belong to user ${user.id}")
+        }
+
+        return card
+    }
+
 
     fun delete(cardId: Long, userId: Long) {
         val card = cardRepository.findById(cardId)

@@ -5,14 +5,12 @@ import com.example.p2p_stock.dataclasses.OrderInfo
 import com.example.p2p_stock.errors.UserException
 import com.example.p2p_stock.services.OrderService
 import com.example.p2p_stock.services.UserService
-import org.springframework.data.domain.Page
+import com.example.p2p_stock.socket_handler.WebSocketHandler
 import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PagedModel
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.web.bind.annotation.*
-import java.time.LocalDateTime
-import java.time.format.DateTimeParseException
 
 @CrossOrigin
 @RestController
@@ -20,6 +18,7 @@ import java.time.format.DateTimeParseException
 class OrderController(
     private val userService: UserService,
     private val orderService: OrderService,
+    private val orderWebSocketHandler: WebSocketHandler<OrderInfo>
 ) {
     // Получение всех заказов
     @GetMapping("/get/all")
@@ -61,6 +60,36 @@ class OrderController(
         val user = userService.findByEmail(username) ?: throw UserException("Пользователь не найден")
 
         val newOrder =  orderService.addNewOrder(newOrderInfo, user)
-        return orderService.orderToOrderInfo(newOrder)
+        val orderInfo = orderService.orderToOrderInfo(newOrder)
+
+        orderWebSocketHandler.sendUpdateToAll(orderInfo)
+        return orderInfo
+    }
+
+    @PatchMapping("/moderation/accept/{orderId}")
+    fun acceptModeration(@PathVariable orderId: Long): OrderInfo {
+        val order = orderService.findById(orderId)
+
+        val updateOrder = orderService.acceptModerationOrder(order)
+        val orderInfo = orderService.orderToOrderInfo(updateOrder)
+
+        orderWebSocketHandler.sendUpdateToAll(orderInfo)
+        return orderInfo
+    }
+
+    @PatchMapping("/moderation/reject/{orderId}")
+    fun rejectModeration(@PathVariable orderId: Long): OrderInfo {
+        val order = orderService.findById(orderId)
+
+        val updateOrder = orderService.rejectModerationOrder(order)
+        return orderService.orderToOrderInfo(updateOrder)
+    }
+
+    @PatchMapping("/cancel/{orderId}")
+    fun cancelModeration(@PathVariable orderId: Long): OrderInfo {
+        val order = orderService.findById(orderId)
+
+        val updateOrder = orderService.closeIrrelevantOrder(order)
+        return orderService.orderToOrderInfo(updateOrder)
     }
 }
