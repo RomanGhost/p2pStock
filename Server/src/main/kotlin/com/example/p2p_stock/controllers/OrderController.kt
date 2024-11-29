@@ -82,7 +82,10 @@ class OrderController(
         val order = orderService.findById(orderId)
 
         val updateOrder = orderService.rejectModerationOrder(order)
-        return orderService.orderToOrderInfo(updateOrder)
+
+        val orderInfo = orderService.orderToOrderInfo(updateOrder)
+        orderWebSocketHandler.sendUpdateToAll(orderInfo)
+        return orderInfo
     }
 
     @PatchMapping("/cancel/{orderId}")
@@ -90,6 +93,9 @@ class OrderController(
         val order = orderService.findById(orderId)
 
         val updateOrder = orderService.closeIrrelevantOrder(order)
-        return orderService.orderToOrderInfo(updateOrder)
+
+        val orderInfo = orderService.orderToOrderInfo(updateOrder)
+        orderWebSocketHandler.sendUpdateToAll(orderInfo)
+        return orderInfo
     }
 }

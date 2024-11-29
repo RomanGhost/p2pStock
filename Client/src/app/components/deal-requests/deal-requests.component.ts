@@ -60,7 +60,7 @@ export class DealRequestsComponent implements OnInit, OnDestroy {
 
   connectSocket():void{
     if (!this.webSocketServiceDeal.socket || this.webSocketServiceDeal.socket.readyState === WebSocket.CLOSED) {
-      this.webSocketServiceDeal.connect();
+      this.webSocketServiceDeal.connect('deal');
     }
 
     this.webSocketServiceDeal.subscribeToMessages((updatedDeal: DealInfo) => {

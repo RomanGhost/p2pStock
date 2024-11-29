@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { OrderInfo } from '../../../models/order';
 import { CommonModule } from '@angular/common';
 import { OrderService } from '../../../services/order.service';
 import { PaginationResponse } from '../../../models/pagination';
+import { WebSocketService } from '../../../socket-services/web-socket.service';
 
 @Component({
   selector: 'app-accept-orders',
@@ -24,11 +25,33 @@ export class AcceptOrdersComponent implements OnInit{
   sortOrder = 'asc';
 
 
-  constructor(private orderService: OrderService) {}
+  constructor(
+    private orderService: OrderService,
+    private webSocketServiceOrder: WebSocketService,
+    private zone: NgZone
+  ) {}
   
   ngOnInit(): void {
     this.loadOrders();
+    this.connectSocket();
   }
+
+  connectSocket():void{
+    if (!this.webSocketServiceOrder.socket || this.webSocketServiceOrder.socket.readyState === WebSocket.CLOSED) {
+      this.webSocketServiceOrder.connect('order');
+    }
+
+    this.webSocketServiceOrder.subscribeToMessages((updatedOrder: OrderInfo) => {
+      this.zone.run(() => {
+        this.handleOrderUpdate(updatedOrder);
+      });
+    });
+  }
+
+  ngOnDestroy(): void{
+    this.webSocketServiceOrder.disconnect();
+  }
+
 
   loadOrders(): void {
     this.isLoading = true;
@@ -80,5 +103,28 @@ export class AcceptOrdersComponent implements OnInit{
       this.page--;
       this.loadOrders();
     }
+  }
+
+  private handleOrderUpdate(updatedOrder: OrderInfo): void {
+    const orderIndex = this.orders.findIndex((order) => order.id === updatedOrder.id);
+    
+     if (this.isOrderMatchingFilters(updatedOrder)) {
+      if (orderIndex !== -1) {
+        // Если заказ существует, обновляем его
+        this.orders[orderIndex] = updatedOrder;
+      } else {
+        this.orders.push(updatedOrder);
+      }
+    } else {
+      // Если заказ не проходит по фильтрам, удаляем его
+      this.orders.splice(orderIndex, 1);
+    }
+  
+    console.log('Обновление заказа через WebSocket:', updatedOrder);
+  }
+  
+
+  private isOrderMatchingFilters(order:OrderInfo): boolean{
+    return (order.statusName === this.orderStatus);
   }
 }

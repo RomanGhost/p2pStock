@@ -5,30 +5,30 @@ import { API_CONFIG } from '../configs/api-config';
   providedIn: 'root',
 })
 export class WebSocketService {
-  private wsUrl = `${API_CONFIG.wsUrl}/deal`;
+  private wsUrl = `${API_CONFIG.wsUrl}`;
   socket: WebSocket | null = null;
 
-  connect(): void {
+  connect(url: string): void {
     // Проверяем, если WebSocket уже подключён, не подключаем повторно
     if (this.socket && this.socket.readyState !== WebSocket.CLOSED) {
       console.log('WebSocket уже подключен или подключается');
       return;
     }
-
-    this.socket = new WebSocket(this.wsUrl);
+    const resultUrl = `${this.wsUrl}/${url}`
+    this.socket = new WebSocket(resultUrl);
 
     this.socket.onopen = () => {
-      console.log('WebSocket подключен:', this.wsUrl);
+      console.log('WebSocket подключен:', resultUrl);
     };
 
     this.socket.onmessage = (event) => {
-      const deal = JSON.parse(event.data); // Преобразуем JSON в объект
-      console.log('Обновление сделки:', deal);
+      const data = JSON.parse(event.data); // Преобразуем JSON в объект
+      console.log('Обновление сделки:', data);
     };
 
     this.socket.onclose = () => {
       console.log('WebSocket закрыт. Переподключение через 5 секунд...');
-      setTimeout(() => this.connect(), 5000);
+      setTimeout(() => this.connect(url), 5000);
     };
 
     this.socket.onerror = (error) => {

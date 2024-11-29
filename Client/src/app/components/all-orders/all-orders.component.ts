@@ -56,12 +56,12 @@ export class AllOrdersComponent implements OnInit {
 
   connectSocket():void{
     if (!this.webSocketServiceOrder.socket || this.webSocketServiceOrder.socket.readyState === WebSocket.CLOSED) {
-      this.webSocketServiceOrder.connect();
+      this.webSocketServiceOrder.connect('order');
     }
 
-    this.webSocketServiceOrder.subscribeToMessages((updatedDeal: OrderInfo) => {
+    this.webSocketServiceOrder.subscribeToMessages((updatedOrder: OrderInfo) => {
       this.zone.run(() => {
-        this.handleOrderUpdate(updatedDeal);
+        this.handleOrderUpdate(updatedOrder);
       });
     });
   }
@@ -173,16 +173,23 @@ export class AllOrdersComponent implements OnInit {
   private handleOrderUpdate(updatedOrder: OrderInfo): void {
     const orderIndex = this.orders.findIndex((order) => order.id === updatedOrder.id);
     
-     if (this.isOrderMatchingFilters(updatedOrder)) {
+    if (this.isOrderMatchingFilters(updatedOrder)) {
       if (orderIndex !== -1) {
         // Если заказ существует, обновляем его
+        console.log(`change ${this.orders[orderIndex]}`);
         this.orders[orderIndex] = updatedOrder;
       } else {
-        this.orders.push(updatedOrder);
+        console.log('Push deal');
+        this.orders.unshift(updatedOrder);
+        if(this.orders.length >= this.size ){
+          this.orders.pop()
+        }
       }
     } else {
       // Если заказ не проходит по фильтрам, удаляем его
-      this.orders.splice(orderIndex, 1);
+      if (orderIndex !== -1) {
+        this.orders.splice(orderIndex, 1);
+      }
     }
   
     console.log('Обновление заказа через WebSocket:', updatedOrder);
@@ -191,8 +198,15 @@ export class AllOrdersComponent implements OnInit {
 
   private isOrderMatchingFilters(order:OrderInfo): boolean{
     const filterFormValues = this.filterForm.value;
+    
 
-    return (order.statusName === this.selectedStatus && order.typeName === filterFormValues.type && order.cryptocurrencyCode === filterFormValues.cryptoCode);
+
+    if (order.statusName !== this.selectedStatus) return false;
+    
+    if(filterFormValues.cryptoCode === undefined && filterFormValues.type === undefined) return true;
+    if(filterFormValues.cryptoCode === order.cryptocurrencyCode || filterFormValues.type === order.typeName) return true;
+
+    return true;
   }
 
 }

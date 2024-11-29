@@ -21,8 +21,11 @@ class WebSocketConfig(
     override fun registerWebSocketHandlers(registry: WebSocketHandlerRegistry) {
         registry
             .addHandler(dealWebSocketHandler, "$socketLink/deal")
+            .setAllowedOrigins("http://localhost:4200")
+        registry
             .addHandler(orderWebSocketHandler, "$socketLink/order")
             .setAllowedOrigins("http://localhost:4200")
+
     }
 
 }
