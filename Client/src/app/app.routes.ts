@@ -8,6 +8,7 @@ import { AddOrderComponent } from './components/add-order/add-order.component';
 import { AllOrdersComponent } from './components/all-orders/all-orders.component';
 import { AcceptOrdersComponent } from './components/manager/accept-orders/accept-orders.component';
 import { RoleGuard } from './role.guard';
+import { TaskComponent } from './components/manager/task/task.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -17,7 +18,8 @@ export const routes: Routes = [
     { path: 'account', component: AccountComponent, canActivate: [AuthGuard] },
     { path: 'orders/add', component: AddOrderComponent, canActivate: [AuthGuard] },
     { path: 'orders', component: AllOrdersComponent , canActivate: [AuthGuard] },
-    { path: "manager/orders", component: AcceptOrdersComponent , canActivate: [RoleGuard], data: { roles: ['manager'] } }
+    { path: "manager/orders", component: AcceptOrdersComponent , canActivate: [RoleGuard], data: { roles: ['manager'] } },
+    { path: "manager/tasks", component: TaskComponent , canActivate: [RoleGuard], data: { roles: ['manager'] } },
   ];
 
   

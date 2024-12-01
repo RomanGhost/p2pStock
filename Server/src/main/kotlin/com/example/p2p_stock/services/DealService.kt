@@ -8,6 +8,7 @@ import com.example.p2p_stock.errors.IllegalActionDealException
 import com.example.p2p_stock.errors.NotFoundDealException
 import com.example.p2p_stock.models.*
 import com.example.p2p_stock.repositories.DealRepository
+import com.example.p2p_stock.repositories.TaskRepository
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
@@ -24,6 +25,8 @@ class DealService(
     private val walletService: WalletService,
     private val cardService: CardService,
     private val dealStatusService: DealStatusService,
+    private val taskRepository: TaskRepository,
+    private val priorityService: PriorityService,
 ) {
     fun findAll(): List<Deal> = dealRepository.findAll()
 
@@ -83,30 +86,43 @@ class DealService(
     }
 
     fun positiveChangeStatus(user: User, deal: Deal): Deal {
+        validateUserAccess(user, deal)
         return when(deal.status?.name){
-            "Подтверждение сделки" -> confirmDeal(user, deal)
-            "Ожидание перевода" -> confirmSendPayment(user, deal)
-            "Ожидание подтверждения перевода" -> confirmGetPayment(user, deal)
+            "Подтверждение сделки" -> updateStatus(deal, "Ожидание перевода")
+            "Ожидание перевода" -> updateStatus(deal, "Ожидание подтверждения перевода")
+            "Ожидание подтверждения перевода" -> updateStatus(deal, "Закрыто: успешно")
             else -> deal
         }
     }
 
     fun negativeChangeStatus(user: User, deal: Deal): Deal {
+        validateUserAccess(user, deal)
         return when(deal.status?.name){
-            "Подтверждение сделки" -> denyDeal(user, deal)
-            "Ожидание перевода", "Ожидание подтверждения перевода" -> callManager(user, deal)
+            "Подтверждение сделки" -> denyDeal(deal)
+            "Ожидание перевода", "Ожидание подтверждения перевода" -> callManager(deal)
             else -> deal
         }
     }
 
-    private fun confirmDeal(user: User, deal: Deal): Deal {
-        validateEarlyUserAccess(user, deal)
-//        validateDealStatus(deal, "Подтверждение сделки")
-        return updateStatus(deal, "Ожидание перевода")
+    fun managerTakeInWork(user: User, deal: Deal){
+//        validateUserAccess(user, deal)
+        if(deal.status?.name == "Приостановлено: решение проблем"){
+            updateStatus(deal, "Ожидание решения менеджера")
+        }
     }
 
-    private fun denyDeal(user: User, deal: Deal): Deal {
-        validateUserAccess(user, deal)
+    fun managerApprove(deal:Deal): Deal {
+        if (deal.status?.name == "Ожидание решения менеджера") return updateStatus(deal, "Закрыто: успешно")
+        return deal
+    }
+
+    fun managerReject(deal:Deal): Deal {
+        if (deal.status?.name == "Ожидание решения менеджера") return updateStatus(deal, "Закрыто: отменена менеджером")
+        return deal
+    }
+
+    private fun denyDeal(deal: Deal): Deal {
+
 //        validateDealStatus(deal, "Подтверждение сделки")
 
         val early = orderService.returnToPlatformOrder(getEarlyOrder(deal))
@@ -122,24 +138,22 @@ class DealService(
         return updateStatus(deal, "Закрыто: неактуально")
     }
 
-    private fun confirmSendPayment(user: User, deal: Deal): Deal {
-        validateOrderUser(deal.buyOrder, user)
-//        validateDealStatus(deal, "Ожидание перевода")
-        return updateStatus(deal, "Ожидание подтверждения перевода")
-    }
+    private fun callManager(deal: Deal): Deal {
+        val description = "Deal status description: ${deal.status?.name?:""}"
 
-    private fun confirmGetPayment(user: User, deal: Deal): Deal {
-        validateOrderUser(deal.sellOrder, user)
-//        validateDealStatus(deal, "Ожидание подтверждения перевода")
-        return updateStatus(deal, "Закрыто: успешно")
-    }
+        val quantity = deal.buyOrder?.quantity?:0.0
+        val pricePerUnit = deal.buyOrder?.unitPrice?:0
 
-    private fun callManager(user: User, deal: Deal): Deal {
-        validateEarlyUserAccess(user, deal)
-//        val accessStatuses = listOf("Ожидание перевода", "Ожидание подтверждения перевода")
-//        for (statusName in accessStatuses){
-//            validateDealStatus(deal, statusName)
-//        }
+        val amount = pricePerUnit.toDouble() * quantity
+        val priority = priorityService.findByAmount(amount)
+
+        val task = Task(
+            deal = deal,
+            errorDescription = description,
+            priority=priority,
+        )
+
+        taskRepository.save(task)
 
         return updateStatus(deal, "Приостановлено: решение проблем")
     }
@@ -195,7 +209,8 @@ class DealService(
     }
 
     private fun validateUserAccess(user: User, deal: Deal) {
-        if(deal.buyOrder?.user?.id != user.id && deal.sellOrder?.user?.id != user.id) throw IllegalActionDealException("User ${user.id} has no access to deal ${deal.id}")
+        if(deal.buyOrder?.user?.id != user.id && deal.sellOrder?.user?.id != user.id)
+            throw IllegalActionDealException("User ${user.id} has no access to deal ${deal.id}")
     }
 
     private fun validateOrderUser(order: Order?, user: User) {

@@ -65,4 +65,16 @@ class GlobalExceptionHandler {
         // Возвращаем ответ с кодом 404 и сообщением
         return ResponseEntity(ex.message, HttpStatus.CONFLICT)
     }
+
+    @ExceptionHandler(NotFoundTaskException::class)
+    fun handleNotFoundTaskException(ex: NotFoundTaskException): ResponseEntity<String> {
+        // Возвращаем ответ с кодом 404 и сообщением
+        return ResponseEntity(ex.message, HttpStatus.NOT_FOUND)
+    }
+
+    @ExceptionHandler(IllegalAccessTaskException::class)
+    fun IllegalAccessTaskExceptionException(ex: IllegalAccessTaskException): ResponseEntity<String> {
+        // Возвращаем ответ с кодом 404 и сообщением
+        return ResponseEntity(ex.message, HttpStatus.NOT_ACCEPTABLE)
+    }
 }

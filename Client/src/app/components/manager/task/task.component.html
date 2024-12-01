@@ -1,0 +1,53 @@
+<div class="task-container">
+    <!-- Отображение статуса загрузки -->
+    <div *ngIf="loading" class="loading">
+      Загрузка задач...
+    </div>
+  
+    <!-- Если задачи загружены -->
+    <div *ngIf="!loading && tasks.length === 0" class="no-tasks">
+      Нет доступных задач.
+    </div>
+  
+    <div *ngIf="!loading && tasks.length > 0">
+      <table class="task-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Описание сделки</th>
+            <th>Менеджер</th>
+            <th>Приоритет</th>
+            <th>Дата обновления</th>
+            <th>Действия</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let task of tasks">
+            <td>{{ task.id }}</td>
+            <td>{{ task.dealInfo.id }}</td>
+            <td>{{ task.managerLogin }}</td>
+            <td>{{ task.priorityName }}</td>
+            <td>{{ task.updatedAt }}</td>
+            <td>
+              <!-- Действия -->
+              <button *ngIf="task.managerLogin == ''" (click)="takeTaskInWork(task.id)" class="btn btn-work">
+                Взять в работу
+              </button>
+              <div *ngIf="task.managerLogin != ''">
+              <button (click)="acceptTask(task.id, 'Принято')" class="btn btn-accept">
+                Принять
+              </button>
+              <button
+                (click)="denyTask(task.id, 'Отклонено')"
+                class="btn btn-deny"
+              >
+                Отклонить
+              </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  

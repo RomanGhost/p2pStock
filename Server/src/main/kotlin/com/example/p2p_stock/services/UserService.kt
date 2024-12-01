@@ -1,6 +1,7 @@
 package com.example.p2p_stock.services
 
 import com.example.p2p_stock.dataclasses.RegisterUser
+import com.example.p2p_stock.dataclasses.UserInfo
 import com.example.p2p_stock.models.Role
 import com.example.p2p_stock.models.User
 import com.example.p2p_stock.repositories.UserRepository
@@ -61,5 +62,14 @@ class UserService(
     // Новый метод для получения роли пользователя
     fun getUserRole(userId: Long): Role? {
         return userRepository.findById(userId).orElse(null)?.role
+    }
+
+    fun userToUserInfo(user:User): UserInfo {
+        return UserInfo(
+            id = user.id,
+            login = user.login,
+            email = user.email,
+            roleName = user.role!!.name
+        )
     }
 }

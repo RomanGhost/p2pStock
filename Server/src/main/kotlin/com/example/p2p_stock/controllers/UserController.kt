@@ -26,11 +26,6 @@ class UserController(
         val user = userService.findByEmail(username) ?: throw UserException("Пользователь не найден")
 
         // Возвращаем информацию о пользователе
-        return UserInfo(
-            id = user.id,
-            login = user.login,
-            email = user.email,
-            roleName = user.role!!.name
-        )
+        return userService.userToUserInfo(user)
     }
 }
