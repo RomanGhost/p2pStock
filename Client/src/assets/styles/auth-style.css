@@ -14,7 +14,7 @@
   }
   
   /* Стили для полей ввода */
-  input[type="username"],  
+  input[type="login"],  
   input[type="email"],
   input[type="password"],
   input[type="text"] {

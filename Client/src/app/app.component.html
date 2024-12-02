@@ -1,7 +1,14 @@
-<nav class="navbar" *ngIf="showNavbar">
+<!-- <nav class="navbar" *ngIf="showNavbar">
   <a routerLink="/home" class="nav-link">Главная страница</a>
   <a routerLink="/login" class="nav-link">Вход</a>
   <a routerLink="/register" class="nav-link">Регистрация</a>
   <a routerLink="/orders" class="nav-link">Заявки</a>
 </nav>
-<router-outlet></router-outlet>
+<router-outlet></router-outlet> -->
+
+<div class="app-layout">
+  <app-sidebar></app-sidebar>
+  <div class="main-content">
+    <router-outlet></router-outlet>
+  </div>
+</div>

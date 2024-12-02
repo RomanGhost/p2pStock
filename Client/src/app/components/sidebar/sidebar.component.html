@@ -1,0 +1,27 @@
+<div>
+    <!-- Кнопка переключения меню -->
+    <button 
+      class="toggle-menu-btn" 
+      (click)="switchView()" 
+      [class.menu-open]="!isFold"
+      aria-label="Toggle menu"
+    >
+      <span class="arrow">{{ isFold ? '▶' : '◀' }}</span>
+    </button>
+  
+    <!-- Меню -->
+    <div [class.hidden]="isFold" class="sidebar">
+      <ul>
+        <li><a routerLink="/home" routerLinkActive="active">Главная</a></li>
+        <li><a routerLink="/account" routerLinkActive="active" *ngIf="isLoggedIn">Личный кабинет</a></li>
+        <li><a routerLink="/orders" routerLinkActive="active" *ngIf="isLoggedIn">Мои заказы</a></li>
+        <li><a routerLink="/orders/add" routerLinkActive="active" *ngIf="isLoggedIn">Добавить заказ</a></li>
+        <li><a routerLink="/manager/orders" routerLinkActive="active" *ngIf="isManager">Принять заказы</a></li>
+        <li><a routerLink="/manager/tasks" routerLinkActive="active" *ngIf="isManager">Задачи менеджера</a></li>
+        <li><a routerLink="/login" routerLinkActive="active" *ngIf="!isLoggedIn">Войти</a></li>
+        <li><a routerLink="/register" routerLinkActive="active" *ngIf="!isLoggedIn">Регистрация</a></li>
+        <li><a (click)="logout()" *ngIf="isLoggedIn">Выйти</a></li>
+      </ul>
+    </div>
+  </div>
+  

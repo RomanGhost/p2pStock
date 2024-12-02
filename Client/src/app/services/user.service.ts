@@ -63,4 +63,8 @@ export class UserService {
   getCachedUser(): UserInfo | undefined {
     return this.cachedUser;
   }
+
+  hasRole(roleName:String){
+    return this.cachedUser?.roleName === roleName
+  }
 }
