@@ -1,46 +1,41 @@
-/* Стили для навигации */
-.navbar {
+/* Стиль для всего контейнера (app-layout) */
+.app-layout {
   display: flex;
-  justify-content: center;       /* Центрируем ссылки по горизонтали */
-  gap: 20px;                     /* Промежуток между ссылками */
-  background: linear-gradient(45deg, #0091ff, #00b0ff); /* Градиент синих оттенков */
-  padding: 15px 30px;            /* Внутренние отступы */
-  border-radius: 20px;           /* Скругление углов */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Легкая тень */
+  flex-direction: column; /* Элементы располагаются по вертикали */
+  min-height: 100vh;   
+  transition: margin-left 0.3s ease;  /* Анимация для сдвига контента */    /* Задаем минимальную высоту для всей страницы */
 }
 
-/* Стили для ссылок */
-.nav-link {
-  color: white;                  /* Цвет текста */
-  text-decoration: none;         /* Убираем подчеркивание */
-  padding: 10px 20px;            /* Внутренние отступы */
-  border-radius: 10px;           /* Скругленные края */
-  background-color: #1e73b7;     /* Синий фон для кнопки */
-  font-weight: bold;             /* Полужирный текст */
-  text-transform: uppercase;     /* Преобразование текста в верхний регистр */
-  transition: background-color 0.3s, transform 0.2s; /* Плавное изменение фона и эффекта наведения */
+/* Стили для основного контента */
+.main-content {
+  flex-grow: 1;            /* Этот блок будет растягиваться, занимая все оставшееся пространство */
+  padding: 20px;           /* Внутренние отступы для контента */
+  overflow: auto;          /* Добавление прокрутки при необходимости */
 }
 
-/* Эффект наведения */
-.nav-link:hover {
-  background-color: #0091ff;     /* Светлый синий цвет при наведении */
-  transform: translateY(-3px);   /* Легкий подъем при наведении */
+/* Стили для футера */
+.app-footer {
+  padding: 10px 0;
+  color: white;
+  background-color: rgba(85, 83, 199, 0.252);
+  text-align: center;
+  width: 100%;
+  margin-top: auto; /* Футер будет оттягиваться в низ страницы */
 }
 
-/* Стили для активной ссылки */
-.nav-link.active {
-  background-color: #007bff;     /* Цвет для активной ссылки */
-  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.5); /* Легкая тень для активной ссылки */
+/* Стили для ссылок в футере */
+.footer-content nav a {
+  color: #ffffff;
+  text-decoration: none;
+  margin: 0 10px;
+  font-size: 0.9rem;
 }
 
-/* Мобильная версия */
-@media (max-width: 768px) {
-  .navbar {
-      flex-direction: column;     /* Переключаем на вертикальное расположение на мобильных устройствах */
-      align-items: center;        /* Центрируем элементы */
-  }
+.footer-content nav a:hover {
+  text-decoration: underline;
+}
 
-  .nav-link {
-      margin-bottom: 10px;        /* Добавляем промежутки между ссылками */
-  }
+.footer-content p {
+  margin: 0;
+  font-size: 1rem;
 }

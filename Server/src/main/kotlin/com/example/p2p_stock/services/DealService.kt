@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
 import org.springframework.data.jpa.domain.Specification
 import org.springframework.stereotype.Service
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeParseException
 
@@ -234,15 +235,15 @@ class DealService(
             .map { (key, value) ->
                 when (key) {
                     "statusName" -> DealSpecifications.hasStatus(value as String)
-                    "lastStatusChange" -> DealSpecifications.lastStatusChangeAfter(value as LocalDateTime)
+                    "lastStatusChange" -> DealSpecifications.lastStatusChangeAfter(value as LocalDate)
                     "userId" -> DealSpecifications.userDeals(value as Long)
                     else -> throw IllegalArgumentException("Unknown filter: $key")
                 }
             }.reduceOrNull(Specification<Deal>::and)
 
-    private fun parseDate(dateString: String?, errorMessage: String): LocalDateTime? =
+    private fun parseDate(dateString: String?, errorMessage: String): LocalDate? =
         try {
-            dateString?.let { LocalDateTime.parse(it) }
+            dateString?.let { LocalDate.parse(it) }
         } catch (e: DateTimeParseException) {
             throw IllegalArgumentException(errorMessage)
         }

@@ -3,6 +3,7 @@ import com.example.p2p_stock.models.DealStatus
 import com.example.p2p_stock.models.Order
 import com.example.p2p_stock.models.User
 import org.springframework.data.jpa.domain.Specification
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 object DealSpecifications {
@@ -20,9 +21,9 @@ object DealSpecifications {
         }
     }
 
-    fun lastStatusChangeAfter(date: LocalDateTime): Specification<Deal> {
+    fun lastStatusChangeAfter(date: LocalDate): Specification<Deal> {
         return Specification { root, _, criteriaBuilder ->
-            criteriaBuilder.greaterThan(root.get<LocalDateTime>("lastStatusChange"), date)
+            criteriaBuilder.greaterThan(root.get("lastStatusChange"), date)
         }
     }
 

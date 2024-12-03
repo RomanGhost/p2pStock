@@ -1,0 +1,38 @@
+.app-footer {
+    background-color: #1c73e67c;
+    color: #ffffff;
+    padding: 20px;
+    text-align: center;
+    bottom: 0;
+    width: 100%;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    margin-top: auto;
+  }
+
+
+  .footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: red;
+    color: white;
+    text-align: center;
+  }
+  .footer-content nav a {
+    color: #ffffff;
+    text-decoration: none;
+    margin: 0 10px;
+    font-size: 0.9rem;
+  }
+  
+  .footer-content nav a:hover {
+    text-decoration: underline;
+  }
+  
+  .footer-content p {
+    margin: 0;
+    font-size: 1rem;
+  }
+  

@@ -14,7 +14,7 @@
       <ul>
         <li><a routerLink="/home" routerLinkActive="active">Главная</a></li>
         <li><a routerLink="/account" routerLinkActive="active" *ngIf="isLoggedIn">Личный кабинет</a></li>
-        <li><a routerLink="/orders" routerLinkActive="active" *ngIf="isLoggedIn">Мои заказы</a></li>
+        <li><a routerLink="/orders" routerLinkActive="active" *ngIf="isLoggedIn">Список заказов</a></li>
         <li><a routerLink="/orders/add" routerLinkActive="active" *ngIf="isLoggedIn">Добавить заказ</a></li>
         <li><a routerLink="/manager/orders" routerLinkActive="active" *ngIf="isManager">Принять заказы</a></li>
         <li><a routerLink="/manager/tasks" routerLinkActive="active" *ngIf="isManager">Задачи менеджера</a></li>

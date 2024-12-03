@@ -47,7 +47,10 @@ class TaskController(
         val task = taskService.findById(taskId)
 
         val taskInWork = taskService.acceptDealTask(task, resultText)
-        return taskService.taskToTaskInfo(taskInWork)
+
+        val taskInfo = taskService.taskToTaskInfo(taskInWork)
+        dealWebSocketHandler.sendUpdateToAll(taskInfo.dealInfo)
+        return taskInfo
     }
 
     @PatchMapping("/deny/{taskId}")
@@ -59,7 +62,10 @@ class TaskController(
         val task = taskService.findById(taskId)
 
         val taskInWork = taskService.denyDealTask(task, resultText)
-        return taskService.taskToTaskInfo(taskInWork)
+
+        val taskInfo = taskService.taskToTaskInfo(taskInWork)
+        dealWebSocketHandler.sendUpdateToAll(taskInfo.dealInfo)
+        return taskInfo
     }
 
 

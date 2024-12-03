@@ -30,19 +30,11 @@ export class AccountComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private authService: AuthService,
-    private router: Router
   ) {
     this.user$ = this.userService.getUserProfile();
   }
 
   ngOnInit(): void {
-  }
-
-  logout(): void {
-    this.userService.clearCache();
-    this.authService.logout();
-    this.router.navigate(['/login']);
   }
 
   showAddCardModal(): void {

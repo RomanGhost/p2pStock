@@ -3,7 +3,7 @@ import { AuthService } from '../../services/auth.service';
 import { UserService } from '../../services/user.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
@@ -17,15 +17,19 @@ export class SidebarComponent implements OnInit {
   isManager = false;
   isFold=false;
 
-  constructor(private userService: UserService, private authService: AuthService) {}
+  constructor(private userService: UserService, private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.isLoggedIn = this.authService.isLoggedIn();
     this.isManager = this.userService.hasRole('manager');
+    this.authService.isLoggedIn$.subscribe(status => {
+      this.isLoggedIn = status; 
+    });
   }
 
   logout(): void {
     this.authService.logout();
+    this.router.navigate(['/login']);
   }
 
   switchView(){
