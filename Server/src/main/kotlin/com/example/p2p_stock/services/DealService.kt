@@ -9,6 +9,8 @@ import com.example.p2p_stock.errors.NotFoundDealException
 import com.example.p2p_stock.models.*
 import com.example.p2p_stock.repositories.DealRepository
 import com.example.p2p_stock.repositories.TaskRepository
+import com.example.p2p_stock.services.kafka.deal_topics.KafkaProducer
+import jakarta.security.auth.message.callback.GroupPrincipalCallback
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
@@ -28,6 +30,7 @@ class DealService(
     private val dealStatusService: DealStatusService,
     private val taskRepository: TaskRepository,
     private val priorityService: PriorityService,
+    private val kafkaProducer: KafkaProducer
 ) {
     fun findAll(): List<Deal> = dealRepository.findAll()
 
@@ -91,7 +94,12 @@ class DealService(
         return when(deal.status?.name){
             "Подтверждение сделки" -> updateStatus(deal, "Ожидание перевода")
             "Ожидание перевода" -> updateStatus(deal, "Ожидание подтверждения перевода")
-            "Ожидание подтверждения перевода" -> updateStatus(deal, "Закрыто: успешно")
+            "Ожидание подтверждения перевода" -> {
+                val dealInfo = dealToDealInfo(deal)
+                kafkaProducer.sendMessage(dealInfo)
+
+                updateStatus(deal, "Закрыто: успешно")
+            }
             else -> deal
         }
     }
@@ -113,12 +121,22 @@ class DealService(
     }
 
     fun managerApprove(deal:Deal): Deal {
-        if (deal.status?.name == "Ожидание решения менеджера") return updateStatus(deal, "Закрыто: успешно")
+        if (deal.status?.name == "Ожидание решения менеджера") {
+            val dealInfo = dealToDealInfo(deal)
+            kafkaProducer.sendMessage(dealInfo)
+
+            return updateStatus(deal, "Закрыто: успешно")
+        }
         return deal
     }
 
     fun managerReject(deal:Deal): Deal {
-        if (deal.status?.name == "Ожидание решения менеджера") return updateStatus(deal, "Закрыто: отменена менеджером")
+        if (deal.status?.name == "Ожидание решения менеджера") {
+            val dealInfo = dealToDealInfo(deal)
+            kafkaProducer.sendMessage(dealInfo)
+
+            return updateStatus(deal, "Закрыто: отменена менеджером")
+        }
         return deal
     }
 
@@ -135,6 +153,9 @@ class DealService(
             deal.buyOrder = older
             deal.sellOrder = early
         }
+
+        val dealInfo = dealToDealInfo(deal)
+        kafkaProducer.sendMessage(dealInfo)
 
         return updateStatus(deal, "Закрыто: неактуально")
     }
