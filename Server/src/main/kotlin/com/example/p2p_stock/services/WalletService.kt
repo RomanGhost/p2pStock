@@ -22,6 +22,10 @@ class WalletService(
         }
     }
 
+    fun findByPublicKey(publicKey:String): Wallet?{
+        return walletRepository.findByPublicKey(publicKey)
+    }
+
     fun findByUserId(userId: Long): List<Wallet> = walletRepository.findByUserId(userId)
 
     fun save(wallet: Wallet): Wallet = walletRepository.save(wallet)

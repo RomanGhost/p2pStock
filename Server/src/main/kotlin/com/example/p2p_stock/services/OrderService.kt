@@ -34,20 +34,28 @@ class OrderService(
 
     // Основные операции над заказами
     fun findAll(): List<Order> =
-        orderRepository.findAll().filter { it.user != null }
+        orderRepository.findAll()
 
     fun findById(orderId: Long): Order {
         val order = orderRepository.findById(orderId).orElseThrow {
             NotFoundOrderException("Order with Id:$orderId not found")
         }
-        if (order.user == null) {
+        if (order.wallet?.user == null) {
             throw NotFoundOrderException("Order with Id:$orderId has no associated user")
         }
         return order
     }
 
-    fun save(order: Order): Order = orderRepository.save(order)
+    fun save(order: Order): Order {
+        if (!orderRepository.existsById(order.id) || order.id == 0L){
+            order.id = getLastOrderId() + 1
+        }
+        return orderRepository.save(order)
 
+        orderRepository.save(order)
+    }
+
+    private fun getLastOrderId(): Long = orderRepository.findLatestOrder()?:0L
     fun delete(orderId: Long) {
         val order = findById(orderId)
         orderRepository.delete(order)
@@ -62,7 +70,7 @@ class OrderService(
         pageable: Pageable,
         sortOrder: String? = "asc"
     ): Page<Order> {
-        val createdAfterDate = parseDate(createdAfter, "Invalid date format for 'createdAfter': $createdAfter")
+        val createdAfterDate = parseDate(createdAfter)
 
         val filters = mapOf(
             "status" to status,
@@ -78,6 +86,13 @@ class OrderService(
         return orderRepository.findAll(spec, pageableWithSort)
     }
 
+//    fun orderFromOrderInfo(orderInfo:OrderInfo):Order{
+//        val user = userService.findByUsername(orderInfo.userLogin)
+//        val order = Order(
+//
+//        )
+//    }
+
     // Создание и обновление заказов
     fun addNewOrder(orderInfo: CreateOrderInfo, user: User): Order {
         validateCreateOrderInfo(orderInfo)
@@ -88,7 +103,6 @@ class OrderService(
         val status = resolveOrderStatus(orderInfo)
 
         val order = Order(
-            user = user,
             wallet = wallet,
             card = card,
             type = type,
@@ -116,6 +130,9 @@ class OrderService(
 
         return save(order)
     }
+
+
+
 
     // Обновление статуса заказа
     private fun updateStatus(order: Order, newStatusName: String): Order {
@@ -173,7 +190,7 @@ class OrderService(
     // Преобразование сущностей
     fun orderToOrderInfo(order: Order): OrderInfo = OrderInfo(
         id = order.id,
-        userLogin = order.user!!.login,
+        userLogin = order.wallet?.user?.login?:"",
         walletId = order.wallet!!.id,
         cryptocurrencyCode = order.wallet?.cryptocurrency?.code ?: "",
         cardId = order.card!!.id,
@@ -224,10 +241,10 @@ class OrderService(
             }
         }.reduceOrNull { spec1, spec2 -> spec1.and(spec2) }
 
-    private fun parseDate(dateString: String?, errorMessage: String): LocalDateTime? =
+    fun parseDate(dateString: String?): LocalDateTime? =
         try {
             dateString?.let { LocalDateTime.parse(it) }
         } catch (e: DateTimeParseException) {
-            throw IllegalArgumentException(errorMessage)
+            throw IllegalArgumentException( "Invalid date format for 'createdAfter': $dateString")
         }
 }

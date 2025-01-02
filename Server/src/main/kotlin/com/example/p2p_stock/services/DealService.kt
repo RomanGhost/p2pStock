@@ -41,7 +41,7 @@ class DealService(
         pageable: Pageable,
         sortOrder: String? = "asc"
     ): Page<Deal> {
-        val changedAfterDate = parseDate(changedAfter, "Invalid date format for 'changedAfter': $changedAfter")
+        val changedAfterDate = parseDate(changedAfter)
         val filters = mapOf(
             "statusName" to statusName,
             "lastStatusChange" to changedAfterDate,
@@ -66,7 +66,13 @@ class DealService(
     fun findBySellOrderId(sellOrderId: Long): Deal? =
         dealRepository.findBySellOrderId(sellOrderId).orElse(null)
 
-    fun save(deal: Deal): Deal = dealRepository.save(deal)
+    fun save(deal: Deal, force: Boolean=false): Deal {
+        if (!dealRepository.existsById(deal.id) || deal.id == 0L){
+            deal.id = getLastDealId() + 1
+        }
+        return dealRepository.save(deal)
+    }
+    private fun getLastDealId():Long = dealRepository.findLatestDeal()  ?: 0L
 
     fun addNewDeal(dealInfo: CreateDealInfo, user: User): Deal {
         var order = orderService.findById(dealInfo.counterpartyOrderId)
@@ -75,7 +81,7 @@ class DealService(
         val wallet = walletService.validateOwnership(dealInfo.walletId, user)
         val card = cardService.validateOwnership(dealInfo.cardId, user)
 
-        val newOrder = createCounterpartyOrder(order, wallet, card, user)
+        val newOrder = createCounterpartyOrder(order, wallet, card)
         order = orderService.takeInDealOrder(order)
 
         val (buyOrder, sellOrder) = resolveOrderRoles(order, newOrder)
@@ -95,8 +101,7 @@ class DealService(
             "Подтверждение сделки" -> updateStatus(deal, "Ожидание перевода")
             "Ожидание перевода" -> updateStatus(deal, "Ожидание подтверждения перевода")
             "Ожидание подтверждения перевода" -> {
-                val dealInfo = dealToDealInfo(deal)
-                kafkaProducer.sendMessage(dealInfo)
+                kafkaProducer.sendMessage(deal)
 
                 updateStatus(deal, "Закрыто: успешно")
             }
@@ -122,8 +127,7 @@ class DealService(
 
     fun managerApprove(deal:Deal): Deal {
         if (deal.status?.name == "Ожидание решения менеджера") {
-            val dealInfo = dealToDealInfo(deal)
-            kafkaProducer.sendMessage(dealInfo)
+            kafkaProducer.sendMessage(deal)
 
             return updateStatus(deal, "Закрыто: успешно")
         }
@@ -132,8 +136,7 @@ class DealService(
 
     fun managerReject(deal:Deal): Deal {
         if (deal.status?.name == "Ожидание решения менеджера") {
-            val dealInfo = dealToDealInfo(deal)
-            kafkaProducer.sendMessage(dealInfo)
+            kafkaProducer.sendMessage(deal)
 
             return updateStatus(deal, "Закрыто: отменена менеджером")
         }
@@ -154,8 +157,7 @@ class DealService(
             deal.sellOrder = early
         }
 
-        val dealInfo = dealToDealInfo(deal)
-        kafkaProducer.sendMessage(dealInfo)
+        kafkaProducer.sendMessage(deal)
 
         return updateStatus(deal, "Закрыто: неактуально")
     }
@@ -201,14 +203,12 @@ class DealService(
     private fun createCounterpartyOrder(
         order: Order,
         wallet: Wallet,
-        card: Card,
-        user: User
+        card: Card
     ): Order {
         return orderService.takeInDealOrder(
             Order(
                 wallet = wallet,
                 card = card,
-                user = user,
                 type = orderService.oppositeType(order),
                 status = order.status,
                 unitPrice = order.unitPrice,
@@ -222,21 +222,21 @@ class DealService(
         if (orderService.isBuying(order1)) order1 to order2 else order2 to order1
 
     private fun validateCounterparty(order: Order, user: User) {
-        if (order.user?.id == user.id) throw DealUserSameException("The user cannot be their own counterparty")
+        if (order.wallet?.user?.id == user.id) throw DealUserSameException("The user cannot be their own counterparty")
     }
 
     private fun validateEarlyUserAccess(user: User, deal: Deal) {
         val earlyOrder = getEarlyOrder(deal)
-        if (earlyOrder.user?.id != user.id) throw IllegalActionDealException("User ${user.id} has no access to deal ${deal.id}")
+        if (earlyOrder.wallet?.user?.id != user.id) throw IllegalActionDealException("User ${user.id} has no access to deal ${deal.id}")
     }
 
     private fun validateUserAccess(user: User, deal: Deal) {
-        if(deal.buyOrder?.user?.id != user.id && deal.sellOrder?.user?.id != user.id)
+        if(deal.buyOrder?.wallet?.user?.id != user.id && deal.sellOrder?.wallet?.user?.id != user.id)
             throw IllegalActionDealException("User ${user.id} has no access to deal ${deal.id}")
     }
 
     private fun validateOrderUser(order: Order?, user: User) {
-        if (order?.user?.id != user.id) throw IllegalActionDealException("User ${user.id} has no access to order ${order?.id}")
+        if (order?.wallet?.user?.id != user.id) throw IllegalActionDealException("User ${user.id} has no access to order ${order?.id}")
     }
 
     private fun validateDealStatus(deal: Deal, expectedStatus: String) {
@@ -262,10 +262,10 @@ class DealService(
                 }
             }.reduceOrNull(Specification<Deal>::and)
 
-    private fun parseDate(dateString: String?, errorMessage: String): LocalDate? =
+    fun parseDate(dateString: String?): LocalDateTime? =
         try {
-            dateString?.let { LocalDate.parse(it) }
+            dateString?.let { LocalDateTime.parse(it) }
         } catch (e: DateTimeParseException) {
-            throw IllegalArgumentException(errorMessage)
+            throw IllegalArgumentException("Invalid date format for deal 'changedAfter': $dateString")
         }
 }

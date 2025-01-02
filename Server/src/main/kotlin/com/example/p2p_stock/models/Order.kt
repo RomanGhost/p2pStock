@@ -24,20 +24,16 @@ data class OrderStatus(
 @Table(name = "orders")
 data class Order(
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long=0,
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    var id: Long=0,
 
     @ManyToOne
     @JoinColumn(name = "wallet_id", nullable = false)
     var wallet: Wallet?=null,
 
     @ManyToOne
-    @JoinColumn(name = "card_id", nullable = false)
+    @JoinColumn(name = "card_id")
     var card: Card?=null,
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    val user: User?=null,
 
     @ManyToOne
     @JoinColumn(name = "order_type_id", nullable = false)

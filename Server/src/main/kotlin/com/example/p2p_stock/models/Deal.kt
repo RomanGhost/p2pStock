@@ -15,8 +15,8 @@ data class DealStatus(
 @Table(name = "deals")
 data class Deal(
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long=0,
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    var id: Long=0,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "buy_order_id", nullable = false)

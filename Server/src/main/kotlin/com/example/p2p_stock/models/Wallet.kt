@@ -9,7 +9,7 @@ data class Wallet(
     val id: Long=0,
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
     val user: User?=null,
 
     @Column(length = 128)
