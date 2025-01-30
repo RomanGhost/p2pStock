@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
 import org.springframework.data.jpa.domain.Specification
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeParseException
@@ -66,14 +67,18 @@ class DealService(
     fun findBySellOrderId(sellOrderId: Long): Deal? =
         dealRepository.findBySellOrderId(sellOrderId).orElse(null)
 
-    fun save(deal: Deal, force: Boolean=false): Deal {
+    fun save(deal: Deal, sendKafka: Boolean=true): Deal {
         if (!dealRepository.existsById(deal.id) || deal.id == 0L){
             deal.id = getLastDealId() + 1
+        }
+        if (sendKafka) {
+            kafkaProducer.sendMessage(deal)
         }
         return dealRepository.save(deal)
     }
     private fun getLastDealId():Long = dealRepository.findLatestDeal()  ?: 0L
 
+    @Transactional
     fun addNewDeal(dealInfo: CreateDealInfo, user: User): Deal {
         var order = orderService.findById(dealInfo.counterpartyOrderId)
         validateCounterparty(order, user)
@@ -100,11 +105,7 @@ class DealService(
         return when(deal.status?.name){
             "Подтверждение сделки" -> updateStatus(deal, "Ожидание перевода")
             "Ожидание перевода" -> updateStatus(deal, "Ожидание подтверждения перевода")
-            "Ожидание подтверждения перевода" -> {
-                kafkaProducer.sendMessage(deal)
-
-                updateStatus(deal, "Закрыто: успешно")
-            }
+            "Ожидание подтверждения перевода" -> updateStatus(deal, "Закрыто: успешно")
             else -> deal
         }
     }
@@ -119,7 +120,6 @@ class DealService(
     }
 
     fun managerTakeInWork(user: User, deal: Deal){
-//        validateUserAccess(user, deal)
         if(deal.status?.name == "Приостановлено: решение проблем"){
             updateStatus(deal, "Ожидание решения менеджера")
         }
@@ -127,8 +127,6 @@ class DealService(
 
     fun managerApprove(deal:Deal): Deal {
         if (deal.status?.name == "Ожидание решения менеджера") {
-            kafkaProducer.sendMessage(deal)
-
             return updateStatus(deal, "Закрыто: успешно")
         }
         return deal
@@ -136,8 +134,6 @@ class DealService(
 
     fun managerReject(deal:Deal): Deal {
         if (deal.status?.name == "Ожидание решения менеджера") {
-            kafkaProducer.sendMessage(deal)
-
             return updateStatus(deal, "Закрыто: отменена менеджером")
         }
         return deal
@@ -156,9 +152,6 @@ class DealService(
             deal.buyOrder = older
             deal.sellOrder = early
         }
-
-        kafkaProducer.sendMessage(deal)
-
         return updateStatus(deal, "Закрыто: неактуально")
     }
 
@@ -194,6 +187,7 @@ class DealService(
             lastStatusChange = deal.lastStatusChange.toString()
         )
 
+    @Transactional
     private fun updateStatus(deal: Deal, newStatusName: String): Deal {
         deal.status = dealStatusService.findById(newStatusName)
         deal.lastStatusChange = LocalDateTime.now()

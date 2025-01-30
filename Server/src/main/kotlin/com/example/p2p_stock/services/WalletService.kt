@@ -7,6 +7,7 @@ import com.example.p2p_stock.errors.OwnershipException
 import com.example.p2p_stock.models.User
 import com.example.p2p_stock.models.Wallet
 import com.example.p2p_stock.repositories.WalletRepository
+import com.example.p2p_stock.services.sender.ApiService
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.stereotype.Service
 import kotlin.jvm.optionals.getOrNull
@@ -14,7 +15,9 @@ import kotlin.jvm.optionals.getOrNull
 @Service
 class WalletService(
     private val walletRepository: WalletRepository,
-    private val cryptocurrencyService: CryptocurrencyService) {
+    private val cryptocurrencyService: CryptocurrencyService,
+    private val senderApiService: ApiService
+) {
 
     fun findById(walletId:Long): Wallet{
         return walletRepository.findById(walletId).orElseThrow {
@@ -37,12 +40,15 @@ class WalletService(
         }
 
         val crypto = cryptocurrencyService.findByCode(walletInfo.cryptocurrencyCode)
+        val key = senderApiService.generateKeys()
 
         val newWallet = Wallet(
             cryptocurrency = crypto,
             balance = 0.0,
             name=walletInfo.walletName,
-            user = user
+            user = user,
+            publicKey = key.publicKey,
+            privateKey = key.privateKey,
         )
 
         try {

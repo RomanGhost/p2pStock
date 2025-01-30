@@ -1,7 +1,5 @@
 package com.example.p2p_stock.services.kafka.deal_topics
 
-
-import com.example.p2p_stock.dataclasses.DealInfo
 import com.example.p2p_stock.dataclasses.kafka.DealKafkaInfo
 import com.example.p2p_stock.dataclasses.kafka.OrderKafkaInfo
 import com.example.p2p_stock.models.Deal
@@ -9,8 +7,6 @@ import com.example.p2p_stock.models.Order
 import com.example.p2p_stock.models.Wallet
 import com.example.p2p_stock.services.*
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
 import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.stereotype.Service
 
@@ -36,7 +32,7 @@ class KafkaConsumer(
             walletService.save(wallet)
         }
         val orderType = orderTypeService.findById(orderKafkaInfo.typeName)
-        val orderStatus = orderStatusService.findById("используется в сделке")
+        val orderStatus = orderStatusService.findById("Используется в сделке")
 
         val order = Order(
             id = orderKafkaInfo.id,
@@ -70,8 +66,8 @@ class KafkaConsumer(
             lastStatusChange = dealService.parseDate(dealInfo.lastStatusChange)!!,
         )
 
-        dealService.save(deal)
-
+        dealService.save(deal, false)
         println("Received message: $message")
+
     }
 }

@@ -15,10 +15,10 @@ data class Wallet(
     @Column(length = 128)
     val name: String = "",
 
-    @Column(name = "public_key", length = 64, nullable = false)
+    @Column(name = "public_key", length = 2048, nullable = false, unique = true)
     val publicKey: String = "",
 
-    @Column(name = "private_key", length = 64, nullable = false)
+    @Column(name = "private_key", length = 2048, nullable = false, unique = true)
     val privateKey: String = "",
 
     @ManyToOne

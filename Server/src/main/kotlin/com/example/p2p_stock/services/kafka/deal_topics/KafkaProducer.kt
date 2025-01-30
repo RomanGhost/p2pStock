@@ -1,6 +1,5 @@
 package com.example.p2p_stock.services.kafka.deal_topics
 
-import com.example.p2p_stock.dataclasses.DealInfo
 import com.example.p2p_stock.dataclasses.kafka.DealKafkaInfo
 import com.example.p2p_stock.dataclasses.kafka.OrderKafkaInfo
 import com.example.p2p_stock.models.Deal

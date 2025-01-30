@@ -19,9 +19,17 @@
   </main>
 
   <!-- Модальное окно для добавления карты -->
-  <app-add-card *ngIf="isAddCardModalVisible" (closeModal)="closeAddCardModal()"></app-add-card>
+  <app-add-card 
+    *ngIf="isAddCardModalVisible" 
+    (closeModal)="closeAddCardModal()" 
+    (cardAdded)="onCardAdded($event)"
+  ></app-add-card>
 
   <!-- Модальное окно для добавления кошелька -->
-  <app-add-wallet *ngIf="isAddWalletModalVisible" (closeModal)="closeAddWalletModal()"></app-add-wallet>
+  <app-add-wallet 
+    *ngIf="isAddWalletModalVisible" 
+    (closeModal)="closeAddWalletModal()" 
+    (walletAdded)="onWalletAdded($event)"
+  ></app-add-wallet>
 
 </div>

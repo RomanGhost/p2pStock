@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../services/user.service';
 import { AuthService } from '../../services/auth.service';
@@ -21,6 +21,10 @@ import { WalletsListComponent } from "../wallets-list/wallets-list.component";
   imports: [CommonModule, AddCardComponent, AddWalletComponent, DealRequestsComponent, CardsListComponent, WalletsListComponent]
 })
 export class AccountComponent implements OnInit {
+  @ViewChild(WalletsListComponent) walletsListComponent!: WalletsListComponent;
+
+  @ViewChild(CardsListComponent) cardsListComponent!: CardsListComponent;
+
   user$: Observable<UserInfo | undefined>;
   isAddCardModalVisible = false;
   isAddWalletModalVisible = false;
@@ -68,5 +72,17 @@ export class AccountComponent implements OnInit {
   clearSelection(): void {
     this.selectedWallet = null;
     this.selectedCard = null;
-  }  
+  }
+
+  onCardAdded(newCard: Card): void {
+    if (this.cardsListComponent) {
+      this.cardsListComponent.loadCards();
+    }
+  }
+
+  onWalletAdded(newWallet: Wallet): void {
+    if (this.walletsListComponent) {
+      this.walletsListComponent.loadWallets();
+    }
+  }
 }

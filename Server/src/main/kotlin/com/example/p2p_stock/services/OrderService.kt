@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
 import org.springframework.data.jpa.domain.Specification
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.math.BigDecimal
 import java.time.LocalDateTime
 import java.time.format.DateTimeParseException
@@ -94,6 +95,7 @@ class OrderService(
 //    }
 
     // Создание и обновление заказов
+    @Transactional
     fun addNewOrder(orderInfo: CreateOrderInfo, user: User): Order {
         validateCreateOrderInfo(orderInfo)
 
@@ -115,6 +117,7 @@ class OrderService(
         return save(order)
     }
 
+    @Transactional
     fun updateOrder(orderId: Long, updatedInfo: CreateOrderInfo): Order {
         val order = findById(orderId)
 
@@ -135,6 +138,7 @@ class OrderService(
 
 
     // Обновление статуса заказа
+    @Transactional
     private fun updateStatus(order: Order, newStatusName: String): Order {
         val newStatus = orderStatusService.findById(newStatusName)
         order.status = newStatus

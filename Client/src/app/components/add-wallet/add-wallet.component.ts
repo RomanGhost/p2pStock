@@ -17,6 +17,7 @@ import { Wallet } from '../../models/wallet';
 export class AddWalletComponent implements OnInit {
   crypto$: Observable<Data[]> | undefined; 
   @Output() closeModal = new EventEmitter<void>(); 
+  @Output() walletAdded = new EventEmitter<Wallet>();
   walletForm: FormGroup;
   errorMessage: string | null = null;
 
@@ -52,6 +53,7 @@ export class AddWalletComponent implements OnInit {
       this.walletService.addNewWallet(addNewWallet).subscribe({
         next: (response) => {
           console.log('Кошелек успешно добавлен:', response);
+          this.walletAdded.emit(response);
           this.closeModal.emit();
         },
         error: (error) => {

@@ -1,4 +1,3 @@
-// src/app/components/add-card/add-card.component.ts
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { DataService } from '../../services/data.service';
@@ -15,12 +14,12 @@ import { CardService } from '../../services/card.service';
   standalone: true, 
   imports: [CommonModule, ReactiveFormsModule]
 })
-
 export class AddCardComponent implements OnInit {
   banks$: Observable<Data[]> | undefined;
   @Output() closeModal = new EventEmitter<void>();
+  @Output() cardAdded = new EventEmitter<Card>();
   cardForm: FormGroup;
-  errorMessage: string | null = null; // Переменная для хранения сообщения об ошибке
+  errorMessage: string | null = null;
 
   constructor(
     private dataService: DataService, 
@@ -55,10 +54,10 @@ export class AddCardComponent implements OnInit {
       this.cardService.addNewCard(newCard).subscribe({
         next: (response) => {
           console.log('Карта успешно добавлена:', response);
+          this.cardAdded.emit(response); // Передаем добавленную карту
           this.closeModal.emit();
         },
         error: (error) => {
-          // Сохраняем сообщение об ошибке, чтобы показать пользователю
           this.errorMessage = error.message;
           console.error('Ошибка при добавлении карты:', error);
         }

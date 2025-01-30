@@ -9,6 +9,7 @@ import com.example.p2p_stock.models.Task
 import com.example.p2p_stock.models.User
 import com.example.p2p_stock.repositories.TaskRepository
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
 import kotlin.time.times
 
@@ -28,6 +29,7 @@ class TaskService(
         }
     }
 
+    @Transactional
     fun save(task: Task): Task {
         task.updatedAt = LocalDateTime.now()
         return taskRepository.save(task)

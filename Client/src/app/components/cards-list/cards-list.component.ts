@@ -22,10 +22,10 @@ export class CardsListComponent implements OnInit {
   }
 
   toggleListVisibility(): void {
-    this.isListVisible = !this.isListVisible; // Переключаем состояние видимости
+    this.isListVisible = !this.isListVisible;
   }
 
-  loadCards(): void {
+  public loadCards(): void {
     this.isLoading = true;
     this.cardService.getUserCards().subscribe({
       next: (cards) => {
