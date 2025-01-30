@@ -14,6 +14,11 @@ import { FooterComponent } from './components/footer/footer.component';
 export class AppComponent {
   title = 'packages-client';
   showNavbar = true;
+  isFold = false;
+  
+  onToggleMenu(isFold: boolean) {
+    this.isFold = isFold;
+  }
 
   constructor(private router: Router) {
     // this.router.events.subscribe((event) => {

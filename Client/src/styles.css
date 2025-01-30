@@ -1,4 +1,29 @@
-/* You can add global styles to this file, and also import other style files */
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+/* Основной контейнер страницы */
+.app-layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    transition: margin-left 0.3s ease; /* Анимация для сдвига контента */
+  }
+  
+  /* Когда меню открыто, добавляем отступ */
+  .app-layout.menu-open {
+    margin-left: 250px; /* Ширина меню */
+  }
+  
+  /* Основной контент */
+  .main-content {
+    flex-grow: 1;
+    padding: 20px;
+    overflow: auto;
+  }
+  
+  /* Футер */
+  .app-footer {
+    padding: 10px 0;
+    color: white;
+    background-color: rgba(85, 83, 199, 0.252);
+    text-align: center;
+    width: 100%;
+    margin-top: auto;
+  }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { UserService } from '../../services/user.service';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -16,6 +16,7 @@ export class SidebarComponent implements OnInit {
   isLoggedIn = false;
   isManager = false;
   isFold=false;
+  @Output() toggleMenu = new EventEmitter<boolean>();
 
   constructor(private userService: UserService, private authService: AuthService, private router: Router) {}
 
@@ -34,5 +35,6 @@ export class SidebarComponent implements OnInit {
 
   switchView(){
     this.isFold = !this.isFold;
+    this.toggleMenu.emit(this.isFold);
   }
 }

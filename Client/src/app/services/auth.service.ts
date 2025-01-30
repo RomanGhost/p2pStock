@@ -5,13 +5,12 @@ import { catchError, tap } from 'rxjs/operators';
 import { RegisterUser } from '../models/register-user';
 import { LoginUser } from '../models/login-user';
 import { API_CONFIG } from '../configs/api-config';
-
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = `${API_CONFIG.apiUrl}/auth`; // Убедитесь, что используете правильный URL
-  private loggedIn = new BehaviorSubject<boolean>(this.checkInitialLoginStatus()); // Проверяем начальное состояние
+  private apiUrl = `${API_CONFIG.apiUrl}/auth`;
+  private loggedIn = new BehaviorSubject<boolean>(this.checkInitialLoginStatus());
   isLoggedIn$ = this.loggedIn.asObservable();
 
   constructor(private http: HttpClient) {}
@@ -32,9 +31,9 @@ export class AuthService {
         }
         return throwError('Произошла ошибка при авторизации');
       }),
-      // После успешного логина обновляем состояние
-      tap((response) => {
-        if (response) {
+      tap((response: any) => {
+        if (response && response.token) {
+          this.saveToken(response.token); // Сохраняем токен
           this.loggedIn.next(true); // Обновляем состояние входа
         }
       })
@@ -42,20 +41,20 @@ export class AuthService {
   }
 
   saveToken(token: string) {
-    localStorage.setItem('jwt_token', token); // Сохраняем JWT в localStorage
+    localStorage.setItem('jwt_token', token);
   }
 
   getToken(): string | null {
-    return localStorage.getItem('jwt_token'); // Получаем токен из localStorage
+    return localStorage.getItem('jwt_token');
   }
 
   isLoggedIn(): boolean {
-    return this.loggedIn.value; // Используем BehaviorSubject для проверки состояния
+    return this.loggedIn.value;
   }
 
   logout() {
-    localStorage.clear();  // Очистка localStorage
-    this.loggedIn.next(false);  // Обновляем состояние входа
+    localStorage.clear();
+    this.loggedIn.next(false);
   }
 
   getHeaders(): HttpHeaders {
@@ -64,7 +63,12 @@ export class AuthService {
   }
 
   private checkInitialLoginStatus(): boolean {
-    // Проверяем, есть ли токен в localStorage для установки начального состояния
-    return this.getToken() !== null;
+    const token = this.getToken();
+    if (token) {
+      const payload = JSON.parse(atob(token.split('.')[1])); // Декодируем payload JWT
+      const expirationDate = new Date(payload.exp * 1000); // Преобразуем время истечения
+      return expirationDate > new Date(); // Проверяем, не истек ли срок действия
+    }
+    return false;
   }
 }

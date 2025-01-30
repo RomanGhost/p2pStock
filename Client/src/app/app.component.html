@@ -1,10 +1,8 @@
-<div class="app-layout">
-  <app-sidebar></app-sidebar> <!-- Сайдбар -->
+<div class="app-layout" [class.menu-open]="!isFold">
+  <app-sidebar (toggleMenu)="onToggleMenu($event)"></app-sidebar> <!-- Сайдбар -->
   
   <div class="main-content"> <!-- Основной контент -->
     <router-outlet></router-outlet>
   </div>
-  
-  <app-footer></app-footer> <!-- Футер -->
 </div>
-
+<app-footer></app-footer> <!-- Футер -->

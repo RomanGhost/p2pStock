@@ -1,38 +1,42 @@
+/* Основной контейнер */
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Занимает всю высоту экрана */
+}
+
+/* Основной контент */
+.main-content {
+  flex-grow: 1; /* Растягивается на все доступное пространство */
+  padding: 20px;
+  overflow: auto; /* Прокрутка внутри контента, если он превышает высоту */
+}
+
+/* Футер */
 .app-footer {
-    background-color: #1c73e67c;
-    color: #ffffff;
-    padding: 20px;
-    text-align: center;
-    bottom: 0;
-    width: 100%;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-    z-index: 10;
-    margin-top: auto;
-  }
+  background-color: #1c73e67c;
+  color: #ffffff;
+  text-align: center;
+  /* padding: 1%; */
+  width: 100%;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  margin-top: auto; /* Прижимаем футер к низу */
+}
 
+/* Стили для ссылок в футере */
+.footer-content nav a {
+  color: #ffffff;
+  text-decoration: none;
+  margin: 0 10px;
+  font-size: 0.9rem;
+}
 
-  .footer {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    background-color: red;
-    color: white;
-    text-align: center;
-  }
-  .footer-content nav a {
-    color: #ffffff;
-    text-decoration: none;
-    margin: 0 10px;
-    font-size: 0.9rem;
-  }
-  
-  .footer-content nav a:hover {
-    text-decoration: underline;
-  }
-  
-  .footer-content p {
-    margin: 0;
-    font-size: 1rem;
-  }
-  
+.footer-content nav a:hover {
+  text-decoration: underline;
+}
+
+.footer-content p {
+  margin: 0;
+  font-size: 1rem;
+}

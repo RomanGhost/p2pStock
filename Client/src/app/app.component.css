@@ -3,7 +3,12 @@
   display: flex;
   flex-direction: column; /* Элементы располагаются по вертикали */
   min-height: 100vh;   
-  transition: margin-left 0.3s ease;  /* Анимация для сдвига контента */    /* Задаем минимальную высоту для всей страницы */
+  transition: margin-left 0.3s ease;  /* Анимация для сдвига контента */
+}
+
+/* Когда сайдбар открыт, добавляем отступ */
+.app-layout.menu-open {
+  margin-left: 250px; /* Ширина сайдбара */
 }
 
 /* Стили для основного контента */
@@ -11,31 +16,4 @@
   flex-grow: 1;            /* Этот блок будет растягиваться, занимая все оставшееся пространство */
   padding: 20px;           /* Внутренние отступы для контента */
   overflow: auto;          /* Добавление прокрутки при необходимости */
-}
-
-/* Стили для футера */
-.app-footer {
-  padding: 10px 0;
-  color: white;
-  background-color: rgba(85, 83, 199, 0.252);
-  text-align: center;
-  width: 100%;
-  margin-top: auto; /* Футер будет оттягиваться в низ страницы */
-}
-
-/* Стили для ссылок в футере */
-.footer-content nav a {
-  color: #ffffff;
-  text-decoration: none;
-  margin: 0 10px;
-  font-size: 0.9rem;
-}
-
-.footer-content nav a:hover {
-  text-decoration: underline;
-}
-
-.footer-content p {
-  margin: 0;
-  font-size: 1rem;
 }
