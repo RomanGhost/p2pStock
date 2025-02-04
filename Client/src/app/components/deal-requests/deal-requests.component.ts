@@ -41,7 +41,7 @@ export class DealRequestsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.userService.getUserProfile().subscribe({
-      next: (user: UserInfo) => {
+      next: (user: UserInfo|undefined) => {
         this.user = user;
       },
       error: () => {

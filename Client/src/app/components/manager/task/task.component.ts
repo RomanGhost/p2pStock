@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TaskInfo } from '../../../models/tasl';
+import { TaskInfo } from '../../../models/task';
 import { TaskService } from '../../../task-service.service';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -11,7 +11,6 @@ import { ReactiveFormsModule } from '@angular/forms';
   templateUrl: './task.component.html',
   styleUrl: './task.component.css'
 })
-
 export class TaskComponent implements OnInit {
   tasks: TaskInfo[] = [];
   loading: boolean = true;

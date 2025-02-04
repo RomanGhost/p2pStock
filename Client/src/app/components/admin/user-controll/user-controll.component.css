@@ -1,0 +1,64 @@
+.admin-container {
+    max-width: 1200px;
+    margin: 20px auto;
+    font-family: Arial, sans-serif;
+  }
+  
+  .user-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .user-table th,
+  .user-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .user-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+  }
+  
+  .btn {
+    padding: 5px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+  }
+  
+  .btn-ban {
+    background-color: #dc3545;
+    color: white;
+  }
+  
+  .btn-unban {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .btn:hover {
+    opacity: 0.8;
+  }
+  
+  .pagination {
+    margin-top: 20px;
+    display: flex;
+    gap: 5px;
+  }
+  
+  .pagination button {
+    padding: 5px 10px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    background-color: #f4f4f4;
+  }
+  
+  .pagination button.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+  }

@@ -4,6 +4,7 @@ import { AuthService } from '../../services/auth.service';
 import { RegisterUser } from '../../models/register-user';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-register',
@@ -15,7 +16,7 @@ import { Router } from '@angular/router';
 export class RegisterComponent {
   registerForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private userService: UserService, private router: Router) {
     this.registerForm = this.fb.group({
       login: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
@@ -32,6 +33,7 @@ export class RegisterComponent {
                 console.log('User registered successfully:', response);
                 // Сохраняем JWT токен
                 this.authService.saveToken(response.token);
+                this.userService.getUserProfile(true).subscribe();
                 this.router.navigate(['/account']);
             },
             error: error => {

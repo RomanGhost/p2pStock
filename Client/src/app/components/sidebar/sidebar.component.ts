@@ -15,6 +15,7 @@ import { Router, RouterLink } from '@angular/router';
 export class SidebarComponent implements OnInit {
   isLoggedIn = false;
   isManager = false;
+  isAdmin = false;
   isFold=false;
   @Output() toggleMenu = new EventEmitter<boolean>();
 
@@ -22,19 +23,37 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoggedIn = this.authService.isLoggedIn();
-    this.isManager = this.userService.hasRole('manager');
+    
     this.authService.isLoggedIn$.subscribe(status => {
       this.isLoggedIn = status; 
+      this.userService.getUserProfile().subscribe(user => {
+        console.log(user);
+        this.checkAccess();
+      });
     });
   }
 
   logout(): void {
-    this.authService.logout();
-    this.router.navigate(['/login']);
+    this.userService.logout();
+    this.router.navigate(['/login']).then(() => {
+      this.checkAccess(); // Обновление доступа уже после перехода на страницу логина
+    });
   }
 
   switchView(){
     this.isFold = !this.isFold;
     this.toggleMenu.emit(this.isFold);
   }
+
+  private checkAccess(): void {
+    if (!this.userService.isLoggedIn()) {
+      this.isManager = false;
+      this.isAdmin = false;
+      return;
+    }
+  
+    this.isManager = this.userService.hasRole('manager');
+    this.isAdmin = this.userService.hasRole('admin');
+  }
+  
 }

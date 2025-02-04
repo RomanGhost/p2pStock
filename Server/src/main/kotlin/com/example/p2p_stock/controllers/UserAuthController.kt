@@ -52,6 +52,9 @@ class UserAuthController (
             val authentication = authenticationManager.authenticate(
                 UsernamePasswordAuthenticationToken(loginUser.email, loginUser.password)
             )
+            if(userService.findByEmail(loginUser.email)?.isActive != true) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials")
+            }
             val token = jwtUtil.generateToken(authentication.principal as MyUserDetails)
             ResponseEntity.ok(JwtToken(token))
         } catch (e: BadCredentialsException) {

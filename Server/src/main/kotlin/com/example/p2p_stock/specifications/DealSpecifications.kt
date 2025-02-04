@@ -1,7 +1,4 @@
-import com.example.p2p_stock.models.Deal
-import com.example.p2p_stock.models.DealStatus
-import com.example.p2p_stock.models.Order
-import com.example.p2p_stock.models.User
+import com.example.p2p_stock.models.*
 import org.springframework.data.jpa.domain.Specification
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -35,8 +32,8 @@ object DealSpecifications {
 
             // Условие: пользователь в одной из заказов
             criteriaBuilder.or(
-                criteriaBuilder.equal(buyOrderJoin.get<User>("user").get<Long>("id"), userId),
-                criteriaBuilder.equal(sellOrderJoin.get<User>("user").get<Long>("id"), userId)
+                criteriaBuilder.equal(buyOrderJoin.get<Wallet>("wallet").get<User>("user").get<Long>("id"), userId),
+                criteriaBuilder.equal(sellOrderJoin.get<Wallet>("wallet").get<User>("user").get<Long>("id"), userId)
             )
         }
     }

@@ -1,0 +1,72 @@
+<div class="admin-container">
+  <h2>Управление пользователями</h2>
+
+  <!-- Фильтры -->
+  <div class="filters">
+    <input
+      type="number"
+      placeholder="Фильтр по ID"
+      [(ngModel)]="searchId"
+      (change)="onFilterChange()"
+    />
+    <select [(ngModel)]="isActiveUsers" (change)="onFilterChange()">
+      <option [ngValue]="undefined">Все пользователи</option>
+      <option [ngValue]="true">Активные</option>
+      <option [ngValue]="false">Заблокированные</option>
+    </select>
+  </div>
+
+  <!-- Таблица -->
+  <table class="user-table">
+    <thead>
+      <tr>
+        <th (click)="onSort('id')">ID {{ sortBy === 'id' ? (sortDirection === 'asc' ? '▲' : '▼') : '' }}</th>
+        <th>Имя пользователя</th>
+        <th>Email</th>
+        <th (click)="onSort('isActive')">
+          Статус {{ sortBy === 'isActive' ? (sortDirection === 'asc' ? '▲' : '▼') : '' }}
+        </th>
+        <th (click)="onSort('updatedAt')">
+          Последнее обновление {{ sortBy === 'updatedAt' ? (sortDirection === 'asc' ? '▲' : '▼') : '' }}
+        </th>
+        <th>Действия</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{ user.id }}</td>
+        <td>{{ user.login }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.isActive ? 'Активен' : 'Заблокирован' }}</td>
+        <td>{{ user.updateAt| date: 'medium' }}</td>
+        <td>
+          <button
+            *ngIf="user.isActive"
+            (click)="blockUser(user.id)"
+            class="btn btn-ban"
+          >
+            Заблокировать
+          </button>
+          <button
+            *ngIf="!user.isActive"
+            (click)="unblockUser(user.id)"
+            class="btn btn-unban"
+          >
+            Разблокировать
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Пагинация -->
+  <div class="pagination">
+    <button
+      *ngFor="let page of getPages()"
+      (click)="onPageChange(page)"
+      [class.active]="page === currentPage"
+    >
+      {{ page + 1 }}
+    </button>
+  </div>
+</div>

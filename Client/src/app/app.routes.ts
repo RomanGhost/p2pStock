@@ -9,6 +9,7 @@ import { AllOrdersComponent } from './components/all-orders/all-orders.component
 import { AcceptOrdersComponent } from './components/manager/accept-orders/accept-orders.component';
 import { RoleGuard } from './role.guard';
 import { TaskComponent } from './components/manager/task/task.component';
+import { UserControllComponent } from './components/admin/user-controll/user-controll.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -20,6 +21,7 @@ export const routes: Routes = [
     { path: 'orders', component: AllOrdersComponent , canActivate: [AuthGuard] },
     { path: "manager/orders", component: AcceptOrdersComponent , canActivate: [RoleGuard], data: { roles: ['manager'] } },
     { path: "manager/tasks", component: TaskComponent , canActivate: [RoleGuard], data: { roles: ['manager'] } },
+    { path: "admin/users", component: UserControllComponent , canActivate: [RoleGuard], data: { roles: ['admin'] } },
   ];
 
   

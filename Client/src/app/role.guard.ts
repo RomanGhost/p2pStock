@@ -13,7 +13,7 @@ export class RoleGuard implements CanActivate {
     try {
       const allowedRoles: string[] = route.data['roles'] || [];
       const user = await firstValueFrom(this.userService.getUserProfile());
-      console.log(user.roleName.toLowerCase());
+      console.log(user?.roleName.toLowerCase());
       if (user && allowedRoles.includes(user.roleName.toLowerCase())) {
         return true;
       }

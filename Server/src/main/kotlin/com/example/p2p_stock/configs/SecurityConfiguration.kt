@@ -28,6 +28,7 @@ class SecurityConfiguration(
                 it.requestMatchers("$apiLink/auth/**").permitAll()
                 it.requestMatchers("$socketLink/**").permitAll()
                 it.requestMatchers("$apiLink/moderation/**").hasRole("MANAGER")
+                it.requestMatchers("$apiLink/user/admin/**").hasRole("ADMIN")
                 it.anyRequest().authenticated()// Все остальные запросы требуют аутентификации
             }
             .sessionManagement {

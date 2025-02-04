@@ -20,7 +20,7 @@ data class User(
     val email: String = "",
 
     @Column(name = "is_active", nullable = false)
-    val isActive: Boolean = true,
+    var isActive: Boolean = true,
 
     @Column(name = "created_at", updatable = false)
     val createdAt: LocalDateTime = LocalDateTime.now(),

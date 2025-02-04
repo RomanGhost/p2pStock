@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { LoginUser } from '../../models/login-user';
 import { CommonModule } from '@angular/common';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -19,6 +20,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
+    private userService:UserService,
     private router: Router
   ) {
     this.loginForm = this.fb.group({
@@ -43,6 +45,7 @@ export class LoginComponent implements OnInit {
       next: (response) => {
         // Если логин успешен, сохраняем токен и редиректим
         this.authService.saveToken(response.token);
+        this.userService.getUserProfile(true).subscribe();
         this.router.navigate(['/account']); // Перенаправление на главную страницу
       },
       error: (err) => {

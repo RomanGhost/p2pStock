@@ -1,5 +1,5 @@
 <div class="orders-container">
-    <h2>🛠️ Управление сделками</h2>
+    <h2>🛠️ Управление заявками</h2>
   
     <div *ngIf="isLoading" class="loading">Загрузка...</div>
   
@@ -7,7 +7,7 @@
       <div class="order-grid">
         <div *ngFor="let order of orders" class="order-card">
           <div class="order-header">
-            <span class="order-id">Сделка #{{ order.id }}</span>
+            <span class="order-id">Заявка #{{ order.id }}</span>
             <span class="order-status" [class]="order.statusName.toLowerCase()">
               {{ order.statusName }}
             </span>

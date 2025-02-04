@@ -1,53 +1,76 @@
 <div class="task-container">
-    <!-- Отображение статуса загрузки -->
-    <div *ngIf="loading" class="loading">
-      Загрузка задач...
-    </div>
-  
-    <!-- Если задачи загружены -->
-    <div *ngIf="!loading && tasks.length === 0" class="no-tasks">
-      Нет доступных задач.
-    </div>
-  
-    <div *ngIf="!loading && tasks.length > 0">
-      <table class="task-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Описание сделки</th>
-            <th>Менеджер</th>
-            <th>Приоритет</th>
-            <th>Дата обновления</th>
-            <th>Действия</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let task of tasks">
-            <td>{{ task.id }}</td>
-            <td>{{ task.dealInfo.id }}</td>
-            <td>{{ task.managerLogin }}</td>
-            <td>{{ task.priorityName }}</td>
-            <td>{{ task.updatedAt }}</td>
-            <td>
-              <!-- Действия -->
-              <button *ngIf="task.managerLogin == ''" (click)="takeTaskInWork(task.id)" class="btn btn-work">
-                Взять в работу
-              </button>
-              <div *ngIf="task.managerLogin != ''">
+  <!-- Отображение статуса загрузки -->
+  <div *ngIf="loading" class="loading">
+    Загрузка задач...
+  </div>
+
+  <!-- Если задачи загружены -->
+  <div *ngIf="!loading && tasks.length === 0" class="no-tasks">
+    Нет доступных задач.
+  </div>
+
+  <div *ngIf="!loading && tasks.length > 0">
+    <table class="task-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Описание сделки</th>
+          <th>Менеджер</th>
+          <th>Приоритет</th>
+          <th>Дата обновления</th>
+          <th>Действия</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let task of tasks">
+          <td>{{ task.id }}</td>
+          <td>
+            <div class="deal-info">
+              <strong>Сделка ID:</strong> {{ task.dealInfo.id }}<br>
+              <strong>Статус сделки:</strong> {{ task.dealInfo.statusName }}<br>
+              <strong>Создана:</strong> {{ task.dealInfo.createdAt | date: 'medium' }}<br>
+              <strong>Последнее изменение:</strong> {{ task.dealInfo.lastStatusChange | date: 'medium' }}<br>
+              <strong>Заказ на покупку:</strong><br>
+              <div class="order-info">
+                <strong>ID:</strong> {{ task.dealInfo.buyOrder.id }}<br>
+                <strong>Пользователь:</strong> {{ task.dealInfo.buyOrder.userLogin }}<br>
+                <strong>Криптовалюта:</strong> {{ task.dealInfo.buyOrder.cryptocurrencyCode }}<br>
+                <strong>Тип:</strong> {{ task.dealInfo.buyOrder.typeName }}<br>
+                <strong>Цена за единицу:</strong> {{ task.dealInfo.buyOrder.unitPrice | currency }}<br>
+                <strong>Количество:</strong> {{ task.dealInfo.buyOrder.quantity }}<br>
+                <strong>Описание:</strong> {{ task.dealInfo.buyOrder.description }}<br>
+              </div>
+              <strong>Заказ на продажу:</strong><br>
+              <div class="order-info">
+                <strong>ID:</strong> {{ task.dealInfo.sellOrder.id }}<br>
+                <strong>Пользователь:</strong> {{ task.dealInfo.sellOrder.userLogin }}<br>
+                <strong>Криптовалюта:</strong> {{ task.dealInfo.sellOrder.cryptocurrencyCode }}<br>
+                <strong>Тип:</strong> {{ task.dealInfo.sellOrder.typeName }}<br>
+                <strong>Цена за единицу:</strong> {{ task.dealInfo.sellOrder.unitPrice | currency }}<br>
+                <strong>Количество:</strong> {{ task.dealInfo.sellOrder.quantity }}<br>
+                <strong>Описание:</strong> {{ task.dealInfo.sellOrder.description }}<br>
+              </div>
+            </div>
+          </td>
+          <td>{{ task.managerLogin }}</td>
+          <td>{{ task.priorityName }}</td>
+          <td>{{ task.updatedAt | date: 'medium' }}</td>
+          <td>
+            <!-- Действия -->
+            <button *ngIf="task.managerLogin == ''" (click)="takeTaskInWork(task.id)" class="btn btn-work">
+              Взять в работу
+            </button>
+            <div *ngIf="task.managerLogin != ''">
               <button (click)="acceptTask(task.id, 'Принято')" class="btn btn-accept">
                 Принять
               </button>
-              <button
-                (click)="denyTask(task.id, 'Отклонено')"
-                class="btn btn-deny"
-              >
+              <button (click)="denyTask(task.id, 'Отклонено')" class="btn btn-deny">
                 Отклонить
               </button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-  
+</div>
