@@ -16,7 +16,7 @@ class MyUserDetails(val user: User):UserDetails{
     }
 
     override fun getUsername(): String {
-        return user.email
+        return user.login
     }
 
 }

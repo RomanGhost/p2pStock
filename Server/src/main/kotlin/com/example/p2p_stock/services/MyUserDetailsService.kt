@@ -10,7 +10,7 @@ class MyUserDetailsService(
     private val userRepository: UserRepository
 ): UserDetailsService {
     override fun loadUserByUsername(username: String): MyUserDetails {
-        val user = userRepository.findByEmail(username)
+        val user = userRepository.findByLogin(username)
         return MyUserDetails(user.get())
     }
 }

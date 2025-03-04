@@ -31,7 +31,7 @@ class UserAuthController (
 
             // Генерация JWT токена для нового пользователя
             val token = authenticationManager.authenticate(
-                UsernamePasswordAuthenticationToken(newUser.email, registerUser.password)
+                UsernamePasswordAuthenticationToken(newUser.login, registerUser.password)
             ).principal.let { jwtUtil.generateToken(it as MyUserDetails) }
 
             // Возвращаем токен в ответе
@@ -49,12 +49,16 @@ class UserAuthController (
     @PostMapping("/login")
     fun loginUser(@RequestBody loginUser: LoginUser): ResponseEntity<Any> {
         return try {
-            val authentication = authenticationManager.authenticate(
-                UsernamePasswordAuthenticationToken(loginUser.email, loginUser.password)
-            )
-            if(userService.findByEmail(loginUser.email)?.isActive != true) {
+            val getUser = userService.findByEmail(loginUser.email)
+            if(getUser == null){
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Invalid credentials")
+            }
+            if(!getUser.isActive) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials")
             }
+            val authentication = authenticationManager.authenticate(
+                UsernamePasswordAuthenticationToken(getUser.login, loginUser.password)
+            )
             val token = jwtUtil.generateToken(authentication.principal as MyUserDetails)
             ResponseEntity.ok(JwtToken(token))
         } catch (e: BadCredentialsException) {

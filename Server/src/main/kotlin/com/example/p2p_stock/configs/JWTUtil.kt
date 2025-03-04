@@ -12,8 +12,8 @@ import javax.crypto.SecretKey
 
 @Service
 class JWTUtil {
-    // Замените на ваш секретный ключ
-    private val secretKey: SecretKey = Keys.secretKeyFor(SignatureAlgorithm.HS512)
+    private val secret: String = "testPhrasetestPhrasetestPhrasete"
+    private val secretKey: SecretKey = Keys.hmacShaKeyFor(secret.toByteArray())
     private val expirationTime: Long = 24*60*60*1000 // 24 часа в миллисекундах
 
     fun generateToken(userDetails: MyUserDetails): String {

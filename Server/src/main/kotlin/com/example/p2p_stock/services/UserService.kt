@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
+import kotlin.jvm.optionals.getOrNull
 
 @Service
 class UserService(
@@ -79,7 +80,7 @@ class UserService(
 
     // Пример поиска пользователя по email (для логина)
     fun findByEmail(email: String): User? {
-        return userRepository.findByEmail(email).get()
+        return userRepository.findByEmail(email).getOrNull()
     }
 
     fun delete(id: Long) = userRepository.deleteById(id)

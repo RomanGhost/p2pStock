@@ -32,7 +32,7 @@ class UserController(
         val username = userDetails.username
 
         // Получаем пользователя из базы данных по username
-        val user = userService.findByEmail(username) ?: throw UserException("Пользователь не найден")
+        val user = userService.findByUsername(username) ?: throw UserException("Пользователь не найден")
 
         // Возвращаем информацию о пользователе
         return userService.userToUserInfo(user)
