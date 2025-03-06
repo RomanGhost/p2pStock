@@ -10,6 +10,7 @@ import { AcceptOrdersComponent } from './p2p_platform/components/manager/accept-
 import { RoleGuard } from './p2p_platform/guards/role.guard';
 import { TaskComponent } from './p2p_platform/components/manager/task/task.component';
 import { UserControllComponent } from './p2p_platform/components/admin/user-controll/user-controll.component';
+import { ChatComponent } from './chat/component/chat/chat.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -22,6 +23,7 @@ export const routes: Routes = [
     { path: "manager/orders", component: AcceptOrdersComponent , canActivate: [RoleGuard], data: { roles: ['manager'] } },
     { path: "manager/tasks", component: TaskComponent , canActivate: [RoleGuard], data: { roles: ['manager'] } },
     { path: "admin/users", component: UserControllComponent , canActivate: [RoleGuard], data: { roles: ['admin'] } },
+    { path: "chat", component: ChatComponent , canActivate: [AuthGuard] },
   ];
 
   

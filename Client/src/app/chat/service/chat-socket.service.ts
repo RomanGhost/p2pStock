@@ -19,7 +19,7 @@ export class ChatSocketService {
 
   connectWebSocket(chatId: number): void {
     this.countConnect++;
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('jwt_token');
     if (!token) {
       console.error('Authentication token is missing');
       return;

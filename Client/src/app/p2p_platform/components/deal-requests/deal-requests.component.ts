@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
+import { Component, OnInit, OnDestroy, NgZone, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DealService } from '../../services/deal.service';
@@ -8,6 +8,7 @@ import { UserInfo } from '../../models/user';
 import { UserService } from '../../services/user.service';
 import { Router } from '@angular/router';
 import { WebSocketService } from '../../socket-services/web-socket.service';
+import { ChatComponent } from '../../../chat/component/chat/chat.component';
 
 @Component({
   selector: 'app-deal-requests',
@@ -57,6 +58,25 @@ export class DealRequestsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.webSocketServiceDeal.disconnect();
   }
+
+  chatStart(deal: DealInfo): void{
+    this.webSocketServiceDeal.disconnect();
+
+    var resUserLogin!:string; 
+    if (deal.buyOrder.userLogin === this.user?.login){
+      resUserLogin = deal.sellOrder.userLogin;
+    } else if (deal.sellOrder.userLogin === this.user?.login){
+      resUserLogin = deal.buyOrder.userLogin;
+    }
+    // При переходе к чату:
+    this.router.navigate(['/chat'], {
+      queryParams: {
+        user: resUserLogin,
+        dealId: deal.id
+      }
+    });
+  }
+
 
   connectSocket():void{
     if (!this.webSocketServiceDeal.socket || this.webSocketServiceDeal.socket.readyState === WebSocket.CLOSED) {

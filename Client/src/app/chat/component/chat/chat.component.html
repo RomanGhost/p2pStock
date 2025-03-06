@@ -32,9 +32,9 @@
         </div>
     </div>
 
-    <div class="controls">
+    <!-- <div class="controls">
         <button (click)="createChat()">Создать чат</button>
-    </div>
+    </div> -->
 
     <!-- Информация о текущем чате -->
     <div *ngIf="isConnected" class="chat-header">
@@ -58,6 +58,6 @@
     </div>
 
     <div class="chat-disconnect" *ngIf="isConnected">
-        <button (click)="disconnect()">Отключиться</button>
+        <button (click)="disconnect()">Закрыть</button>
     </div>
 </div>

@@ -9,7 +9,7 @@ import { UserService } from '../../services/user.service';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css', '../../../assets/styles/auth-style.css'],
+  styleUrls: ['./register.component.css', '../../../../assets/styles/auth-style.css'],
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule]
 })

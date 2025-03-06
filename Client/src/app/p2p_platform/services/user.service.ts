@@ -7,7 +7,11 @@ import { API_CONFIG } from '../configs/api-config';
 import { UserInfo } from '../models/user';
 
 const USER_CACHE_KEY = 'userCache';
-
+export interface UserData {
+  id: number;
+  login: string;
+  roleName: string;
+}
 @Injectable({
   providedIn: 'root'
 })
@@ -56,8 +60,9 @@ export class UserService {
   }
 
   cacheUser(userInfo: UserInfo): void {
-    this.cachedUser = userInfo;
+    this.cachedUser = userInfo;    
     localStorage.setItem(USER_CACHE_KEY, JSON.stringify(userInfo));
+    localStorage.setItem(`${USER_CACHE_KEY}Login`, userInfo.login);
   }
 
   clearCache(): void {
