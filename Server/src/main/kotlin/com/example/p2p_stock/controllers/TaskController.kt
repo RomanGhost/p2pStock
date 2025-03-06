@@ -31,7 +31,7 @@ class TaskController(
         @AuthenticationPrincipal userDetails: MyUserDetails,
         @PathVariable("taskId") taskId:Long
     ): TaskInfo {
-        val user = userService.findByEmail(userDetails.username) ?: throw UserException("Пользователь не найден")
+        val user = userService.findByUsername(userDetails.username) ?: throw UserException("Пользователь не найден")
         val task = taskService.findById(taskId)
 
         val taskInWork = taskService.takeInWork(user, task)

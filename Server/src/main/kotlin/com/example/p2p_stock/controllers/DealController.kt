@@ -25,7 +25,7 @@ class DealController(
     private val orderWebSocketHandler: WebSocketHandler<OrderInfo>,
 ) {
     private fun getAuthenticatedUser(userDetails: UserDetails): User {
-        return userService.findByEmail(userDetails.username) ?: throw UserException("Пользователь не найден")
+        return userService.findByUsername(userDetails.username) ?: throw UserException("Пользователь не найден")
     }
 
     private fun handleDealUpdate(

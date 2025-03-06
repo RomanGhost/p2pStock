@@ -21,7 +21,7 @@ class CardController(
         val username = userDetails.username
 
         // Получаем пользователя из базы данных по username
-        val user = userService.findByEmail(username) ?: throw UserException("Пользователь не найден")
+        val user = userService.findByUsername(username) ?: throw UserException("Пользователь не найден")
 
         val cards = cardService.findByUserId(user.id)
         val cardsInfo = cards.map { CardInfo(
@@ -38,7 +38,7 @@ class CardController(
         val username = userDetails.username
 
         // Получаем пользователя из базы данных по username
-        val user = userService.findByEmail(username) ?: throw UserException("Пользователь не найден")
+        val user = userService.findByUsername(username) ?: throw UserException("Пользователь не найден")
 
         val newCard = cardService.addCard(cardInfo, user)
         return CardInfo(
@@ -54,7 +54,7 @@ class CardController(
         val username = userDetails.username
 
         // Получаем пользователя из базы данных по email
-        val user = userService.findByEmail(username) ?: throw UserException("Пользователь не найден")
+        val user = userService.findByUsername(username) ?: throw UserException("Пользователь не найден")
 
         cardService.delete(cardId, user.id)
     }

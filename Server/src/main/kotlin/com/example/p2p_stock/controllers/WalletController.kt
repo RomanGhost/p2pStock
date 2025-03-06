@@ -24,7 +24,7 @@ class WalletController(
         val username = userDetails.username
 //        println(cryptocurrencyCode)
         // Получаем пользователя из базы данных по email
-        val user = userService.findByEmail(username) ?: throw UserException("Пользователь не найден")
+        val user = userService.findByUsername(username) ?: throw UserException("Пользователь не найден")
 
         val crypto = if(cryptocurrencyCode != "") {
             cryptocurrencyService.findByCode(cryptocurrencyCode)
@@ -55,7 +55,7 @@ class WalletController(
         val username = userDetails.username
 
         // Получаем пользователя из базы данных по email
-        val user = userService.findByEmail(username) ?: throw UserException("Пользователь не найден")
+        val user = userService.findByUsername(username) ?: throw UserException("Пользователь не найден")
 
         val newWallet = walletService.addWallet(walletInfo, user)
         return WalletInfo(
@@ -71,7 +71,7 @@ class WalletController(
         val username = userDetails.username
 
         // Получаем пользователя из базы данных по email
-        val user = userService.findByEmail(username) ?: throw UserException("Пользователь не найден")
+        val user = userService.findByUsername(username) ?: throw UserException("Пользователь не найден")
 
         walletService.delete(walletId, user.id)
     }

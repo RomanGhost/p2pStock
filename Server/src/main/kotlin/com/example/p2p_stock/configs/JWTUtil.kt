@@ -39,11 +39,12 @@ class JWTUtil {
     }
 
     private fun getAllClaimsFromToken(token: String): Claims {
+//        println("Token value: $token")
         return Jwts.parser() // Используем parserBuilder для создания парсера
             .verifyWith(secretKey)
             .build()
             .parseSignedClaims(token)
-            .payload;
+            .payload
     }
 
     private fun isTokenExpired(claims: Claims): Boolean {
