@@ -1,0 +1,185 @@
+/* Контейнер чата */
+.chat-container {
+    max-width: 500px;
+    margin: auto;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Кнопки управления */
+.controls {
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.controls button {
+    padding: 8px 12px;
+    font-size: 1rem;
+    border: none;
+    background: #007bff;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.controls button:hover {
+    background: #0056b3;
+}
+
+/* Заголовок чата */
+.chat-header {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Блок списка чатов */
+.chat-list-wrapper {
+    max-height: 250px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 5px;
+    margin-bottom: 15px;
+    background: #f9f9f9;
+}
+
+.chat-list-wrapper::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-list-wrapper::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 5px;
+}
+
+/* Таблица списка чатов */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+th {
+    background: #007bff;
+    color: white;
+}
+
+.chat-item:hover {
+    background: #e6f7ff;
+    cursor: pointer;
+}
+
+/* Блок сообщений */
+.chat-box {
+    max-height: 320px;
+    overflow-y: auto;
+    padding: 10px;
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.chat-box::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-box::-webkit-scrollbar-thumb {
+    background: #aaa;
+    border-radius: 5px;
+}
+
+/* Сообщения */
+.sent {
+    align-self: flex-end;
+    background-color: #dcf8c6;
+    padding: 8px 12px;
+    border-radius: 12px;
+    max-width: 70%;
+    text-align: right;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.received {
+    align-self: flex-start;
+    background-color: #fff;
+    padding: 8px 12px;
+    border-radius: 12px;
+    max-width: 70%;
+    text-align: left;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Время отправки */
+.sent small, .received small {
+    display: block;
+    font-size: 0.8rem;
+    color: #666;
+    margin-top: 3px;
+}
+
+/* Поле ввода и кнопка */
+.chat-input {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.chat-input input {
+    flex: 1;
+    padding: 8px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+}
+
+.chat-input button {
+    padding: 8px 12px;
+    font-size: 1rem;
+    border: none;
+    background: #28a745;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.chat-input button:hover {
+    background: #218838;
+}
+
+/* Кнопка отключения */
+.chat-disconnect {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.chat-disconnect button {
+    padding: 8px 12px;
+    font-size: 1rem;
+    border: none;
+    background: #dc3545;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.chat-disconnect button:hover {
+    background: #c82333;
+}

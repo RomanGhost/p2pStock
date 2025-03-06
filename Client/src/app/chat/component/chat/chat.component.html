@@ -1,0 +1,63 @@
+<div class="chat-container">
+    <h2>Чат</h2>
+    
+    <!-- Список чатов -->
+    <div class="chat-list">
+        <h3>Ваши чаты:</h3>
+        <div class="chat-list-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID чата</th>
+                        <th>Пользователь</th>
+                        <th>ID сделки</th>
+                        <th>Действие</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let chat of chats" class="chat-item">
+                        <td>{{ chat.chatId }}</td>
+                        <td>{{ currentUserLogin == chat.firstLogin ? chat.secondLogin : chat.firstLogin }}</td>
+                        <td>{{ chat.dealId }}</td>
+                        <td>
+                            <button 
+                                class="continue-btn"
+                                (click)="handleContinueChat(chat.chatId)">
+                                Продолжить
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button (click)="createChat()">Создать чат</button>
+    </div>
+
+    <!-- Информация о текущем чате -->
+    <div *ngIf="isConnected" class="chat-header">
+        <h3>Чат #{{ currentChatId }} ({{ currentChatUser }})</h3>
+    </div>
+
+    <!-- Сообщения чата -->
+    <div *ngIf="isConnected" class="chat-box">
+        <div class="messages">
+            <div *ngFor="let msg of messages" 
+                 [ngClass]="{'sent': msg.senderUserLogin === currentUserLogin, 'received': msg.senderUserLogin !== currentUserLogin}">
+                <p>{{ msg.message }}</p>
+                <small>{{ msg.time | date:'shortTime' }}</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="chat-input" *ngIf="isConnected">
+        <input type="text" [(ngModel)]="newMessage" placeholder="Введите сообщение..." />
+        <button (click)="sendMessage()">Отправить</button>
+    </div>
+
+    <div class="chat-disconnect" *ngIf="isConnected">
+        <button (click)="disconnect()">Отключиться</button>
+    </div>
+</div>

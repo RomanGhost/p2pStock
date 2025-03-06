@@ -1,15 +1,15 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './components/home/home.component';
-import { RegisterComponent } from './components/register/register.component';
-import { AuthGuard } from './auth.guard';
-import { AccountComponent } from './components/account/account.component';
-import { LoginComponent } from './components/login/login.component';
-import { AddOrderComponent } from './components/add-order/add-order.component';
-import { AllOrdersComponent } from './components/all-orders/all-orders.component';
-import { AcceptOrdersComponent } from './components/manager/accept-orders/accept-orders.component';
-import { RoleGuard } from './role.guard';
-import { TaskComponent } from './components/manager/task/task.component';
-import { UserControllComponent } from './components/admin/user-controll/user-controll.component';
+import { HomeComponent } from './p2p_platform/components/home/home.component';
+import { RegisterComponent } from './p2p_platform/components/register/register.component';
+import { AuthGuard } from './p2p_platform/guards/auth.guard';
+import { AccountComponent } from './p2p_platform/components/account/account.component';
+import { LoginComponent } from './p2p_platform/components/login/login.component';
+import { AddOrderComponent } from './p2p_platform/components/add-order/add-order.component';
+import { AllOrdersComponent } from './p2p_platform/components/all-orders/all-orders.component';
+import { AcceptOrdersComponent } from './p2p_platform/components/manager/accept-orders/accept-orders.component';
+import { RoleGuard } from './p2p_platform/guards/role.guard';
+import { TaskComponent } from './p2p_platform/components/manager/task/task.component';
+import { UserControllComponent } from './p2p_platform/components/admin/user-controll/user-controll.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
