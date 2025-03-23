@@ -19,7 +19,7 @@
         <li><a routerLink="/manager/orders" routerLinkActive="active" *ngIf="isManager">Обработать заявки</a></li>
         <li><a routerLink="/manager/tasks" routerLinkActive="active" *ngIf="isManager">Задачи менеджера</a></li>
         <li><a routerLink="/admin/users" routerLinkActive="active" *ngIf="isAdmin">Управление пользователями</a></li>
-        <li><a routerLink="/chat" routerLinkActive="active">Чат</a></li>
+        <li><a routerLink="/chat" routerLinkActive="active" *ngIf="isLoggedIn">Чат</a></li>
 
         <li><a routerLink="/login" routerLinkActive="active" *ngIf="!isLoggedIn">Войти</a></li>
         <li><a routerLink="/register" routerLinkActive="active" *ngIf="!isLoggedIn">Регистрация</a></li>

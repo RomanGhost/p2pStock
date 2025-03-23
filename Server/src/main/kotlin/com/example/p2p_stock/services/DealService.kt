@@ -86,6 +86,10 @@ class DealService(
         val wallet = walletService.validateOwnership(dealInfo.walletId, user)
         val card = cardService.validateOwnership(dealInfo.cardId, user)
 
+        if(!orderService.isBuying(order) && wallet.balance < order.quantity){
+            throw IllegalActionDealException("Wallet balance less that required the order: ${wallet.balance} < ${order.quantity} ")
+        }
+
         val newOrder = createCounterpartyOrder(order, wallet, card)
         order = orderService.takeInDealOrder(order)
 
@@ -105,7 +109,7 @@ class DealService(
         return when(deal.status?.name){
             "Подтверждение сделки" -> updateStatus(deal, "Ожидание перевода")
             "Ожидание перевода" -> updateStatus(deal, "Ожидание подтверждения перевода")
-            "Ожидание подтверждения перевода" -> updateStatus(deal, "Закрыто: успешно")
+            "Ожидание подтверждения перевода" -> successClose(deal)
             else -> deal
         }
     }
@@ -127,16 +131,29 @@ class DealService(
 
     fun managerApprove(deal:Deal): Deal {
         if (deal.status?.name == "Ожидание решения менеджера") {
-            return updateStatus(deal, "Закрыто: успешно")
+            return successClose(deal)
         }
         return deal
     }
+
+
 
     fun managerReject(deal:Deal): Deal {
         if (deal.status?.name == "Ожидание решения менеджера") {
             return updateStatus(deal, "Закрыто: отменена менеджером")
         }
         return deal
+    }
+
+    @Transactional
+    private fun successClose(deal:Deal): Deal{
+        if(deal.sellOrder!!.wallet!!.balance < deal.sellOrder!!.quantity){
+            return callManager(deal)
+        }
+        deal.sellOrder!!.wallet!!.balance -= deal.sellOrder!!.quantity
+        deal.buyOrder!!.wallet!!.balance += deal.buyOrder!!.quantity
+
+        return updateStatus(deal, "Закрыто: успешно")
     }
 
     private fun denyDeal(deal: Deal): Deal {
