@@ -47,8 +47,8 @@ class WalletService(
             balance = 0.0,
             name=walletInfo.walletName,
             user = user,
-            publicKey = key.publicKey,
-            privateKey = key.privateKey,
+            publicKey = key?.publicKey,
+            privateKey = key?.privateKey,
         )
 
         try {
@@ -62,7 +62,7 @@ class WalletService(
         val wallet = walletRepository.findById(walletId).getOrNull()
 
         if (wallet?.user?.id != user.id) {
-            throw OwnershipException("Wallet with id ${walletId} does not belong to user ${user.id}")
+            throw OwnershipException("Wallet with id $walletId does not belong to user ${user.id}")
         }
 
         return wallet

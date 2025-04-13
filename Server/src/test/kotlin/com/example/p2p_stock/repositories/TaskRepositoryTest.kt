@@ -82,7 +82,7 @@ class TaskRepositoryTest {
             result = "Success"
         ))
 
-        val tasks = taskRepository.findByDealId(deal.id!!)
+        val tasks = taskRepository.findByDealId(deal.id)
         assertEquals(1, tasks.size)
         assertEquals(task.id, tasks.first().id)
     }

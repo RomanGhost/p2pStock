@@ -48,7 +48,7 @@ class CardRepositoryTest {
             )
         )
 
-        val cards = cardRepository.findByUserId(user.id!!)
+        val cards = cardRepository.findByUserId(user.id)
         assertEquals(2, cards.size)
         assertTrue(cards.any { it.cardNumber == "1111222233334444" })
         assertTrue(cards.all { it.user?.id == user.id })

@@ -14,11 +14,11 @@ class ApiService(
     @Value("\${sender.host}") private val host: String,
     private val objectMapper: ObjectMapper = jacksonObjectMapper()
 ) {
-    fun generateKeys(): KeyData {
+    fun generateKeys(): KeyData? {
         val url = "$host/keys/generate"
         var keyData: KeyData? = null
-
-        while (keyData == null) {
+        var attempt = 0
+        while (keyData == null && attempt < 10) {
             try {
                 val response = webClient.get()
                     .uri(url)
@@ -38,9 +38,11 @@ class ApiService(
             } catch (ex: WebClientResponseException) {
                 println("HTTP Error: ${ex.statusCode} - ${ex.responseBodyAsString}")
                 Thread.sleep(1000)
+                attempt++
             } catch (ex: Exception) {
                 println("Error: ${ex.message}")
                 Thread.sleep(1000)
+                attempt++
             }
         }
         return keyData
