@@ -86,7 +86,7 @@ class DealService(
         val card = cardService.validateOwnership(dealInfo.cardId, user)
 
         if(!orderService.isBuying(order) && wallet.balance < order.quantity){
-            throw IllegalActionDealException("Wallet balance less that required the order: ${wallet.balance} < ${order.quantity} ")
+            throw IllegalActionDealException("Wallet balance less that required the order: ${wallet.balance} < ${order.quantity}")
         }
 
         val newOrder = createCounterpartyOrder(order, wallet, card)
@@ -178,7 +178,7 @@ class DealService(
         val pricePerUnit = deal.buyOrder?.unitPrice?:0
 
         val amount = pricePerUnit.toDouble() * quantity
-        val priority = priorityService.findByAmount(amount)
+        val priority = priorityService.findByAmount(amount.toBigDecimal())
 
         val task = Task(
             deal = deal,

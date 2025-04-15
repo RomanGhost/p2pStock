@@ -470,8 +470,6 @@ class OrderServiceTest {
             verify(orderRepository, never()).save(any())
         }
 
-        // Добавьте тесты на случаи, когда findById у зависимостей (walletService, cardService и т.д.)
-        // при обновлении выбрасывает исключение NotFound...Exception
         @Test
         fun `updateOrder should propagate NotFoundWalletException from walletService`() {
             val exception = NotFoundWalletException("Wallet not found")
@@ -784,9 +782,5 @@ class OrderServiceTest {
             }
             verify(orderRepository, never()).findAll(any<Specification<Order>>(), any<Pageable>())
         }
-
-        // Можно добавить тест на неизвестный фильтр, если OrderSpecifications может его выбросить,
-        // но в текущей реализации buildSpecifications не имеет default ветки с выбросом исключения
-        // для неизвестного ключа.
     }
 }
