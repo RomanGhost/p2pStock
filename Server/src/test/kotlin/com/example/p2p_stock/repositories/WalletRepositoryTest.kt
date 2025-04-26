@@ -48,7 +48,7 @@ class WalletRepositoryTest {
         val found = walletRepository.findByPublicKey("abc123")
 
         assertNotNull(found)
-        assertEquals(1L, found?.user?.id)
+        assertEquals(userID, found?.user?.id)
     }
 
     @Test
