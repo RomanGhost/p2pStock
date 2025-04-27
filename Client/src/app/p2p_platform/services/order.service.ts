@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { API_CONFIG } from '../configs/api-config';
+import { API_CONFIG } from '../../configs/api-config';
 import { AuthService } from './auth.service';
 import { CreateOrderInfo, OrderInfo } from '../models/order';
 import { PaginationResponse } from '../models/pagination';

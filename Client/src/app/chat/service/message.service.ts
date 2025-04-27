@@ -5,6 +5,7 @@ import { Message, MessageList } from '../model/message.model';
 import { AuthService } from './auth.service';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { CHAT_API_CONFIG } from '../../configs/api-config';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class MessageService {
   private http = inject(HttpClient);
   private authService = inject(AuthService);
   private messageSubject = new Subject<Message>();
-  private apiUrl = 'http://localhost:8081/api/v1/chat/message';
+  private apiUrl = `${CHAT_API_CONFIG.apiUrl}/message`;
 
   subscribeOnMessages(): Observable<Message> {
     return this.messageSubject.asObservable();

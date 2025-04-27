@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { API_CONFIG } from '../configs/api-config';
+import { API_CONFIG } from '../../configs/api-config';
 import { AuthService } from './auth.service';
 import { catchError, Observable, throwError } from 'rxjs';
 import { CreateDealInfo, DealInfo } from '../models/deal';

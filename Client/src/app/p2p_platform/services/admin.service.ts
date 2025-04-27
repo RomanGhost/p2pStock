@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
-import { API_CONFIG } from '../configs/api-config';
+import { API_CONFIG } from '../../configs/api-config';
 import { PaginationResponse } from '../models/pagination';
 import { AdminUserInfo } from '../models/admin-user';
 import { Observable } from 'rxjs/internal/Observable';

@@ -2,12 +2,13 @@ import { inject, Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { Message } from '../model/message.model';
 import { MessageService } from './message.service';
+import { CHAT_API_CONFIG } from '../../configs/api-config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatSocketService {
-  private socketUrl = `ws://localhost:8081/api/v1/chat/ws`;
+  private socketUrl = CHAT_API_CONFIG.wsUrl;
   private socket!: WebSocket;
   private messageSubject = new Subject<Message>();
   private countConnect = 0;

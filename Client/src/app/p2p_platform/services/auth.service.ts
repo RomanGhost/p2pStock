@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { RegisterUser } from '../models/register-user';
 import { LoginUser } from '../models/login-user';
-import { API_CONFIG } from '../configs/api-config';
+import { API_CONFIG } from '../../configs/api-config';
 
 @Injectable({
   providedIn: 'root',

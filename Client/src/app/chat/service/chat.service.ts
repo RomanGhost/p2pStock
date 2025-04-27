@@ -5,6 +5,7 @@ import { ChatInfo, ChatList } from '../model/chat.model';
 import { AuthService } from './auth.service';
 import { map, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { CHAT_API_CONFIG } from '../../configs/api-config';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ import { of } from 'rxjs';
 export class ChatService {
   private http = inject(HttpClient);
   private authService = inject(AuthService);
-  private apiUrl = 'http://localhost:8081/api/v1/chat';
+  private apiUrl = CHAT_API_CONFIG.apiUrl;
 
   createChat(firstLogin: string, secondLogin: string, dealId: number): Observable<ChatInfo> {
     const request: ChatInfo = {
