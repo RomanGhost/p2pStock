@@ -1,4 +1,7 @@
-import { environment } from "../environment";
+import { environment } from "../../environments/environment";
+
+
+
 
 export const API_CONFIG = {
   apiUrl: `${environment.apiHost}/api/v1/p2pstock`,
