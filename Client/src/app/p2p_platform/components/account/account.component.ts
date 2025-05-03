@@ -18,16 +18,12 @@ import { WalletsListComponent } from "../wallets-list/wallets-list.component";
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.css'],
   standalone: true,
-  imports: [CommonModule, AddCardComponent, AddWalletComponent, DealRequestsComponent, CardsListComponent, WalletsListComponent]
+  imports: [CommonModule , DealRequestsComponent, CardsListComponent, WalletsListComponent]
 })
 export class AccountComponent implements OnInit {
   @ViewChild(WalletsListComponent) walletsListComponent!: WalletsListComponent;
 
-  @ViewChild(CardsListComponent) cardsListComponent!: CardsListComponent;
-
   user$: Observable<UserInfo | undefined>;
-  isAddCardModalVisible = false;
-  isAddWalletModalVisible = false;
   isSidebarOpen = false;
   selectedWallet: Wallet | null = null;
   selectedCard: Card | null = null;
@@ -41,48 +37,13 @@ export class AccountComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  showAddCardModal(): void {
-    this.isAddCardModalVisible = true;
-  }
-
-  closeAddCardModal(): void {
-    this.isAddCardModalVisible = false;
-  }
-
-  showAddWalletModal(): void {
-    this.isAddWalletModalVisible = true;
-  }
-
-  closeAddWalletModal(): void {
-    this.isAddWalletModalVisible = false;
-  }
-
   toggleSidebar(): void {
     this.isSidebarOpen = !this.isSidebarOpen;
   }
 
-  selectWallet(wallet: Wallet): void {
-    this.selectedWallet = wallet;
-  }
-
-  selectCard(card: Card): void {
-    this.selectedCard = card;
-  }
 
   clearSelection(): void {
     this.selectedWallet = null;
     this.selectedCard = null;
-  }
-
-  onCardAdded(newCard: Card): void {
-    if (this.cardsListComponent) {
-      this.cardsListComponent.loadCards();
-    }
-  }
-
-  onWalletAdded(newWallet: Wallet): void {
-    if (this.walletsListComponent) {
-      this.walletsListComponent.loadWallets();
-    }
   }
 }

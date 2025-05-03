@@ -3,10 +3,6 @@
   <main class="content">
     <div *ngIf="user$ | async as user; else loading">
       <h1>👋 Добро пожаловать, {{ user.login }} ({{user.roleName}})</h1>
-      <div class="button-group">
-        <button (click)="showAddCardModal()" class="btn btn-primary">➕ Добавить карту</button>
-        <button (click)="showAddWalletModal()" class="btn btn-primary">➕ Добавить кошелек</button>
-      </div>
       <app-cards-list></app-cards-list>
       <app-wallets-list></app-wallets-list>
       
@@ -17,19 +13,4 @@
       <p>Загрузка...</p>
     </ng-template>
   </main>
-
-  <!-- Модальное окно для добавления карты -->
-  <app-add-card 
-    *ngIf="isAddCardModalVisible" 
-    (closeModal)="closeAddCardModal()" 
-    (cardAdded)="onCardAdded($event)"
-  ></app-add-card>
-
-  <!-- Модальное окно для добавления кошелька -->
-  <app-add-wallet 
-    *ngIf="isAddWalletModalVisible" 
-    (closeModal)="closeAddWalletModal()" 
-    (walletAdded)="onWalletAdded($event)"
-  ></app-add-wallet>
-
 </div>

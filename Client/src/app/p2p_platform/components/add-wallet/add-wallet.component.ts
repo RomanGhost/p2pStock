@@ -10,7 +10,7 @@ import { Wallet } from '../../models/wallet';
 @Component({
   selector: 'app-add-wallet',
   templateUrl: './add-wallet.component.html',
-  styleUrls: ['./add-wallet.component.css', '../../../assets/styles/modal-style.css'],
+  styleUrls: ['./add-wallet.component.css'],
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule]
 })

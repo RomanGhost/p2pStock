@@ -209,4 +209,16 @@ export class AllOrdersComponent implements OnInit {
     return true;
   }
 
+  resetFilters(): void {
+    this.filterForm.reset({
+      type: '',
+      cryptoCode: '',
+      sortOrder: 'desc' // или '', если сортировка по умолчанию не указана
+    });
+  
+    this.page = 0; // если есть пагинация, сбрасываем на первую страницу
+    this.filterOrders(); // обновляем отображение
+  }
+  
+
 }

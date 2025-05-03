@@ -1,31 +1,42 @@
 <section class="cards-section">
-    <h2>💳 Ваши карты</h2>
-    <button class="btn-toggle" (click)="toggleListVisibility()">
-        {{ isListVisible ? 'Скрыть карты' : 'Показать карты' }}
+  <div class="cards-header">
+    <h2>💳 Карты</h2>
+    <div class="cards-actions">
+      <button (click)="showAddCardModal()" class="btn btn-primary">➕ Добавить</button>
+      <button class="btn btn-secondary" (click)="toggleListVisibility()">
+        {{ isListVisible ? 'Скрыть' : 'Показать' }}
       </button>
-    
-    <!-- Загрузка -->
-    <div *ngIf="isLoading">
-      <p>Загрузка...</p>
     </div>
-  
-    <!-- Список карт -->
-    <div *ngIf="isListVisible" class="list-container">
-    <div *ngIf="!isLoading && cards.length > 0; else noCards" class="cards-grid">
+  </div>
+
+  <!-- Загрузка -->
+  <div *ngIf="isLoading" class="loading">
+    <p>⏳ Загрузка...</p>
+  </div>
+
+  <!-- Модальное окно -->
+  <app-add-card 
+    *ngIf="isAddCardModalVisible" 
+    (closeModal)="closeAddCardModal()" 
+    (cardAdded)="onCardAdded($event)">
+  </app-add-card>
+
+  <!-- Список карт -->
+  <div *ngIf="isListVisible && !isLoading">
+    <div *ngIf="cards.length > 0; else noCards" class="cards-grid">
       <div *ngFor="let card of cards" class="card-item">
         <div class="card-details">
-          <strong>{{ card.cardName }}</strong>
-          <p>{{ card.bankName }}</p>
-          <small>**** {{ card.cardNumber.slice(-4) }}</small>
+          <h3>{{ card.cardName }}</h3>
+          <p class="card-bank">{{ card.bankName }}</p>
+          <p class="card-number">**** {{ card.cardNumber.slice(-4) }}</p>
         </div>
-        <button class="btn-delete" (click)="deleteCard(card)">Удалить</button>
+        <button class="btn-delete" (click)="deleteCard(card)">🗑 Удалить</button>
       </div>
     </div>
-    </div>
-  
-    <!-- Нет карт -->
-    <ng-template #noCards>
-      <p>У вас пока нет добавленных карт.</p>
-    </ng-template>
-  </section>
-  
+  </div>
+
+  <!-- Нет карт -->
+  <ng-template #noCards>
+    <p class="no-cards-msg">У вас пока нет добавленных карт.</p>
+  </ng-template>
+</section>

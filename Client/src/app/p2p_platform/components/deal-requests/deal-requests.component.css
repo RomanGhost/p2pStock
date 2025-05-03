@@ -1,51 +1,109 @@
 .requests-container {
-    margin-top: 20px;
-  }
-  
-  .loading {
-    text-align: center;
-    font-size: 1.2em;
-    margin: 20px 0;
-  }
-  
-  .deal-list {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .deal-item {
-    background: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 15px;
-    margin-bottom: 10px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  }
-  
-  .deal-item:hover {
-    background-color: #f1f1f1;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  }
-  
-  .pagination {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 15px;
-  }
-  
-  .btn {
-    padding: 8px 15px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 0.9em;
-  }
-  
-  .btn[disabled] {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
-  
+  margin-top: 30px;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1.5rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+}
+
+.filters {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.filters label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.loading {
+  text-align: center;
+  font-size: 1.2em;
+  margin: 20px 0;
+}
+
+.deal-list {
+  list-style: none;
+  padding: 0;
+}
+
+.deal-item {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 15px;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.05);
+  transition: 0.3s ease;
+}
+
+.deal-item:hover {
+  background-color: #f5faff;
+}
+
+.deal-details h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #2c3e50;
+}
+
+.deal-info-box {
+  margin-top: 10px;
+  padding: 10px;
+  background: #eef6fb;
+  border-left: 4px solid #1976d2;
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+
+.deal-actions {
+  margin-top: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.btn {
+  padding: 8px 14px;
+  font-size: 0.9em;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn.confirm {
+  background-color: #4caf50;
+  color: white;
+}
+
+.btn.cancel {
+  background-color: #f44336;
+  color: white;
+}
+
+.btn.chat {
+  background-color: #1976d2;
+  color: white;
+}
+
+.btn[disabled] {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 25px;
+  padding-top: 10px;
+  border-top: 1px solid #ddd;
+}

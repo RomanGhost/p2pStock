@@ -1,31 +1,44 @@
 <section class="wallets-section">
-    <h2>🪙 Ваши кошельки</h2>
-    <button class="btn-toggle" (click)="toggleListVisibility()">
-        {{ isListVisible ? 'Скрыть кошельки' : 'Показать кошельки' }}
+  <div class="wallets-header">
+    <h2>🪙 Кошельки</h2>
+    <div class="wallets-actions">
+      <button (click)="showAddWalletModal()" class="btn btn-primary">➕ Добавить</button>
+      <button class="btn btn-secondary" (click)="toggleListVisibility()">
+        {{ isListVisible ? 'Скрыть' : 'Показать' }}
       </button>
-    
-    <!-- Загрузка -->
-    <div *ngIf="isLoading">
-      <p>Загрузка...</p>
     </div>
-  
-    <!-- Список кошельков -->
-    <div *ngIf="isListVisible" class="list-container">
-    <div *ngIf="!isLoading && wallets.length > 0; else noWallets" class="wallets-grid">
-      <div *ngFor="let wallet of wallets" class="wallet-item">
-        <div class="wallet-details">
-          <strong>{{ wallet.walletName }}</strong>
-          <p>{{ wallet.cryptocurrencyCode }}</p>
-          <small>Баланс: {{ wallet.balance | number:'1.2-2' }}</small>
+  </div>
+
+  <!-- Загрузка -->
+  <div *ngIf="isLoading" class="loading">
+    <p>⏳ Загрузка...</p>
+  </div>
+
+  <!-- Модальное окно -->
+  <app-add-wallet
+    *ngIf="isAddWalletModalVisible"
+    (closeModal)="closeAddWalletModal()"
+    (walletAdded)="onWalletAdded($event)">
+  </app-add-wallet>
+
+  <!-- Список кошельков -->
+  <div *ngIf="isListVisible && !isLoading">
+    <div *ngIf="wallets.length > 0; else noWallets" class="wallets-grid">
+      <div *ngFor="let wallet of wallets" class="wallet-card">
+        <div class="wallet-info">
+          <h3>{{ wallet.walletName }}</h3>
+          <p class="wallet-code">{{ wallet.cryptocurrencyCode }}</p>
+          <p class="wallet-balance" [class.negative]="wallet.balance < 0">
+            Баланс: {{ wallet.balance | number:'1.2-2' }}
+          </p>
         </div>
-        <button class="btn-delete" (click)="deleteWallet(wallet)">Удалить</button>
+        <button class="btn-delete" (click)="deleteWallet(wallet)">🗑 Удалить</button>
       </div>
     </div>
-    </div>
-  
-    <!-- Нет кошельков -->
-    <ng-template #noWallets>
-      <p>У вас пока нет добавленных кошельков.</p>
-    </ng-template>
-  </section>
-  
+  </div>
+
+  <!-- Нет кошельков -->
+  <ng-template #noWallets>
+    <p class="no-wallets-msg">У вас пока нет добавленных кошельков.</p>
+  </ng-template>
+</section>

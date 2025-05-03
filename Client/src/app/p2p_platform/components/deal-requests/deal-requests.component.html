@@ -1,5 +1,5 @@
 <div class="requests-container">
-  <h2>📄 Ваши сделки</h2>
+  <h2>📄 Сделки</h2>
 
   <!-- Фильтры -->
   <div class="filters">
@@ -23,59 +23,65 @@
     <ul class="deal-list">
       <li *ngFor="let deal of deals" class="deal-item">
         <div class="deal-details">
-          <strong>Сделка #{{ deal.id }}</strong>
-          <p>Статус: {{ deal.statusName }}</p>
-          <p>Создано: {{ deal.createdAt | date: 'dd/MM/yyyy HH:mm' }}</p>
-          <p>Последнее изменение: {{ deal.lastStatusChange | date: 'dd/MM/yyyy HH:mm' }}</p>
+          <h3>📌 Сделка #{{ deal.id }}</h3>
+          <p><strong>Статус:</strong> {{ deal.statusName }}</p>
+          <p><strong>Создано:</strong> {{ deal.createdAt | date: 'dd.MM.yyyy HH:mm' }}</p>
+          <p><strong>Обновлено:</strong> {{ deal.lastStatusChange | date: 'dd.MM.yyyy HH:mm' }}</p>
+
+          <!-- Подробности -->
+          <div class="deal-info-box">
+            <p><strong>Тип:</strong> {{ deal.buyOrder.typeName === 'Buy' ? 'Покупка' : 'Продажа' }}</p>
+            <p><strong>Криптовалюта:</strong> {{ deal.buyOrder.cryptocurrencyCode }}</p>
+            <p><strong>Количество:</strong> {{ deal.buyOrder.quantity }}</p>
+            <p><strong>Цена за единицу:</strong> {{ deal.buyOrder.unitPrice | number:'1.2-2' }} ₽</p>
+            <p><strong>Общая сумма:</strong> {{ deal.buyOrder.quantity * deal.buyOrder.unitPrice | number:'1.2-2' }} ₽</p>
+          </div>
         </div>
 
+        <!-- Действия -->
         <div class="deal-actions">
           <button 
             *ngIf="isAssociatedWithDeal(deal) && deal.statusName === 'Подтверждение сделки' && wasCreatedEarlier(deal)"
-            (click)="confirmDeal(deal.id)"
-            class="btn confirm">
+            (click)="confirmDeal(deal.id)" class="btn confirm">
             ✅ Подтвердить сделку
           </button>
+
           <button 
             *ngIf="isAssociatedWithDeal(deal) && deal.statusName === 'Ожидание перевода' && deal.buyOrder.userLogin === user?.login"
-            (click)="confirmDeal(deal.id)"
-            class="btn confirm">
+            (click)="confirmDeal(deal.id)" class="btn confirm">
             ✅ Подтвердить перевод
           </button>
+
           <button 
             *ngIf="isAssociatedWithDeal(deal) && deal.statusName === 'Ожидание подтверждения перевода' && deal.sellOrder.userLogin === user?.login"
-            (click)="confirmDeal(deal.id)"
-            class="btn confirm">
+            (click)="confirmDeal(deal.id)" class="btn confirm">
             ✅ Подтвердить получение
           </button>
+
           <button 
             *ngIf="isAssociatedWithDeal(deal) && deal.statusName === 'Подтверждение сделки'"
-            (click)="cancelDeal(deal.id)"
-            class="btn cancel">
-            ❌ Отмена сделки
+            (click)="cancelDeal(deal.id)" class="btn cancel">
+            ❌ Отменить сделку
           </button>
+
           <button 
             *ngIf="isAssociatedWithDeal(deal) && deal.statusName === 'Ожидание перевода' && deal.buyOrder.userLogin === user?.login"
-            (click)="cancelDeal(deal.id)"
-            class="btn cancel">
+            (click)="cancelDeal(deal.id)" class="btn cancel">
             ⚠️ Проблема с отправкой
           </button>
+
           <button 
             *ngIf="isAssociatedWithDeal(deal) && deal.statusName === 'Ожидание подтверждения перевода' && deal.sellOrder.userLogin === user?.login"
-            (click)="cancelDeal(deal.id)"
-            class="btn cancel">
+            (click)="cancelDeal(deal.id)" class="btn cancel">
             ⚠️ Перевод не получен
           </button>
-          <button 
-            (click)="chatStart(deal)"
-            class="btn chat">
-            Написать в чат
-          </button>
-        </div>        
+
+          <button (click)="chatStart(deal)" class="btn chat">💬 Написать в чат</button>
+        </div>
       </li>
     </ul>
 
-    <!-- Навигация по страницам -->
+    <!-- Навигация -->
     <div class="pagination">
       <button (click)="prevPage()" [disabled]="currentPage === 0" class="btn">⬅️ Назад</button>
       <span>Страница {{ currentPage + 1 }} из {{ totalPages }}</span>

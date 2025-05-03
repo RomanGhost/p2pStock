@@ -1,82 +1,99 @@
 <div class="container orders-container mt-5">
-    <h1 class="text-center mb-4">📋 Список заказов</h1>
-  
-    <!-- Загрузка -->
-    <div *ngIf="isLoading" class="text-center">
-      <p>Загрузка заказов...</p>
-    </div>
-  
-    <!-- Ошибка -->
-    <div *ngIf="errorMessage" class="alert alert-danger">
-      {{ errorMessage }}
-    </div>
-  
-    <!-- Фильтры -->
-    <div class="filters-section mb-4">
-      <form [formGroup]="filterForm" (ngSubmit)="filterOrders()" class="filters-row d-flex justify-content-between align-items-center">
-        <div class="filter-item">
-          <label for="typeFilter" class="form-label">Тип</label>
-          <select id="typeFilter" formControlName="type" (change)="filterOrders()" class="form-select">
-            <option value="">Все</option>
-            <option *ngFor="let type of uniqueOrderTypes" [value]="type.name">{{ type.name }}</option>
-          </select>
-        </div>
-        <div class="filter-item">
-          <label for="cryptoFilter" class="form-label">Криптовалюта</label>
-          <select id="cryptoFilter" formControlName="cryptoCode" (change)="filterOrders()" class="form-select">
-            <option value="">Все</option>
-            <option *ngFor="let crypto of uniqueCryptocurrencies" [value]="crypto.code">{{ crypto.name }}</option>
-          </select>
-        </div>
-        <div class="filter-item">
-          <label for="sortOrder" class="form-label">Сортировка</label>
-          <select id="sortOrder" formControlName="sortOrder" (change)="filterOrders()" class="form-select">
-            <option value="desc">По убыванию</option>
-            <option value="asc">По возрастанию</option>
-          </select>
-        </div>
-      </form>
-    </div>    
-  
-    <!-- Список карточек -->
-    <section class="cards-section" *ngIf="!isLoading && !errorMessage">
-      <div class="cards-grid">
-          <div *ngFor="let order of filteredOrders" class="card-item" (click)="openCreateDealModal(order)">
-          <div class="card-details">
-            <div class="d-flex justify-content-between align-items-center">
-              <h3 class="text-primary">Заказ #{{ order.id }}
-                <span class="text-muted"> {{ order.cryptocurrencyCode }}</span>
-              </h3>
-              <p class="text-muted mt-2" style="font-size: 0.85em;">Создано: {{ order.createdAt | date: 'dd.MM.yyyy HH:mm' }}</p>
-              <p class="text-danger font-weight-bold">Итог: {{ order.quantity * order.unitPrice | number: '1.2-2' }}</p>
-            </div>
-            <p class="text-muted mb-2"><strong>Тип:</strong> {{ order.typeName }}</p>
-            <p class="mb-2"><strong>Пользователь:</strong> {{ order.userLogin }}</p>
-            <div class="d-flex justify-content-between align-items-center mt-3">
-              <p class="mb-1"><strong>Цена за единицу:</strong> {{ order.unitPrice | number: '1.2-2' }}</p>
-              <p class="mb-1"><strong>Кол-во:</strong> {{ order.quantity }}</p>
-              <p class="mb-1"><strong>Описание:</strong> {{ order.description }}</p>
-            </div>
-          </div>
-        </div>
-        </div>
-    </section> 
-    
-    <app-create-deal *ngIf="isCreateDealModalOpen" [selectedOrder]="selectedOrder" (closeModalEvent)="closeCreateDealModal()"></app-create-deal>
+  <h1 class="text-center mb-4">📋 Список заказов</h1>
 
-    <!-- Пагинация -->
-    <div *ngIf="totalPages > 1" class="pagination-section text-center">
-      <button *ngIf="showBackButton()" (click)="onPageChange(page - 1)" class="btn btn-outline-primary mr-2">Назад</button>
-      <span>Страница {{ page + 1 }} из {{ totalPages }}</span>
-      <button *ngIf="showForwardButton()" (click)="onPageChange(page + 1)" class="btn btn-outline-primary ml-2">Вперед</button>
-    </div>
-  
-    <!-- Выбор количества элементов на странице -->
-    <div class="pagination-options mt-3 text-center">
-      <label for="sizeFilter">Количество заявок на странице:</label>
-      <select id="sizeFilter" (change)="onSizeChange($event)" class="form-select d-inline-block w-auto">
-        <option *ngFor="let size of availablePageSizes" [value]="size">{{ size }}</option>
-      </select>
-    </div>
+  <!-- Загрузка -->
+  <div *ngIf="isLoading" class="text-center">
+    <p>Загрузка заказов...</p>
   </div>
-  
+
+  <!-- Ошибка -->
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Фильтры -->
+  <div class="filters-section mb-4">
+    <form [formGroup]="filterForm" (ngSubmit)="filterOrders()" class="filters-row d-flex justify-content-between align-items-center flex-wrap">
+      <div class="filter-item">
+        <label for="typeFilter" class="form-label">Тип</label>
+        <select id="typeFilter" formControlName="type" (change)="filterOrders()" class="form-select">
+          <option value="">Все</option>
+          <option *ngFor="let type of uniqueOrderTypes" [value]="type.name">{{ type.name }}</option>
+        </select>
+      </div>
+      <div class="filter-item">
+        <label for="cryptoFilter" class="form-label">Криптовалюта</label>
+        <select id="cryptoFilter" formControlName="cryptoCode" (change)="filterOrders()" class="form-select">
+          <option value="">Все</option>
+          <option *ngFor="let crypto of uniqueCryptocurrencies" [value]="crypto.code">{{ crypto.name }}</option>
+        </select>
+      </div>
+      <div class="filter-item">
+        <label for="sortOrder" class="form-label">Сортировка</label>
+        <select id="sortOrder" formControlName="sortOrder" (change)="filterOrders()" class="form-select">
+          <option value="desc">По убыванию</option>
+          <option value="asc">По возрастанию</option>
+        </select>
+      </div>
+      <div class="filter-item">
+        <label class="form-label">&nbsp;</label>
+        <button type="button" (click)="resetFilters()" class="btn btn-primary btn-outline-secondary w-100">Сбросить</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Список карточек -->
+  <section class="cards-section" *ngIf="!isLoading && !errorMessage">
+    <div class="cards-grid">
+      <div *ngFor="let order of filteredOrders" class="card-item" (click)="openCreateDealModal(order)">
+        <div class="card-header d-flex justify-content-between align-items-center mb-2">
+          <h4>Заказ #{{ order.id }}</h4>
+          <span class="badge" [ngClass]="{
+              'bg-success': order.typeName === 'Покупка',
+              'bg-danger': order.typeName === 'Продажа'
+            }">
+            {{ order.typeName }}
+          </span>
+        </div>
+
+        <p class="text-muted mb-1">Создано: {{ order.createdAt | date: 'dd.MM.yyyy HH:mm' }}</p>
+
+        <div class="mb-2">
+          <strong>Криптовалюта:</strong> {{ order.cryptocurrencyCode }} |
+          <strong>Пользователь:</strong> {{ order.userLogin }}
+        </div>
+
+        <div class="order-financials mb-2">
+          <div><strong>Цена:</strong> {{ order.unitPrice | number: '1.2-2' }}</div>
+          <div><strong>Кол-во:</strong> {{ order.quantity }}</div>
+        </div>
+
+        <div class="total">
+          <strong>Итог:</strong> <span class="total-price">{{ order.unitPrice * order.quantity | number: '1.2-2' }}</span>
+        </div>
+
+        <div *ngIf="order.description" class="text-muted mt-2">
+          <em>Описание: {{ order.description }}</em>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Модалка -->
+  <app-create-deal *ngIf="isCreateDealModalOpen" [selectedOrder]="selectedOrder" (closeModalEvent)="closeCreateDealModal()"></app-create-deal>
+
+  <!-- Пагинация -->
+  <div *ngIf="totalPages > 1" class="pagination-section text-center">
+    <button *ngIf="showBackButton()" (click)="onPageChange(page - 1)" class="btn btn-outline-primary me-2">⬅️ Назад</button>
+    <span>Страница {{ page + 1 }} из {{ totalPages }}</span>
+    <button *ngIf="showForwardButton()" (click)="onPageChange(page + 1)" class="btn btn-outline-primary ms-2">Вперед ➡️</button>
+  </div>
+
+  <!-- Выбор количества -->
+  <div class="pagination-options mt-3 text-center">
+    <label for="sizeFilter">На странице:</label>
+    <select id="sizeFilter" (change)="onSizeChange($event)" class="form-select d-inline-block w-auto ms-2">
+      <option *ngFor="let size of availablePageSizes" [value]="size">{{ size }}</option>
+    </select>
+  </div>
+</div>

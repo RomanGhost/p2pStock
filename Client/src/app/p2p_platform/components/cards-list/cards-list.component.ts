@@ -2,18 +2,20 @@ import { Component, OnInit } from '@angular/core';
 import { Card } from '../../models/card';
 import { CardService } from '../../services/card.service';
 import { CommonModule } from '@angular/common';
+import { AddCardComponent } from '../add-card/add-card.component';
 
 @Component({
   selector: 'app-cards-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, AddCardComponent],
   templateUrl: './cards-list.component.html',
-  styleUrls: ['./cards-list.component.css', '../../../assets/styles/list-styles.css']
+  styleUrls: ['./cards-list.component.css']
 })
 export class CardsListComponent implements OnInit {
   cards: Card[] = [];
   isLoading = true;
   isListVisible: boolean = true;
+  isAddCardModalVisible = false;
 
   constructor(private cardService: CardService) {}
 
@@ -37,6 +39,18 @@ export class CardsListComponent implements OnInit {
         this.isLoading = false;
       }
     });
+  }
+
+  showAddCardModal(): void {
+    this.isAddCardModalVisible = true;
+  }
+
+  closeAddCardModal(): void {
+    this.isAddCardModalVisible = false;
+  }
+
+  onCardAdded(newCard: Card): void {
+    this.cards.push(newCard)
   }
 
   deleteCard(card: Card): void {

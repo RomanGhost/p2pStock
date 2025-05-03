@@ -2,18 +2,20 @@ import { Component, OnInit } from '@angular/core';
 import { Wallet } from '../../models/wallet';
 import { WalletService } from '../../services/wallet.service';
 import { CommonModule } from '@angular/common';
+import { AddWalletComponent } from '../add-wallet/add-wallet.component';
 
 @Component({
   selector: 'app-wallets-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, AddWalletComponent],
   templateUrl: './wallets-list.component.html',
-  styleUrls: ['./wallets-list.component.css', '../../../assets/styles/list-styles.css']
+  styleUrls: ['./wallets-list.component.css']
 })
 export class WalletsListComponent implements OnInit {
   wallets: Wallet[] = [];
   isLoading = true;
   isListVisible: boolean = true;
+  isAddWalletModalVisible = false;
 
   constructor(private walletService: WalletService) {}
 
@@ -37,6 +39,18 @@ export class WalletsListComponent implements OnInit {
         this.isLoading = false;
       }
     });
+  }
+
+  showAddWalletModal(): void {
+    this.isAddWalletModalVisible = true;
+  }
+
+  closeAddWalletModal(): void {
+    this.isAddWalletModalVisible = false;
+  }
+
+  onWalletAdded(newWallet: Wallet): void {
+    this.wallets.push(newWallet);
   }
 
   deleteWallet(wallet: Wallet): void {
