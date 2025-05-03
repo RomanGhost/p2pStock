@@ -8,7 +8,10 @@ import java.time.LocalDateTime
 data class DealStatus(
     @Id
     @Column(length = 32)
-    val name: String = ""
+    val name: String = "",
+
+    @Column(name = "timing_min", nullable = false)
+    val timingMin: Int = 0
 )
 
 @Entity
@@ -33,7 +36,6 @@ data class Deal(
     @Column(name = "created_at", updatable = false)
     val createdAt: LocalDateTime = LocalDateTime.now(),
 
-    //TODO(Убрать и так понятно когда будет закрыто)
     @Column(name = "closed_at")
     var closedAt: LocalDateTime? = null,
 

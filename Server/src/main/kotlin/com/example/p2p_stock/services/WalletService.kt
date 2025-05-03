@@ -20,8 +20,13 @@ class WalletService(
 ) {
 
     fun findById(walletId:Long): Wallet{
-        return walletRepository.findById(walletId).orElseThrow {
+        val wallet = walletRepository.findById(walletId).orElseThrow {
             NotFoundWalletException("Wallet with Id:$walletId not found")
+        }
+        if (wallet.isDeleted){
+            throw NotFoundWalletException("Wallet with Id:$walletId deleted")
+        }else {
+            return wallet
         }
     }
 
@@ -29,7 +34,7 @@ class WalletService(
         return walletRepository.findByPublicKey(publicKey)
     }
 
-    fun findByUserId(userId: Long): List<Wallet> = walletRepository.findByUserId(userId)
+    fun findByUserId(userId: Long): List<Wallet> = walletRepository.findByUserId(userId).filter { !it.isDeleted }
 
     fun save(wallet: Wallet): Wallet = walletRepository.save(wallet)
 
@@ -69,8 +74,13 @@ class WalletService(
     }
     
     fun delete(walletId: Long, userId: Long) {
-        val wallet = walletRepository.findById(walletId)
-        if (wallet.get().user!!.id == userId)
-            walletRepository.deleteById(walletId)
+        val wallet = walletRepository.findById(walletId).orElseThrow {
+            NotFoundWalletException("Wallet with Id:$walletId not found")
+        }
+        if (wallet.user!!.id == userId) {
+            wallet.isDeleted = true
+            this.save(wallet)
+
+        }
     }
 }

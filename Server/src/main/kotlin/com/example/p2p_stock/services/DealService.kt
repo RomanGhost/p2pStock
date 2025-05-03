@@ -136,12 +136,23 @@ class DealService(
     }
 
 
-
     fun managerReject(deal:Deal): Deal {
         if (deal.status?.name == "Ожидание решения менеджера") {
             return updateStatus(deal, "Закрыто: отменена менеджером")
         }
         return deal
+    }
+
+    fun closeExpiredDeals(){
+        val deals = dealRepository.findExpiredDealsNative()
+        for (deal in deals){
+            when (deal.status!!.name) {
+                "Подтверждение сделки" ->updateStatus(deal, "Закрыто: время кс истекло")
+                "Ожидание перевода", "Ожидание подтверждения перевода" -> updateStatus(deal, "Приостановлено: решение проблем")
+            }
+
+        }
+
     }
 
     @Transactional

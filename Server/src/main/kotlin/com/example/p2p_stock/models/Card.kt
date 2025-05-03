@@ -30,5 +30,8 @@ data class Card(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    val user: User?=null
+    val user: User?=null,
+
+    @Column(name = "is_deleted", nullable = false)
+    var isDeleted: Boolean=false
 )

@@ -17,11 +17,15 @@ class CardService(
     private val bankService: BankService,
 ) {
 
-    fun findByUserId(userId: Long): List<Card> = cardRepository.findByUserId(userId)
+    fun findByUserId(userId: Long): List<Card> = cardRepository.findByUserId(userId).filter { !it.isDeleted }
     fun findById(cardId: Long): Card {
-        return cardRepository.findById(cardId).orElseThrow {
+        val card = cardRepository.findById(cardId).orElseThrow {
             NotFoundCardException("Card with Id:$cardId not found for User")
         }
+        if (card.isDeleted){
+            throw NotFoundCardException("Card with Id:$cardId not found for User")
+        }
+        return card
     }
 
     fun save(card: Card): Card = cardRepository.save(card)
@@ -60,8 +64,12 @@ class CardService(
 
 
     fun delete(cardId: Long, userId: Long) {
-        val card = cardRepository.findById(cardId)
-        if (card.get().user!!.id == userId)
-            cardRepository.deleteById(cardId)
+        val card = cardRepository.findById(cardId).orElseThrow{
+            NotFoundCardException("Card with Id:$cardId not found for User")
+        }
+        if (card.user!!.id == userId) {
+            card.isDeleted = true
+            this.save(card)
+        }
     }
 }

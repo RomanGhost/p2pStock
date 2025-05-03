@@ -12,15 +12,15 @@ class DealStatusInitialize(val dealStatusRepository: DealStatusRepository) : Com
     @Transactional
     override fun run(vararg args: String?) {
         val dealStatuses = listOf(
-            DealStatus(name = "Подтверждение сделки"),
-            DealStatus(name = "Ожидание перевода"),
-            DealStatus(name = "Ожидание подтверждения перевода"),
-            DealStatus(name = "Закрыто: успешно"),
-            DealStatus(name = "Приостановлено: решение проблем"),
-            DealStatus(name = "Ожидание решения менеджера"),
-            DealStatus(name = "Закрыто: время кс истекло"),
-            DealStatus(name = "Закрыто: отменена менеджером"),
-            DealStatus(name = "Закрыто: неактуально")
+            DealStatus(name = "Подтверждение сделки", 10),
+            DealStatus(name = "Ожидание перевода", 30),
+            DealStatus(name = "Ожидание подтверждения перевода", 30),
+            DealStatus(name = "Закрыто: успешно", -1),
+            DealStatus(name = "Приостановлено: решение проблем", -1),
+            DealStatus(name = "Ожидание решения менеджера", -1),
+            DealStatus(name = "Закрыто: время кс истекло", -1),
+            DealStatus(name = "Закрыто: отменена менеджером", -1),
+            DealStatus(name = "Закрыто: неактуально", -1)
         )
 
         val existingDealStatuses = dealStatusRepository.findAll()

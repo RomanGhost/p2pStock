@@ -26,5 +26,8 @@ data class Wallet(
     val cryptocurrency: Cryptocurrency?=null,
 
     @Column(nullable = false)
-    var balance: Double = 0.0
+    var balance: Double = 0.0,
+
+    @Column(name = "is_deleted", nullable = false)
+    var isDeleted: Boolean=false
 )
