@@ -66,8 +66,8 @@ class DealService(
     fun findBySellOrderId(sellOrderId: Long): Deal? =
         dealRepository.findBySellOrderId(sellOrderId).orElse(null)
 
-    fun save(deal: Deal, sendKafka: Boolean=true): Deal {
-        if (!dealRepository.existsById(deal.id) || deal.id == 0L){
+    fun save(deal: Deal, sendKafka: Boolean = true): Deal {
+        if (!dealRepository.existsById(deal.id) || deal.id == 0L) {
             deal.id = getLastDealId() + 1
         }
         if (sendKafka) {
@@ -75,7 +75,8 @@ class DealService(
         }
         return dealRepository.save(deal)
     }
-    private fun getLastDealId():Long = dealRepository.findLatestDeal()  ?: 0L
+
+    private fun getLastDealId(): Long = dealRepository.findLatestDeal() ?: 0L
 
     @Transactional
     fun addNewDeal(dealInfo: CreateDealInfo, user: User): Deal {
@@ -85,7 +86,7 @@ class DealService(
         val wallet = walletService.validateOwnership(dealInfo.walletId, user)
         val card = cardService.validateOwnership(dealInfo.cardId, user)
 
-        if(!orderService.isBuying(order) && wallet.balance < order.quantity){
+        if (!orderService.isBuying(order) && wallet.balance < order.quantity) {
             throw IllegalActionDealException("Wallet balance less that required the order: ${wallet.balance} < ${order.quantity}")
         }
 
@@ -105,7 +106,7 @@ class DealService(
 
     fun positiveChangeStatus(user: User, deal: Deal): Deal {
         validateUserAccess(user, deal)
-        return when(deal.status?.name){
+        return when (deal.status?.name) {
             "Подтверждение сделки" -> updateStatus(deal, "Ожидание перевода")
             "Ожидание перевода" -> updateStatus(deal, "Ожидание подтверждения перевода")
             "Ожидание подтверждения перевода" -> successClose(deal)
@@ -115,20 +116,20 @@ class DealService(
 
     fun negativeChangeStatus(user: User, deal: Deal): Deal {
         validateUserAccess(user, deal)
-        return when(deal.status?.name){
+        return when (deal.status?.name) {
             "Подтверждение сделки" -> denyDeal(deal)
             "Ожидание перевода", "Ожидание подтверждения перевода" -> callManager(deal)
             else -> deal
         }
     }
 
-    fun managerTakeInWork(user: User, deal: Deal){
-        if(deal.status?.name == "Приостановлено: решение проблем"){
+    fun managerTakeInWork(user: User, deal: Deal) {
+        if (deal.status?.name == "Приостановлено: решение проблем") {
             updateStatus(deal, "Ожидание решения менеджера")
         }
     }
 
-    fun managerApprove(deal:Deal): Deal {
+    fun managerApprove(deal: Deal): Deal {
         if (deal.status?.name == "Ожидание решения менеджера") {
             return successClose(deal)
         }
@@ -136,19 +137,22 @@ class DealService(
     }
 
 
-    fun managerReject(deal:Deal): Deal {
+    fun managerReject(deal: Deal): Deal {
         if (deal.status?.name == "Ожидание решения менеджера") {
             return updateStatus(deal, "Закрыто: отменена менеджером")
         }
         return deal
     }
 
-    fun closeExpiredDeals(){
+    fun closeExpiredDeals() {
         val deals = dealRepository.findExpiredDealsNative()
-        for (deal in deals){
+        for (deal in deals) {
             when (deal.status!!.name) {
-                "Подтверждение сделки" ->updateStatus(deal, "Закрыто: время кс истекло")
-                "Ожидание перевода", "Ожидание подтверждения перевода" -> updateStatus(deal, "Приостановлено: решение проблем")
+                "Подтверждение сделки" -> updateStatus(deal, "Закрыто: время кс истекло")
+                "Ожидание перевода", "Ожидание подтверждения перевода" -> updateStatus(
+                    deal,
+                    "Приостановлено: решение проблем"
+                )
             }
 
         }
@@ -156,8 +160,8 @@ class DealService(
     }
 
     @Transactional
-    private fun successClose(deal:Deal): Deal{
-        if(deal.sellOrder!!.wallet!!.balance < deal.sellOrder!!.quantity){
+    private fun successClose(deal: Deal): Deal {
+        if (deal.sellOrder!!.wallet!!.balance < deal.sellOrder!!.quantity) {
             return callManager(deal)
         }
         deal.sellOrder!!.wallet!!.balance -= deal.sellOrder!!.quantity
@@ -172,10 +176,10 @@ class DealService(
 
         val early = orderService.returnToPlatformOrder(getEarlyOrder(deal))
         val older = orderService.closeIrrelevantOrderInDeal(getOlderOrder(deal))
-        if(orderService.isBuying(early)){
+        if (orderService.isBuying(early)) {
             deal.buyOrder = early
             deal.sellOrder = older
-        } else{
+        } else {
             deal.buyOrder = older
             deal.sellOrder = early
         }
@@ -183,10 +187,10 @@ class DealService(
     }
 
     private fun callManager(deal: Deal): Deal {
-        val description = "Deal status description: ${deal.status?.name?:""}"
+        val description = "Deal status description: ${deal.status?.name ?: ""}"
 
-        val quantity = deal.buyOrder?.quantity?:0.0
-        val pricePerUnit = deal.buyOrder?.unitPrice?:0
+        val quantity = deal.buyOrder?.quantity ?: 0.0
+        val pricePerUnit = deal.buyOrder?.unitPrice ?: 0
 
         val amount = pricePerUnit.toDouble() * quantity
         val priority = priorityService.findByAmount(amount.toBigDecimal())
@@ -194,7 +198,7 @@ class DealService(
         val task = Task(
             deal = deal,
             errorDescription = description,
-            priority=priority,
+            priority = priority,
         )
 
         taskRepository.save(task)
@@ -252,7 +256,7 @@ class DealService(
     }
 
     private fun validateUserAccess(user: User, deal: Deal) {
-        if(deal.buyOrder?.wallet?.user?.id != user.id && deal.sellOrder?.wallet?.user?.id != user.id)
+        if (deal.buyOrder?.wallet?.user?.id != user.id && deal.sellOrder?.wallet?.user?.id != user.id)
             throw IllegalActionDealException("User ${user.id} has no access to deal ${deal.id}")
     }
 
@@ -290,3 +294,4 @@ class DealService(
             throw IllegalArgumentException("Invalid date format for deal 'changedAfter': $dateString")
         }
 }
+

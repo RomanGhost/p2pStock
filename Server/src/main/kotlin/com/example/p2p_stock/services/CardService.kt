@@ -18,6 +18,7 @@ class CardService(
 ) {
 
     fun findByUserId(userId: Long): List<Card> = cardRepository.findByUserId(userId).filter { !it.isDeleted }
+
     fun findById(cardId: Long): Card {
         val card = cardRepository.findById(cardId).orElseThrow {
             NotFoundCardException("Card with Id:$cardId not found for User")
